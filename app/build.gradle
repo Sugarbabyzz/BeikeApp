@@ -26,3 +26,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
+// 添加插件
+apply plugin: 'com.mob.sdk'
+
+// 在MobSDK的扩展中注册SMSSDK的相关信息
+MobSDK {
+    appKey "24c6c38e35750"
+    appSecret "a7cb484e59571ddb0e0cdace091e11a7"
+
+    SMSSDK {}
+}
