@@ -1,4 +1,4 @@
-package com.example.beikeapp.StudentRegister;
+package com.example.beikeapp.Constant;
 
 /**
  * Created by SugarSugar on 2018/3/21.

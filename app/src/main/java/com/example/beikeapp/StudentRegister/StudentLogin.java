@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
@@ -39,7 +40,6 @@ public class StudentLogin extends BaseActivity implements View.OnClickListener{
         btnLogin = (Button) findViewById(R.id.stu_btn_login);
         btnRegister = (Button) findViewById(R.id.stu_btn_register);
         image = (ImageView) findViewById(R.id.image);
-        image.setImageResource(R.drawable.touxiang);
         //注册按钮点击事件
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -72,6 +72,7 @@ public class StudentLogin extends BaseActivity implements View.OnClickListener{
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(loginUrlStr);
+
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {

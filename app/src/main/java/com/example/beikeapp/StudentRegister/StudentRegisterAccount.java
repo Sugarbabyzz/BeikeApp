@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
@@ -66,6 +67,7 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
         stuSetPassword = (EditText) findViewById(R.id.stu_set_password);
         btn_getCode.setOnClickListener(this);
         btn_phone.setOnClickListener(this);
+
 
         EventHandler eventHandler = new EventHandler(){
             @Override
@@ -222,6 +224,9 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
         layout.addView(mProBar);
     }
 
+    /*
+        账号注册
+     */
     private void registerAccount(String phoneNumber, String password){
         String registerAccountUrlStr = StudentConstant.URL_RegisterAccount +"?phoneNumber=" + phoneNumber + "&password=" + password;
 
