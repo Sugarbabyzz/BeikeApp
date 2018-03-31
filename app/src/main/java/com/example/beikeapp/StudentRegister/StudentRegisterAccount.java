@@ -227,8 +227,8 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
     /*
         账号注册
      */
-    private void registerAccount(String phoneNumber, String password){
-        String registerAccountUrlStr = StudentConstant.URL_RegisterAccount +"?phoneNumber=" + phoneNumber + "&password=" + password;
+    private void registerAccount(final String phoneNumber, String password){
+        String registerAccountUrlStr = StudentConstant.URL_RegisterAccount +"?account=" + phoneNumber + "&password=" + password;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(registerAccountUrlStr);
@@ -241,6 +241,9 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
                     Toast.makeText(StudentRegisterAccount.this, "账号已被注册！", Toast.LENGTH_SHORT).show();
                 }else if (receviceData.toString().equals("[200]")){
                     Intent intent = new Intent(StudentRegisterAccount.this, StudentRegisterInfo.class);
+                    //将账号与密码参数传入下一Actiivity
+                    intent.putExtra("account",stuPhoneNumber.getText().toString());
+                    intent.putExtra("password",stuSetPassword.getText().toString());
                     startActivity(intent);
                 }else {
                     Toast.makeText(StudentRegisterAccount.this, "注册失败！", Toast.LENGTH_SHORT).show();
