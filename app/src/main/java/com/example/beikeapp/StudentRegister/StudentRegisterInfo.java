@@ -22,6 +22,9 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
     RadioGroup stuSex;
     Button btnInfo;
 
+    String account;
+    String password;
+
     //回调参数
     private List<String> receviceData = null;
 
@@ -30,6 +33,10 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_register_info);
+        //获取账号与密码
+        Intent intent = getIntent();
+        account = intent.getStringExtra("account");
+        password = intent.getStringExtra("password");
         //UI初始化
         initViews();
         //注册按钮点击事件
@@ -66,10 +73,11 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
     }
 
     private void registerInfo(String name, String sex) {
-        String registerInfoUrlStr = StudentConstant.URL_RegisterInfo + "?name=" + name + "&sex=" + sex;
+        String registerUrlStr = StudentConstant.URL_RegisterInfo + "?name=" + name + "&sex=" + sex
+                                                                  +"&account=" + account + "&password=" + password;
 
         MyAsyncTask a = new MyAsyncTask(this);
-        a.execute(registerInfoUrlStr);
+        a.execute(registerUrlStr);
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
