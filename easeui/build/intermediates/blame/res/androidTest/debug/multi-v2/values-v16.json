@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\m1821\\Documents\\GitHub\\BeikeApp\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v16\\values-v16.xml",
+            "outputFile": "G:\\Github\\BeikeApp\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v16\\values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\m1821\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.0.2.aar\\8ee6c2e115af25b475629f9d91b86855\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-26.0.2.aar\\7c1132b5bebb4fa5b429b7eb98e24680\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\m1821\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.2.aar\\b23403c3258b801d852775e42f7fa5f3\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.2.aar\\9bdf1471d1b4358b36f50475f35e1019\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

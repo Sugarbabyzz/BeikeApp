@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\m1821\\Documents\\GitHub\\BeikeApp\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v13\\values-v13.xml",
+            "outputFile": "G:\\Github\\BeikeApp\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v13\\values-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\m1821\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.2.aar\\b23403c3258b801d852775e42f7fa5f3\\res\\values-v13\\values-v13.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.2.aar\\9bdf1471d1b4358b36f50475f35e1019\\res\\values-v13\\values-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

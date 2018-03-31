@@ -1,29 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\m1821\\Documents\\GitHub\\BeikeApp\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v11\\values-v11.xml",
+            "outputFile": "G:\\Github\\BeikeApp\\easeui\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v11\\values-v11.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\m1821\\Documents\\GitHub\\BeikeApp\\easeui\\build\\intermediates\\bundles\\debug\\res\\values-v11\\values-v11.xml",
-                    "from": {
-                        "startLines": "2,5,8",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,224,399",
-                        "endLines": "4,7,8",
-                        "endColumns": "12,12,84",
-                        "endOffsets": "219,394,479"
-                    },
-                    "to": {
-                        "startLines": "2,195,198",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,14246,14421",
-                        "endLines": "4,197,198",
-                        "endColumns": "12,12,84",
-                        "endOffsets": "219,14416,14501"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\m1821\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.2.aar\\b23403c3258b801d852775e42f7fa5f3\\res\\values-v11\\values-v11.xml",
+                    "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.2.aar\\9bdf1471d1b4358b36f50475f35e1019\\res\\values-v11\\values-v11.xml",
                     "from": {
                         "startLines": "2,8,14,20,26,32,38,39,43,47,48,52,56,57,61,66,71,76,78,80,81,82,136,191",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -39,6 +20,25 @@
                         "endLines": "10,16,22,28,34,40,41,45,49,50,54,58,59,63,68,73,78,80,82,83,84,138,193,194",
                         "endColumns": "12,12,12,12,12,12,88,12,12,100,12,12,102,12,12,12,12,12,12,70,82,12,12,90",
                         "endOffsets": "638,1063,1491,1917,2344,2769,2858,3104,3353,3454,3706,3961,4064,4317,4725,5145,5567,5674,5803,5874,5957,9982,14150,14241"
+                    }
+                },
+                {
+                    "source": "G:\\Github\\BeikeApp\\easeui\\build\\intermediates\\bundles\\debug\\res\\values-v11\\values-v11.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,224,399",
+                        "endLines": "4,7,8",
+                        "endColumns": "12,12,84",
+                        "endOffsets": "219,394,479"
+                    },
+                    "to": {
+                        "startLines": "2,195,198",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,14246,14421",
+                        "endLines": "4,197,198",
+                        "endColumns": "12,12,84",
+                        "endOffsets": "219,14416,14501"
                     }
                 }
             ]
