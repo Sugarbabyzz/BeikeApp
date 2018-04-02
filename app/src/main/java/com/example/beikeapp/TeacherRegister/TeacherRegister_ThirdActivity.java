@@ -12,7 +12,9 @@ import com.example.beikeapp.Util.BaseActivity;
 
 public class TeacherRegister_ThirdActivity extends BaseActivity implements View.OnClickListener {
 
-    int flag;
+    private int flag;
+    private Button btnEvent;
+    private TextView tvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,29 +30,32 @@ public class TeacherRegister_ThirdActivity extends BaseActivity implements View.
         String result = intent.getStringExtra("response");
         String[] resultArray = result.split(",");
 
-        TextView tv = findViewById(R.id.textView_result);
-        Button eventBtn = findViewById(R.id.button_event);
+        tvResult = findViewById(R.id.textView_result);
+        btnEvent = findViewById(R.id.button_event);
 
-        if (resultArray[0].equals(TeacherConstant.FLAG_SUCCESS)){
-            eventBtn.setText("自动登录");
+        //注册成功，返回班级号
+        if (resultArray[0].equals(TeacherConstant.FLAG_SUCCESS)) {
+            btnEvent.setText("自动登录");
             flag = 0;
-            tv.setText("REGISTER SUCCESS" + "\n" + resultArray[1]);
+            tvResult.setText("REGISTER SUCCESS" + "\n" + resultArray[1]);
         }
-        else if (resultArray[0].equals(TeacherConstant.FLAG_FAILURE)){
-            eventBtn.setText("重新注册");
+        //注册失败，返回提示信息
+        else if (resultArray[0].equals(TeacherConstant.FLAG_FAILURE)) {
+            btnEvent.setText("重新注册");
             flag = 1;
-            tv.setText("REGISTER FAIL");
+            tvResult.setText("REGISTER FAIL");
         }
-        eventBtn.setOnClickListener(this);
-   }
+        btnEvent.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View view) {
-        if (flag == 0){
-            startActivity(new Intent(TeacherRegister_ThirdActivity.this,Teacher_MainActivity.class));
-        }
-        else if (flag == 1){
-            startActivity(new Intent(TeacherRegister_ThirdActivity.this,TeacherRegister_FirstActivity.class));
+        if (flag == 0) {
+            startActivity(new Intent(TeacherRegister_ThirdActivity.this,
+                    Teacher_MainActivity.class));
+        } else if (flag == 1) {
+            startActivity(new Intent(TeacherRegister_ThirdActivity.this,
+                    TeacherRegister_FirstActivity.class));
         }
     }
 }

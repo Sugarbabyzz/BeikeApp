@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.beikeapp">
-
     //入网许可
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     //环信要求的权限
     <!-- Required -->
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -14,7 +12,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -24,24 +22,18 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
-        tools:replace="android:name"
         android:name=".InitApp.MyApplication"
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-
-
+        android:theme="@style/AppTheme"
+        tools:replace="android:name">
         //活动注册
         //启动页
-
-        <activity android:name=".StartPage.WelcomeActivity" >
+        <activity android:name=".StartPage.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,42 +43,43 @@
         //引导页
         <activity android:name=".StartPage.GuideActivity" />
         //学生注册
-        <activity android:name=".StudentRegister.StudentLogin"/>
+        <activity android:name=".StudentRegister.StudentLogin" />
         <activity android:name=".StudentRegister.StudentCheckCode" />
         <activity android:name=".StudentRegister.StudentRegisterAccount" />
         <activity android:name=".StudentRegister.StudentRegisterInfo" />
-        <activity android:name=".StudentRegister.StudentRegisterSuccess"/>
+        <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //老师注册活动
-        <activity android:name=".TeacherRegister.Teacher_MainActivity"/>
+        <activity android:name=".TeacherRegister.Teacher_MainActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity"/>
-        <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity"/>
-        <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity"/>
-
-
-
-
-
+        <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
+        <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity" />
         //环信服务、接收器、KEY
         <!-- 设置环信应用的AppKey -->
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="1132180325253152#beike" />
-        <!-- 声明SDK所需的service SDK核心功能-->
-        <service android:name="com.hyphenate.chat.EMChatService" android:exported="true"/>
-        <service android:name="com.hyphenate.chat.EMJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="1132180325253152#beike" />
+        <!-- 声明SDK所需的service SDK核心功能 -->
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true" />
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
             android:exported="true"
-            />
+            android:permission="android.permission.BIND_JOB_SERVICE" />
         <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                <data android:scheme="package"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

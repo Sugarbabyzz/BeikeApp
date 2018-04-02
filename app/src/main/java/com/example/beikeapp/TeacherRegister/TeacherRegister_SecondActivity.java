@@ -12,7 +12,9 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
+import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
@@ -31,19 +33,18 @@ import java.util.List;
 import mabbas007.tagsedittext.TagsEditText;
 
 public class TeacherRegister_SecondActivity extends BaseActivity implements View.OnClickListener {
-
-    String phoneNumber,password;
-
+    //上一活动传来的手机和密码
+    private String phoneNumber, password;
     //带错误校验的输入框
-    FormEditText etName;
-    FormEditText etSchool;
-    Button registerBtn;
-    Button addClassBtn;
-    //滑动选择器，用于选择班级
-    OptionsPickerView pvNoLinkOptions;
-    //添加的班级列表
-    TagsEditText mTagsEdit;
+    private FormEditText etName;
+    private FormEditText etSchool;
 
+    private Button registerBtn;
+    private Button addClassBtn;
+    //滑动选择器，用于选择班级
+    private OptionsPickerView pvNoLinkOptions;
+    //添加的班级列表
+    private TagsEditText mTagsEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,27 +63,25 @@ public class TeacherRegister_SecondActivity extends BaseActivity implements View
         addClassBtn = findViewById(R.id.button_addClass);
         addClassBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
-
         mTagsEdit = findViewById(R.id.tagsEditText);
-
     }
 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.button_register:
                 String name = etName.getText().toString();
                 String school = etSchool.getText().toString();
 
                 //从tagsList获取List并转换成String类型，用","隔开
                 List<String> tagsList = mTagsEdit.getTags();
-                String classes = StringUtils.join(tagsList,",");
+                String classes = StringUtils.join(tagsList, ",");
 
                 //注册至环信后台
-                registerToHX(phoneNumber,password);
+                registerToHX(phoneNumber, password);
                 //注册至我们自己的服务器
-                registerToUs(name,school,classes);
+                registerToUs(name, school, classes);
 
                 break;
             case R.id.button_addClass:
@@ -93,7 +92,7 @@ public class TeacherRegister_SecondActivity extends BaseActivity implements View
         }
     }
 
-    private void createPicker(){
+    private void createPicker() {
         initNoLinkOptionsPicker();
         pvNoLinkOptions.show();
     }
@@ -142,11 +141,11 @@ public class TeacherRegister_SecondActivity extends BaseActivity implements View
 
 
         }).build();
-        pvNoLinkOptions.setNPicker(grade,constant,classes);
+        pvNoLinkOptions.setNPicker(grade, constant, classes);
     }
 
 
-    public void registerToHX(final String phoneNumber, final String password){
+    public void registerToHX(final String phoneNumber, final String password) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -159,49 +158,28 @@ public class TeacherRegister_SecondActivity extends BaseActivity implements View
         }).start();
 
     }
-    public void registerToUs(String name,String school,String classes){
+
+    public void registerToUs(String name, String school, String classes) {
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_REGISTER
                 + "?phoneNumber=" + phoneNumber
                 + "&password=" + password
                 + "&name=" + name
                 + "&school=" + school
                 + "&classes=" + classes;
-        new MyAsyncTask().execute(urlString);
-
-    }
-
-
-    public class MyAsyncTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... urlString) {
-            HttpURLConnection connection;
-            StringBuilder response = new StringBuilder();
-            try {
-                URL url = new URL(urlString[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setConnectTimeout(80000);
-                connection.setReadTimeout(80000);
-                InputStream in = connection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+        MyAsyncTask a = new MyAsyncTask(this);
+        a.execute(urlString);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+                startActivity(new Intent(TeacherRegister_SecondActivity.this,
+                        TeacherRegister_ThirdActivity.class).putExtra("response", listData.get(0)));
             }
-            return response.toString();
-        }
 
-        @Override
-        protected void onPostExecute(String response) {
-            startActivity(new Intent(TeacherRegister_SecondActivity.this,
-                    TeacherRegister_ThirdActivity.class).putExtra("response",response));
-        }
+            @Override
+            public void onDataReceivedFailed() {
+            }
+        });
+
     }
-
 }
+

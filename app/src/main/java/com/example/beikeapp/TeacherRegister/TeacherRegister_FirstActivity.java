@@ -16,7 +16,9 @@ import android.widget.Toast;
 import com.andreabaccega.widget.FormEditText;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
+import com.example.beikeapp.Util.MyAsyncTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,20 +27,22 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
 public class TeacherRegister_FirstActivity extends BaseActivity implements View.OnClickListener {
 
-    FormEditText etPhone;
-    FormEditText etPsw;
-    FormEditText etPswConfirm;
-    EditText etCode;
-    Button btnNext;
-    Button btnGetCode;
-    String phoneNumber, password;
-    int i = 30;
+    private FormEditText etPhone;
+    private FormEditText etPsw;
+    private FormEditText etPswConfirm;
+    private EditText etCode;
+    private Button btnNext;
+    private Button btnGetCode;
+    private String phoneNumber, password;
+    private int i = 30;
+    private List<String> receiveData;
 
 
     @Override
@@ -216,49 +220,38 @@ public class TeacherRegister_FirstActivity extends BaseActivity implements View.
     }
 
     //查数据库判断是否存在
-    public void isExisted(String phoneNumber) {
+    public void isExisted(final String phoneNumber) {
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_ISEXISTED + "?phoneNumber=" + phoneNumber;
-        new MyAsyncTask().execute(urlString);
-    }
-
-    //发起HTTP请求
-    public class MyAsyncTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... urlString) {
-            HttpURLConnection connection;
-            StringBuilder response = new StringBuilder();
-            try {
-                URL url = new URL(urlString[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setConnectTimeout(80000);
-                connection.setReadTimeout(80000);
-                InputStream in = connection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
+        MyAsyncTask a = new MyAsyncTask(this);
+        a.execute(urlString);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+                receiveData = listData;
+                //手机号已注册，提示
+                if (receiveData.toString().equals("[" + TeacherConstant.FLAG_YES + "]")) {
+                    Toast.makeText(TeacherRegister_FirstActivity.this,
+                            "手机号已注册!", Toast.LENGTH_SHORT).show();
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                //手机号尚未注册，进入下一页面
+                else if (receiveData.toString().equals("[" + TeacherConstant.FLAG_NO + "]")) {
+                    Intent intent = new Intent(TeacherRegister_FirstActivity.this,
+                            TeacherRegister_SecondActivity.class);
+                    intent.putExtra("phoneNumber", phoneNumber);
+                    intent.putExtra("password", password);
+                    startActivity(intent);
+                }
+                //未知错误
+                else {
+                    Toast.makeText(TeacherRegister_FirstActivity.this,
+                            "ERROR!", Toast.LENGTH_SHORT).show();
+                }
             }
-            return response.toString();
-        }
 
-
-        @Override
-        protected void onPostExecute(String response) {
-            if (response.equals(TeacherConstant.FLAG_YES)) {
-                Toast.makeText(TeacherRegister_FirstActivity.this, "该手机号已注册", Toast.LENGTH_SHORT).show();
-            } else if (response.equals(TeacherConstant.FLAG_NO)) {
-                Intent intent = new Intent(TeacherRegister_FirstActivity.this, TeacherRegister_SecondActivity.class);
-                intent.putExtra("phoneNumber", phoneNumber);
-                intent.putExtra("password", password);
-                startActivity(intent);
+            @Override
+            public void onDataReceivedFailed() {
             }
-        }
+        });
     }
 }
+
