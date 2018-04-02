@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BeikeApp.iml" filepath="$PROJECT_DIR$/BeikeApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/easeui/easeui.iml" filepath="$PROJECT_DIR$/easeui/easeui.iml" />
       <module fileurl="file://G:\Github\BeikeApp\easeui\easeui.iml" filepath="G:\Github\BeikeApp\easeui\easeui.iml" />
     </modules>
   </component>
