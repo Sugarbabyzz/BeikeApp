@@ -10,10 +10,8 @@
     //环信要求的权限
     <!-- Required -->
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
@@ -58,6 +56,14 @@
         <activity android:name=".StudentRegister.StudentRegisterAccount" />
         <activity android:name=".StudentRegister.StudentRegisterInfo" />
         <activity android:name=".StudentRegister.StudentRegisterSuccess"/>
+        //老师注册活动
+        <activity android:name=".TeacherRegister.Teacher_MainActivity"/>
+        <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity"/>
+        <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity"/>
+        <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity"/>
+
+
+
 
 
         //环信服务、接收器、KEY
@@ -81,9 +87,6 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
-
-
     </application>
 
 </manifest>
