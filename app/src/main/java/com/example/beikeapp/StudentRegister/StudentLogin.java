@@ -58,8 +58,7 @@ public class StudentLogin extends BaseActivity implements View.OnClickListener{
                 break;
 
             case R.id.stu_btn_register:
-                Intent intent = new Intent(StudentLogin.this, StudentCheckCode.class);
-                startActivity(intent);
+                startActivity(new Intent(StudentLogin.this, StudentCheckCode.class));
                 break;
 
             default:

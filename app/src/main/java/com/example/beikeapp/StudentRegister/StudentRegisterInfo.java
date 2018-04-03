@@ -64,7 +64,7 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
                 if (!stuName.getText().toString().equals("")) {
                     registerInfo(stuName.getText().toString(), sex);
                 } else {
-                    Toast.makeText(StudentRegisterInfo.this, "姓名、性别都不能为空！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StudentRegisterInfo.this, "姓名不能为空！", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -81,9 +81,13 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                //receviceData = listData;
-                Intent intent = new Intent(StudentRegisterInfo.this, StudentRegisterSuccess.class);
-                startActivity(intent);
+                receviceData = listData;
+
+                if(receviceData.toString().equals("[200]")){
+                    startActivity(new Intent(StudentRegisterInfo.this, StudentRegisterSuccess.class));
+                }else {
+                    Toast.makeText(StudentRegisterInfo.this, "信息注册失败，请重新注册！", Toast.LENGTH_SHORT).show();
+                }
             }
             @Override
             public void onDataReceivedFailed() {

@@ -65,6 +65,7 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
                     public boolean onTouch(View v, MotionEvent event){
                         //跳转到主界面
                         startActivity(new Intent(GuideActivity.this, StudentLogin.class));
+                        finish();
                         return true;
                     }
                 });

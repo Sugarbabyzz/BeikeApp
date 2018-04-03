@@ -62,8 +62,7 @@ public class StudentCheckCode extends BaseActivity implements View.OnClickListen
             public void onDataReceivedSuccess(List<String> listData) {
                 receviceData = listData;
                 if (receviceData.toString().equals("[success]")){
-                    Intent intent = new Intent(StudentCheckCode.this, StudentRegisterAccount.class);
-                    startActivity(intent);
+                    startActivity(new Intent(StudentCheckCode.this, StudentRegisterAccount.class));
                 }else {
                     Toast.makeText(StudentCheckCode.this, "邀请码错误！", Toast.LENGTH_SHORT).show();
                 }
