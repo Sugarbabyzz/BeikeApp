@@ -9,6 +9,7 @@ public class TeacherConstant {
     public static final String URL_BASIC = "http://47.94.253.65:8080/TeacherServlet/";
     public static final String URL_ISEXISTED = "IsExistedServlet";
     public static final String URL_REGISTER = "RegisterServlet";
+    public static final String URL_LOGIN = "LoginServlet";
 
     //注册返回值，与servlet中对应
     public static final String FLAG_FAILURE = "FAIL";

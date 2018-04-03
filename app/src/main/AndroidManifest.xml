@@ -22,6 +22,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:name=".InitApp.MyApplication"
         android:allowBackup="true"
@@ -34,11 +37,7 @@
         //活动注册
         //启动页
         <activity android:name=".StartPage.WelcomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         //引导页
         <activity android:name=".StartPage.GuideActivity" />
@@ -50,7 +49,7 @@
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //老师注册活动
         <activity android:name=".TeacherRegister.Teacher_MainActivity" />
-        <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity"/>
+        <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity" />
         //环信服务、接收器、KEY
@@ -80,6 +79,13 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".LoginPage.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
