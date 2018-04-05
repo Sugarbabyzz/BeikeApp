@@ -10,6 +10,7 @@ public class TeacherConstant {
     public static final String URL_ISEXISTED = "IsExistedServlet";
     public static final String URL_REGISTER = "RegisterServlet";
     public static final String URL_LOGIN = "LoginServlet";
+    public static final String URL_CHANGEPSW = "ChangePswServlet";
 
     //注册返回值，与servlet中对应
     public static final String FLAG_FAILURE = "FAIL";

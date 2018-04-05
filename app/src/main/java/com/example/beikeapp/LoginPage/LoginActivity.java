@@ -1,5 +1,6 @@
 package com.example.beikeapp.LoginPage;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
+import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.TeacherRegister.TeacherRegister_FirstActivity;
@@ -41,6 +43,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * 初始化view
+     */
     private void initView() {
         etAccount = findViewById(R.id.et_loginAccount);
         etPsw = findViewById(R.id.et_loginPsw);
@@ -53,9 +58,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnRegister.setOnClickListener(this);
     }
 
+    /**
+     * 所有点击事件
+     *
+     * @param view 视图
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            //do login
             case R.id.btn_login:
                 //判断字段是否为空
                 FormEditText[] allFields = {etAccount,etPsw};
@@ -74,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                        loginAsStudent(etAccount.getText().toString().trim(),etPsw.getText().toString().trim());
                    }
                    else if (flagId == R.id.rb_parent){
-                       //loginAsParent(etAccount.getText().toString().trim(),etPsw.getText().toString().trim());
+                       loginAsParent(etAccount.getText().toString().trim(),etPsw.getText().toString().trim());
                    }
                    //未选择身份
                    else {
@@ -85,12 +96,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else {
                 }
                 break;
+            // go register
             case R.id.btn_register:
-
-                //later
+                startActivity(new Intent(LoginActivity.this, RegisterGuideActivity.class));
                 break;
+            // forget password
             case R.id.tv_forgetPsw:
-                //later
+                startActivity(new Intent(LoginActivity.this,ForgetPswActivity.class));
                 break;
             default:
                 break;
@@ -98,16 +110,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    /**
-     * 以学生身份登录至我们的服务器
-     * @param account 账号
-     * @param psw 密码
-     */
-    private void loginAsStudent(String account, String psw) {
-    }
 
     /**
      * 老师身份登录
+     *
      * @param account 账号
      * @param psw 密码
      */
@@ -120,18 +126,82 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * 以老师身份登录至我们的服务器
+     * 学生身份登录
+     *
      * @param account 账号
      * @param psw 密码
      */
-    private void loginToUsAsTeacher(String account, String psw) {
+    private void loginAsStudent(String account, String psw) {
+
+        //在我们的服务器中登录
+        loginToUsAsStudent(account,psw);
+        //在环信服务器中登录
+        loginToHx(account,psw);
+    }
+
+    /**
+     * 家长身份登录
+     *
+     * @param account 账号
+     * @param psw 密码
+     */
+    private void loginAsParent(String account, String psw) {
+        loginToUsAsParent(account,psw);
+        loginToHx(account,psw);
+    }
+
+
+
+    /**
+     * 以老师身份登录至我们的服务器
+     *
+     * @param account 账号
+     * @param password 密码
+     */
+    private void loginToUsAsTeacher(String account, String password) {
 
         //组装url
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_LOGIN
                 + "?account=" + account
-                + "&password=" + psw;
+                + "&password=" + password;
+
+        loginTask(urlString);
+    }
+
+    /**
+     * 以学生身份登录至我们的服务器
+     *
+     * @param account 账号
+     * @param psw 密码
+     */
+    private void loginToUsAsStudent(String account, String psw) {
+
+        //组装url
+        String urlString = "**waiting**";
+
+        loginTask(urlString);
+    }
+
+    /**
+     * 以家长身份登录至我们的服务器
+     * @param account 账号
+     * @param psw 密码
+     */
+    private void loginToUsAsParent(String account, String psw) {
+
+        //组装url
+        String urlString = "**waiting**";
+
+        loginTask(urlString);
+    }
+
+    /**
+     * 向我们登录
+     * @param url 发起的http请求
+     */
+    private void loginTask(String url){
         MyAsyncTask a = new MyAsyncTask(this);
-        a.execute(urlString);
+        a.execute(url);
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
@@ -152,7 +222,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
     }
-
     /**
      * 登录至环信服务器
      * 三个身份使用同一方法

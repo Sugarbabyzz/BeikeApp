@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:whatever="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.beikeapp.LoginPage.ForgetPswActivity">
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更改密码"
+        android:textSize="35dp"/>
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginLeft="39dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="67dp"
+        android:text="手机号"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="35dp"
+        android:text="设置密码"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView3"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="28dp"
+        android:text="确认密码"
+        android:textSize="20dp" />
+
+    <com.andreabaccega.widget.FormEditText
+        whatever:testType="nocheck"
+        android:id="@+id/et_forgetPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2"
+        whatever:emptyErrorString="手机号不能为空"
+        android:ems="10"
+        />
+
+    <com.andreabaccega.widget.FormEditText
+        whatever:testType="nocheck"
+        android:id="@+id/et_forgetPsw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignLeft="@+id/et_forgetPhone"
+        android:layout_alignStart="@+id/et_forgetPhone"
+        whatever:emptyErrorString="密码不能为空"
+        android:ems="10"
+        android:inputType="textPassword"
+        />
+
+
+    <com.andreabaccega.widget.FormEditText
+        whatever:testType="nocheck"
+        android:id="@+id/et_forgetPswConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView4"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignLeft="@+id/et_forgetPsw"
+        android:layout_alignStart="@+id/et_forgetPsw"
+        android:ems="10"
+        whatever:emptyErrorString="密码不能为空"
+        android:inputType="textPassword" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_forgetPswConfirm"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:id="@+id/rg_fIdentity">
+
+        <RadioButton
+            android:id="@+id/rb_fTeacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="老师" />
+        <RadioButton
+            android:id="@+id/rb_fStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="学生" />
+        <RadioButton
+            android:id="@+id/rb_fParent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="家长" />
+
+
+    </RadioGroup>
+
+    <com.andreabaccega.widget.FormEditText
+        whatever:testType="numeric"
+        android:id="@+id/et_forgetCode"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/et_forgetPswConfirm"
+        android:layout_alignStart="@+id/et_forgetPswConfirm"
+        android:layout_below="@+id/rg_fIdentity"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        whatever:emptyErrorString="验证码不能为空"
+        app:testErrorString="请输入正确的验证码"
+        android:hint="验证码"/>
+
+    <!--<EditText-->
+        <!--android:id="@+id/et_forgetCode"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/et_forgetPswConfirm"-->
+        <!--android:layout_alignStart="@+id/et_forgetPswConfirm"-->
+        <!--android:layout_below="@+id/rg_fIdentity"-->
+        <!--android:layout_marginLeft="12dp"-->
+        <!--android:layout_marginStart="12dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:hint="验证码" />-->
+
+    <Button
+        android:id="@+id/btn_forgetGetCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/et_forgetCode"
+        android:layout_alignEnd="@+id/et_forgetPswConfirm"
+        android:layout_alignRight="@+id/et_forgetPswConfirm"
+        android:text="获取验证码" />
+
+
+    <Button
+        android:id="@+id/btn_forgetCommit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_forgetGetCode"
+        android:layout_marginTop="30dp"
+        android:text="完成" />
+</RelativeLayout>

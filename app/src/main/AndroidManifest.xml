@@ -21,10 +21,10 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:name=".InitApp.MyApplication"
         android:allowBackup="true"
@@ -36,9 +36,7 @@
         tools:replace="android:name">
         //活动注册
         //启动页
-        <activity android:name=".StartPage.WelcomeActivity">
-
-        </activity>
+        <activity android:name=".StartPage.WelcomeActivity" />
         //引导页
         <activity android:name=".StartPage.GuideActivity" />
         //学生注册
@@ -80,6 +78,10 @@
         </receiver>
 
         <activity android:name=".LoginPage.LoginActivity">
+
+        </activity>
+        <activity android:name=".LoginPage.RegisterGuideActivity" />
+        <activity android:name=".LoginPage.ForgetPswActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
