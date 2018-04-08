@@ -16,6 +16,7 @@ import com.andreabaccega.widget.FormEditText;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.TeacherChat.TeacherChatClassList;
 import com.example.beikeapp.TeacherRegister.TeacherRegister_FirstActivity;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
@@ -235,6 +236,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
+                startActivity(new Intent(LoginActivity.this, TeacherChatClassList.class));
             }
 
             @Override

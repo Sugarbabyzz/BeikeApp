@@ -7,10 +7,11 @@ package com.example.beikeapp.Constant;
 public class TeacherConstant {
     //url
     public static final String URL_BASIC = "http://47.94.253.65:8080/TeacherServlet/";
-    public static final String URL_ISEXISTED = "IsExistedServlet";
+    public static final String URL_IS_EXISTED = "IsExistedServlet";
     public static final String URL_REGISTER = "RegisterServlet";
     public static final String URL_LOGIN = "LoginServlet";
-    public static final String URL_CHANGEPSW = "ChangePswServlet";
+    public static final String URL_CHANGE_PSW = "ChangePswServlet";
+    public static final String URL_GET_CLASS_LIST = "GetClassListServlet";
 
     //注册返回值，与servlet中对应
     public static final String FLAG_FAILURE = "FAIL";

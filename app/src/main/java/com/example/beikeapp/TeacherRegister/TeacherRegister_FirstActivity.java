@@ -221,7 +221,7 @@ public class TeacherRegister_FirstActivity extends BaseActivity implements View.
 
     //查数据库判断是否存在
     public void isExisted(final String phoneNumber) {
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_ISEXISTED + "?phoneNumber=" + phoneNumber;
+        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_IS_EXISTED + "?phoneNumber=" + phoneNumber;
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(urlString);
         a.setOnAsyncResponse(new AsyncResponse() {

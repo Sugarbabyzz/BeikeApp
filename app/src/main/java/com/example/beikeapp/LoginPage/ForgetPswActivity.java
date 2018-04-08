@@ -231,7 +231,7 @@ public class ForgetPswActivity extends AppCompatActivity implements View.OnClick
      * @param password    密码
      */
     private void changePswAsTeacher(String phoneNumber, String password) {
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_CHANGEPSW
+        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_CHANGE_PSW
                 + "?account=" + phoneNumber
                 + "&password=" + password;
         ChangePswTask(ForgetPswActivity.this, urlString);
