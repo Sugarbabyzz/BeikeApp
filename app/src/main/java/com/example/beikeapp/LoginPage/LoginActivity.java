@@ -205,10 +205,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                if (listData.toString().equals("[" + TeacherConstant.FLAG_SUCCESS + "]")){
+                if (listData.get(0).equals(TeacherConstant.FLAG_SUCCESS)){
                     Toast.makeText(LoginActivity.this,"login success", Toast.LENGTH_SHORT).show();
                 }
-                else if (listData.toString().equals("[" + TeacherConstant.FLAG_FAILURE + "]")){
+                else if (listData.get(0).equals(TeacherConstant.FLAG_FAILURE)){
                     Toast.makeText(LoginActivity.this,"login fail", Toast.LENGTH_SHORT).show();
                 }
                 else {
