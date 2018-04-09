@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:whatever="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.beikeapp.LoginPage.LoginActivity">
+
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="45dp"
+        android:textColor="@color/colorAccent"
+        android:text="LOGIN" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView9"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="49dp"
+        android:text="Account"
+        android:textAllCaps="false"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView10"
+        android:layout_alignRight="@+id/textView10"
+        android:layout_below="@+id/textView10"
+        android:layout_marginTop="40dp"
+        android:text="Password"
+        android:textAllCaps="false"
+        android:textSize="25dp" />
+
+    <com.andreabaccega.widget.FormEditText
+        whatever:testType="phone"
+        android:id="@+id/et_loginAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView10"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_toEndOf="@+id/textView10"
+        android:layout_toRightOf="@+id/textView10"
+        whatever:emptyErrorString="手机号不能为空"
+        app:testErrorString="请填入正确的手机号"
+        android:ems="10" />
+
+    <com.andreabaccega.widget.FormEditText
+        whatever:testType="nocheck"
+        android:id="@+id/et_loginPsw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView11"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_toEndOf="@+id/textView11"
+        android:layout_toRightOf="@+id/textView11"
+        whatever:emptyErrorString="密码不能为空"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/tv_forgetPsw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/et_loginPsw"
+        android:clickable="true"
+        android:text="Forget password?"
+        android:textColor="@drawable/smssdk_edittext_bg_selector"
+        android:textSize="15dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_forgetPsw"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:id="@+id/rg_identity">
+
+        <RadioButton
+            android:id="@+id/rb_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="老师" />
+        <RadioButton
+            android:id="@+id/rb_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="学生" />
+        <RadioButton
+            android:id="@+id/rb_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="家长" />
+
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView10"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_below="@+id/rg_identity"
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="20dp"
+        android:text="Login"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/et_loginPsw"
+        android:layout_alignRight="@+id/et_loginPsw"
+        android:layout_alignTop="@+id/btn_login"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:textAllCaps="false"
+        android:text="SignUp" />
+
+
+
+
+</RelativeLayout>

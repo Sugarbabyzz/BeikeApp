@@ -31,6 +31,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/commons-lang3-3.7.jar')
+    //TeacherRegister用到的插件
+    compile 'com.contrarywind:Android-PickerView:4.0.1'
+    compile 'com.github.mabbas007:TagsEditText:1.0.5'
+    compile 'com.andreabaccega:android-edittext-validator:1.3.4'
+    implementation project(':easeui')
 }
 
 // 添加插件
