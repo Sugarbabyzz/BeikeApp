@@ -12,3 +12,7 @@
 
 .idea
 .idea/modules.xml
+
+build/
+taget/
+out/
