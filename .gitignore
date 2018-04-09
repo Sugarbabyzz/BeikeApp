@@ -9,3 +9,6 @@
 .externalNativeBuild
 .idea/vcs.xml
 .idea/vcs.xml
+
+.idea
+.idea/modules.xml
