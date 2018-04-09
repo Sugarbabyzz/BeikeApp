@@ -9,7 +9,9 @@ import android.widget.Toast;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.BottomBar;
 import com.example.beikeapp.Util.MyAsyncTask;
+import com.hjm.bottomtabbar.BottomTabBar;
 import com.hyphenate.chat.EMClient;
 
 import java.util.List;
@@ -19,6 +21,8 @@ public class TeacherChatClassList extends AppCompatActivity {
     private ListView lvClassList;
 
     private ArrayAdapter<String> mAdapter;
+
+    private BottomTabBar btmBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +36,12 @@ public class TeacherChatClassList extends AppCompatActivity {
     }
 
     private void initView() {
+
         lvClassList = findViewById(R.id.lv_classList);
+        btmBar = findViewById(R.id.bottom_tab_bar);
+        //set BottomTabBar
+        btmBar.init(getSupportFragmentManager(),720,1280);
+        BottomBar.setTeacherBottomBar(btmBar);
     }
 
     private void getClassList(String currentUser) {
