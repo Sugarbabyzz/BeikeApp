@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.TeacherShiSheng.TeacherMainFunction;
@@ -197,10 +198,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                if (listData.get(0).equals(TeacherConstant.FLAG_SUCCESS)){
+                if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
                     Toast.makeText(LoginActivity.this,"login success", Toast.LENGTH_SHORT).show();
                 }
-                else if (listData.get(0).equals(TeacherConstant.FLAG_FAILURE)){
+                else if (listData.get(0).equals(GlobalConstant.FLAG_FAILURE)){
                     Toast.makeText(LoginActivity.this,"login fail", Toast.LENGTH_SHORT).show();
                 }
                 else {

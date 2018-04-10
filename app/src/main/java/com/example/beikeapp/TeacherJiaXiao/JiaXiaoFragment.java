@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -36,8 +37,6 @@ public class JiaXiaoFragment extends Fragment {
     private String mParam2;
 
     private ListView lvClassList;
-
-    private ArrayAdapter<String> mAdapter;
 
     public JiaXiaoFragment() {
         // Required empty public constructor
@@ -73,13 +72,12 @@ public class JiaXiaoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_jiaxiao, null);
 
         lvClassList = view.findViewById(R.id.lv_jiaXiaoClassList);
 
         getClassList(EMClient.getInstance().getCurrentUser());
-
 
         return view;
     }
@@ -101,14 +99,15 @@ public class JiaXiaoFragment extends Fragment {
                 String[] responseArray = listData.get(0).split("/");
 
                 //获取成功,做适配
-                if (responseArray[0].equals(TeacherConstant.FLAG_SUCCESS)) {
+                if (responseArray[0].equals(GlobalConstant.FLAG_SUCCESS)) {
                     //获得班级列表数组并适配至ListView中
                     String[] classArray = responseArray[1].split(",");
-                    mAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,classArray);
+                    ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
+                            android.R.layout.simple_list_item_1,classArray);
                     lvClassList.setAdapter(mAdapter);
                 }
                 //获取失败，提示
-                else if (responseArray[0].equals(TeacherConstant.FLAG_FAILURE)) {
+                else if (responseArray[0].equals(GlobalConstant.FLAG_FAILURE)) {
                     Toast.makeText(getContext(),"获取班级列表失败!",Toast.LENGTH_SHORT).show();
                 }
             }

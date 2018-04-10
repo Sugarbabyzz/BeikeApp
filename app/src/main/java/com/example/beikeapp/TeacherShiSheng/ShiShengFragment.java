@@ -6,8 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.beikeapp.R;
+
+import java.util.zip.Inflater;
+
+import cn.smssdk.gui.layout.ListviewTitleLayout;
 
 
 /**
@@ -25,6 +31,7 @@ public class ShiShengFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private ListView lvFunctionList;
 
     public ShiShengFragment() {
         // Required empty public constructor
@@ -60,8 +67,20 @@ public class ShiShengFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shisheng, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_shisheng,null);
+        initView(view);
+
+        return view;
     }
+
+    private void initView(View view) {
+        lvFunctionList = view.findViewById(R.id.lv_shiShengFunctionList);
+        String[] functionList = new String[]{"发布通知","发布作业","发布评教","作业完成情况","师生群聊"};
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1,functionList);
+        lvFunctionList.setAdapter(mAdapter);
+    }
+
 
 }

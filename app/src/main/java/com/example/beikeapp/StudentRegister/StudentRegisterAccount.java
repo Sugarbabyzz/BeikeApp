@@ -236,7 +236,6 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
                 receviceData = listData;
-
                 if (receviceData.toString().equals("[100]")){
                     Toast.makeText(StudentRegisterAccount.this, "账号已被注册！", Toast.LENGTH_SHORT).show();
                 }else if (receviceData.toString().equals("[200]")){

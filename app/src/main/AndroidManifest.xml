@@ -33,7 +33,7 @@
         tools:replace="android:name">
         //活动注册
         //启动页
-        <activity android:name=".StartPage.WelcomeActivity"></activity>
+        <activity android:name=".StartPage.WelcomeActivity" />
         //引导页
         <activity android:name=".StartPage.GuideActivity" />
         //登录页
@@ -84,7 +84,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".TeacherShiSheng.TeacherMainFunction"></activity>
+        <activity android:name=".TeacherShiSheng.TeacherMainFunction" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
+        <activity android:name=".Util.ChatUtil.ChatDetailsEditActivity"></activity>
     </application>
 
 </manifest>
