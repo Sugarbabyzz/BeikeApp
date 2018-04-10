@@ -60,8 +60,8 @@ public class StudentCheckCode extends BaseActivity implements View.OnClickListen
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                receviceData = listData;
-                if (receviceData.toString().equals("[success]")){
+
+                if (listData.get(0).equals("success")){
                     startActivity(new Intent(StudentCheckCode.this, StudentRegisterAccount.class));
                 }else {
                     Toast.makeText(StudentCheckCode.this, "邀请码错误！", Toast.LENGTH_SHORT).show();

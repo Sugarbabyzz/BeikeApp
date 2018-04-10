@@ -13,9 +13,4 @@ public class TeacherConstant {
     public static final String URL_CHANGE_PSW = "ChangePswServlet";
     public static final String URL_GET_CLASS_LIST = "GetClassListServlet";
 
-    //注册返回值，与servlet中对应
-    public static final String FLAG_FAILURE = "FAIL";
-    public static final String FLAG_SUCCESS = "SUCCESS";
-    public static final String FLAG_YES = "YES";
-    public static final String FLAG_NO = "NO";
 }

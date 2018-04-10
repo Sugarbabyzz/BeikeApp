@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -235,11 +236,10 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                receviceData = listData;
 
-                if (receviceData.toString().equals("[100]")){
+                if (listData.get(0).equals(GlobalConstant.FLAG_YES)){
                     Toast.makeText(StudentRegisterAccount.this, "账号已被注册！", Toast.LENGTH_SHORT).show();
-                }else if (receviceData.toString().equals("[200]")){
+                }else if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
                     Intent intent = new Intent(StudentRegisterAccount.this, StudentRegisterInfo.class);
                     //将账号与密码参数传入下一Actiivity
                     intent.putExtra("account",stuPhoneNumber.getText().toString());

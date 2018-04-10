@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -24,7 +26,7 @@ import java.util.List;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-public class TeacherRegister_FirstActivity extends BaseActivity implements View.OnClickListener {
+public class TeacherRegister_FirstActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FormEditText etPhone;
     private FormEditText etPsw;
@@ -34,8 +36,6 @@ public class TeacherRegister_FirstActivity extends BaseActivity implements View.
     private Button btnGetCode;
     private String phoneNumber, password;
     private int i = 30;
-    private List<String> receiveData;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,14 +219,14 @@ public class TeacherRegister_FirstActivity extends BaseActivity implements View.
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                receiveData = listData;
+
                 //手机号已注册，提示
-                if (receiveData.toString().equals("[" + TeacherConstant.FLAG_YES + "]")) {
+                if (listData.get(0).equals(GlobalConstant.FLAG_YES)) {
                     Toast.makeText(TeacherRegister_FirstActivity.this,
                             "手机号已注册!", Toast.LENGTH_SHORT).show();
                 }
                 //手机号尚未注册，进入下一页面
-                else if (receiveData.toString().equals("[" + TeacherConstant.FLAG_NO + "]")) {
+                else if (listData.toString().equals(GlobalConstant.FLAG_NO)) {
                     Intent intent = new Intent(TeacherRegister_FirstActivity.this,
                             TeacherRegister_SecondActivity.class);
                     intent.putExtra("phoneNumber", phoneNumber);

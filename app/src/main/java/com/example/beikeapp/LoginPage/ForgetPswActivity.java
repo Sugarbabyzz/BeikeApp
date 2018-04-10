@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -243,13 +244,13 @@ public class ForgetPswActivity extends AppCompatActivity implements View.OnClick
             public void onDataReceivedSuccess(List<String> listData) {
 
                 //修改成功
-                if (listData.get(0).equals(TeacherConstant.FLAG_SUCCESS)) {
+                if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)) {
                     Toast.makeText(ForgetPswActivity.this,
                             "修改成功!", Toast.LENGTH_SHORT).show();
                     Log.d("TAG","suc");
                 }
                 //修改失败
-                else if (listData.get(0).equals(TeacherConstant.FLAG_FAILURE)) {
+                else if (listData.get(0).equals(GlobalConstant.FLAG_FAILURE)) {
                     Toast.makeText(ForgetPswActivity.this,
                             "修改失败!", Toast.LENGTH_SHORT).show();
                     Log.d("TAG","fail");

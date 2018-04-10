@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -81,9 +82,8 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                receviceData = listData;
 
-                if(receviceData.toString().equals("[200]")){
+                if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
                     startActivity(new Intent(StudentRegisterInfo.this, StudentRegisterSuccess.class));
                 }else {
                     Toast.makeText(StudentRegisterInfo.this, "信息注册失败，请重新注册！", Toast.LENGTH_SHORT).show();
