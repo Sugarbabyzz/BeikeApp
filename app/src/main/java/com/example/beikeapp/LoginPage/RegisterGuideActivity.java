@@ -44,7 +44,7 @@ public class RegisterGuideActivity extends AppCompatActivity implements View.OnC
                         TeacherRegister_FirstActivity.class));
                 break;
             case R.id.btn_asParent:
-                //later
+                //later...or never..?come on.
                 break;
         }
     }

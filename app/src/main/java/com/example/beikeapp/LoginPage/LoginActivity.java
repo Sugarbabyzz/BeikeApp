@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.andreabaccega.widget.FormEditText;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherChat.TeacherChatClassList;
+import com.example.beikeapp.TeacherShiSheng.TeacherMainFunction;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.EMCallBack;
@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FormEditText etAccount;
     private FormEditText etPsw;
-    private TextView tvForgetPsw;
     private Button btnLogin;
     private Button btnRegister;
     private RadioGroup rgIdentity;
@@ -43,7 +42,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initView() {
         etAccount = findViewById(R.id.et_loginAccount);
         etPsw = findViewById(R.id.et_loginPsw);
-        tvForgetPsw = findViewById(R.id.tv_forgetPsw);
         btnLogin = findViewById(R.id.btn_login);
         btnRegister = findViewById(R.id.btn_register);
         rgIdentity = findViewById(R.id.rg_identity);
@@ -229,7 +227,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
-                startActivity(new Intent(LoginActivity.this, TeacherChatClassList.class));
+                startActivity(new Intent(LoginActivity.this, TeacherMainFunction.class));
             }
 
             @Override

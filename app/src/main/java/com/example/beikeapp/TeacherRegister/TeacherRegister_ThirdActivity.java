@@ -2,15 +2,17 @@ package com.example.beikeapp.TeacherRegister;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.TeacherShiSheng.TeacherMainFunction;
 import com.example.beikeapp.Util.BaseActivity;
 
-public class TeacherRegister_ThirdActivity extends BaseActivity implements View.OnClickListener {
+public class TeacherRegister_ThirdActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int flag;
     private Button btnEvent;
@@ -50,10 +52,11 @@ public class TeacherRegister_ThirdActivity extends BaseActivity implements View.
 
     @Override
     public void onClick(View view) {
+        //注册成功,转至首页
         if (flag == 0) {
             startActivity(new Intent(TeacherRegister_ThirdActivity.this,
-                    Teacher_MainActivity.class));
-        } else if (flag == 1) {
+                    TeacherMainFunction.class));
+        } else if (flag == 1) {//注册失败
             startActivity(new Intent(TeacherRegister_ThirdActivity.this,
                     TeacherRegister_FirstActivity.class));
         }
