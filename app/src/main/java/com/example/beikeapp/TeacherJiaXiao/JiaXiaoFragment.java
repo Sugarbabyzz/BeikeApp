@@ -1,12 +1,13 @@
 package com.example.beikeapp.TeacherJiaXiao;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,8 +16,11 @@ import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.ChatUtil.ChatActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
+import com.hyphenate.easeui.EaseConstant;
 
 import java.util.List;
 
@@ -37,6 +41,7 @@ public class JiaXiaoFragment extends Fragment {
     private String mParam2;
 
     private ListView lvClassList;
+    private List<EMGroup> groupList;
 
     public JiaXiaoFragment() {
         // Required empty public constructor
@@ -101,10 +106,20 @@ public class JiaXiaoFragment extends Fragment {
                 //获取成功,做适配
                 if (responseArray[0].equals(GlobalConstant.FLAG_SUCCESS)) {
                     //获得班级列表数组并适配至ListView中
-                    String[] classArray = responseArray[1].split(",");
+                    final String[] classArray = responseArray[1].split(",");
                     ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
                             android.R.layout.simple_list_item_1,classArray);
                     lvClassList.setAdapter(mAdapter);
+
+                    lvClassList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent intent = new Intent(getActivity(), ChatActivity.class);
+                            intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                            intent.putExtra(EaseConstant.EXTRA_USER_ID,"46170598604801");
+                            startActivity(intent);
+                        }
+                    });
                 }
                 //获取失败，提示
                 else if (responseArray[0].equals(GlobalConstant.FLAG_FAILURE)) {

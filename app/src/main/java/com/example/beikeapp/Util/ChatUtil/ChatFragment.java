@@ -1,6 +1,7 @@
 package com.example.beikeapp.Util.ChatUtil;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -8,13 +9,22 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.ui.EaseChatFragment;
+import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 
 /**
  * Created by m1821 on 2018/4/10.
  */
 
-public class ChatFragment extends EaseChatFragment implements EaseChatFragment.EaseChatFragmentHelper {
+public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHelper {
+
+
+    @Override
+    protected void setUpView() {
+        super.setUpView();
+        setChatFragmentHelper(this);
+    }
+
     @Override
     public void onSetMessageAttributes(EMMessage message) {
 

@@ -86,7 +86,9 @@
 
         <activity android:name=".TeacherShiSheng.TeacherMainFunction" />
         <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity"></activity>
+        <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
+        <activity android:name=".Util.ChatUtil.ChatActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsMembersActivity"></activity>
     </application>
 
 </manifest>

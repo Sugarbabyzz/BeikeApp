@@ -29,6 +29,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private Button btnRegister;
     private RadioGroup rgIdentity;
+
+    private Button btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +48,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin = findViewById(R.id.btn_login);
         btnRegister = findViewById(R.id.btn_register);
         rgIdentity = findViewById(R.id.rg_identity);
+        btnLogout = findViewById(R.id.btn_logout);
         //设置按钮监听事件
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
     }
 
     /**
@@ -95,8 +99,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             // forget password
             case R.id.tv_forgetPsw:
-                startActivity(new Intent(LoginActivity.this,ForgetPswActivity.class));
+                startActivity(new Intent(LoginActivity.this, ForgetPswActivity.class));
                 break;
+
+            case R.id.btn_logout:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        EMClient.getInstance().logout(true);
+                    }
+                }).start();
+
             default:
                 break;
         }
@@ -229,11 +242,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
                 startActivity(new Intent(LoginActivity.this, TeacherMainFunction.class));
+                finish();
             }
 
             @Override
             public void onError(int i, String s) {
                 Log.d("TAG", "登录聊天服务器失败！");
+                Log.e("errorrr",i + ":" + s);
             }
 
             @Override

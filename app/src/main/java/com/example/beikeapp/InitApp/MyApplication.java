@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.EaseUI;
 import com.mob.MobSDK;
 
 import java.util.Iterator;
@@ -43,9 +44,9 @@ public class MyApplication extends Application {
 //
 
 
-//        //easeUI 初始化
-//        options.setAcceptInvitationAlways(false);
-//        EaseUI.getInstance().init(this, options);
+        //easeUI 初始化
+        options.setAcceptInvitationAlways(false);
+        EaseUI.getInstance().init(this, options);
 
 
         int pid = android.os.Process.myPid();
