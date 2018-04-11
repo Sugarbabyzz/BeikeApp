@@ -6,7 +6,7 @@ package com.example.beikeapp.Constant;
 
 public class StudentConstant {
 
-    public static String URL = "http://10.0.2.2:8080/"; // IP地址请改为你自己的IP
+    public static String URL = "http://47.94.253.65:8080/StudentServlet/";  //连接至远程服务器
     public static String URL_RegisterInfo = URL + "StudentRegisterInfoServlet";
     public static String URL_Login = URL + "StudentLoginServlet";
     public static String URL_CheckCode = URL + "StudentCheckCodeServlet";

@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -20,8 +21,7 @@ public class StudentCheckCode extends BaseActivity implements View.OnClickListen
 
     private EditText inviteCode;
     private Button btnCode;
-    //回调参数
-    private List<String> receviceData = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class StudentCheckCode extends BaseActivity implements View.OnClickListen
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
 
-                if (listData.get(0).equals("success")){
+                if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
                     startActivity(new Intent(StudentCheckCode.this, StudentRegisterAccount.class));
                 }else {
                     Toast.makeText(StudentCheckCode.this, "邀请码错误！", Toast.LENGTH_SHORT).show();

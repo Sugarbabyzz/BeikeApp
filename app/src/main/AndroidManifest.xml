@@ -52,6 +52,7 @@
         <activity android:name=".StudentRegister.StudentRegisterAccount" />
         <activity android:name=".StudentRegister.StudentRegisterInfo" />
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
+        <activity android:name=".StudentMain.StudentMain" />
         //老师注册活动
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />

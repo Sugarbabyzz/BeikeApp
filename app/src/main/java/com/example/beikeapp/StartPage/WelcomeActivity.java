@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentRegister.StudentLogin;
 
@@ -38,7 +39,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     if (count == 0){
                         startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
                     }else{
-                        startActivity(new Intent(WelcomeActivity.this, StudentLogin.class));
+                        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                     }
                     finish();
 

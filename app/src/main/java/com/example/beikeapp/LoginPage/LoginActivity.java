@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
 import com.example.beikeapp.Constant.GlobalConstant;
+import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.TeacherShiSheng.TeacherMainFunction;
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
     }
+
 
     /**
      * 所有点击事件
@@ -165,12 +167,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 以学生身份登录至我们的服务器
      *
      * @param account 账号
-     * @param psw 密码
+     * @param password 密码
      */
-    private void loginToUsAsStudent(String account, String psw) {
+    private void loginToUsAsStudent(String account, String password) {
 
         //组装url
-        String urlString = "**waiting**";
+        String urlString = StudentConstant.URL_Login
+                            + "?account=" + account
+                            + "&password=" + password;
 
         loginTask(urlString);
     }
