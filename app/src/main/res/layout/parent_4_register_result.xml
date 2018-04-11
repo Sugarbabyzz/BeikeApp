@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--  注册结果页的标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark">
+        <TextView
+            android:id="@id/parent_set_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="家长注册"
+            android:textColor="#fff"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
+    <!-- 注册结果提示
+    注册结果提示，成功或者失败需要反馈在页面中，可以在活动中创建  AlertDialog  实例（第三章），弹出结果选择返回或者取消
+    -->
+
+</LinearLayout>

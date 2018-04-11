@@ -57,6 +57,10 @@
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity" />
+        //家长注册活动
+        <activity android:name=".ParentRegister.parent_1_register_select_student" />
+        <activity android:name=".ParentRegister.parent_2_register_info" />
+        <activity android:name=".ParentRegister.parent_3_register_identify" />
         //老师群聊
         //环信服务、接收器、KEY
         <!-- 设置环信应用的AppKey -->
@@ -87,7 +91,12 @@
 
         <activity android:name=".TeacherShiSheng.TeacherMainFunction" />
         <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
-        <activity android:name=".Util.ChatUtil.ChatDetailsEditActivity"></activity>
+        <activity android:name=".Util.ChatUtil.ChatDetailsEditActivity" />
+        <activity android:name=".ParentRegister.parent_home_page" />
+        <activity
+            android:name=".ParentRegister.parent_4_register_result"
+            android:label="@string/title_activity_parent_4_register_result"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
