@@ -2,13 +2,13 @@
 .gradle
 /local.properties
 .DS_Store
-/build
 /captures
 .externalNativeBuild
 
-
-build
 target/
 out/
 .idea
+build
+/build
+
 
