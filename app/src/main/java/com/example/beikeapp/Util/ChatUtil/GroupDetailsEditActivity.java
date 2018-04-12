@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.example.beikeapp.R;
 
+import java.util.ArrayList;
+
 public class GroupDetailsEditActivity extends ChatBaseActivity{
     private EditText editText;
 
@@ -31,10 +33,11 @@ public class GroupDetailsEditActivity extends ChatBaseActivity{
         editText.setSelection(editText.length());
 
         findViewById(R.id.btn_save).setEnabled(editable);
+
     }
 
     public void save(View view){
-        setResult(RESULT_OK, new Intent().putExtra("data", editText.getText().toString()));
+        setResult(RESULT_OK, new Intent().putExtra("data",editText.getText().toString()));
         finish();
     }
 

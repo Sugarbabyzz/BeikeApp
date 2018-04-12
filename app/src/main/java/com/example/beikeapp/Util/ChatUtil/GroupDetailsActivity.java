@@ -30,6 +30,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
     private static final String TAG = "GroupDetailsActivity";
     private static final int REQUEST_CODE_EDIT_GROUP_NAME = 1;
     private static final int REQUEST_CODE_EDIT_GROUP_DESCRIPTION = 2;
+    private static final int REQUEST_CODE_ADD_GROUP_MEMBER = 3;
 
     private ProgressDialog progressDialog;
 
@@ -91,25 +92,33 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
         rlGroupMembers.setOnClickListener(this);
     }
 
+    /**
+     * 所有点击事件的处理
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_group_members:
+            case R.id.rl_group_members: //进入群成员列表:因为这个是无法修改，只供查看的一个列表
+                                        //所以只需使用startActivity,无需ForResult
                 startActivity(new Intent(this, GroupDetailsMembersActivity.class)
                                 .putExtra("data", group.getGroupName())
                                 .putExtra("groupId",groupId));
 
-            case R.id.rl_add_group_members:
-                //later
+            case R.id.rl_add_group_members: //添加新的群成员
+                startActivityForResult(new Intent(this,GroupDetailsEditActivity.class)
+                                .putExtra("title","add members")
+                                .putExtra("editable",isCurrentOwner(group)),
+                        REQUEST_CODE_ADD_GROUP_MEMBER);
                 break;
-            case R.id.rl_change_group_name:
+            case R.id.rl_change_group_name: //更改群名
                 startActivityForResult(new Intent(this, GroupDetailsEditActivity.class)
                                 .putExtra("title", "Change Group Name")
                                 .putExtra("data", group.getGroupName())
                                 .putExtra("editable", isCurrentOwner(group)),
                         REQUEST_CODE_EDIT_GROUP_NAME);
                 break;
-            case R.id.rl_change_group_description:
+            case R.id.rl_change_group_description: //更改群签名
                 startActivityForResult(new Intent(this, GroupDetailsEditActivity.class)
                                 .putExtra("title", "Change Group Description")
                                 .putExtra("data", group.getDescription())
@@ -129,6 +138,15 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
                 progressDialog.setCanceledOnTouchOutside(false);
             }
             switch (requestCode) {
+                case REQUEST_CODE_ADD_GROUP_MEMBER:
+                    final String[] newmembers = data.getStringArrayExtra("newmembers");
+
+                    progressDialog.setMessage("members are being added...");
+                    progressDialog.show();
+                    //addMembersToGroup(newmembers);
+                    break;
+
+
                 case REQUEST_CODE_EDIT_GROUP_NAME: //修改群名
                     final String returnData = data.getStringExtra("data");
                     if (!TextUtils.isEmpty(returnData)) {
@@ -189,6 +207,8 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
                         }).start();
                     }
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -206,7 +226,44 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
         }
         return owner.equals(EMClient.getInstance().getCurrentUser());
     }
-
+//    /**
+//     * 增加群成员
+//     *
+//     * @param newmembers
+//     */
+//    private void addMembersToGroup(final String[] newmembers) {
+//        final String str = "add group members failed!";
+//        new Thread(new Runnable() {
+//
+//            public void run() {
+//                try {
+//                    // 创建者调用add方法
+//                    if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+//                        EMClient.getInstance().groupManager().addUsersToGroup(groupId, newmembers);
+//                    } else {
+//                        // 一般成员调用invite方法
+//                        EMClient.getInstance().groupManager().inviteUser(groupId, newmembers, null);
+//                    }
+//                    updateGroup();
+//                    refreshMembersAdapter();
+//                    runOnUiThread(new Runnable() {
+//                        public void run() {
+//                            ((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "(" + group.getMemberCount()
+//                                    + st);
+//                            progressDialog.dismiss();
+//                        }
+//                    });
+//                } catch (final Exception e) {
+//                    runOnUiThread(new Runnable() {
+//                        public void run() {
+//                            progressDialog.dismiss();
+//                            Toast.makeText(getApplicationContext(), str + e.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//                }
+//            }
+//        }).start();
+//    }
     protected void updateGroup() {
         new Thread(new Runnable() {
             public void run() {
