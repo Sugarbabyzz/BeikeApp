@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.example.beikeapp.R;
 import com.example.beikeapp.TeacherJiaXiao.JiaXiaoFragment;
-import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 
@@ -23,7 +22,7 @@ public class ChatActivity extends ChatBaseActivity{
         setContentView(R.layout.activity_chat);
         activityInstance = this;
         //get user id or group id
-        toChatUsername = getIntent().getExtras().getString(EaseConstant.EXTRA_USER_ID);
+        toChatUsername = getIntent().getExtras().getString("userId");
         //use EaseChatFratFragment
         chatFragment = new ChatFragment();
         //pass parameters to chat fragment

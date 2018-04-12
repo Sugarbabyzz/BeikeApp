@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f0eb"
-    android:orientation="vertical"
-    xmlns:TagsEditText="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical" >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
@@ -49,11 +48,11 @@
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/et_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textSize="18sp"/>
-
+        android:id="@+id/et_edit"
+        android:textSize="18sp"
+        />
 
 </LinearLayout>

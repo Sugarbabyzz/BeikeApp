@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,9 @@ public class JiaXiaoFragment extends Fragment {
     private List<EMGroup> groupList;
     private ListView lvGroup;
     private GroupAdapter groupAdapter;
+
     private SwipeRefreshLayout swipeRefreshLayout;
-    //下拉列表刷新时用到的Handler
-    @SuppressLint("HandlerLeak")
+
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             swipeRefreshLayout.setRefreshing(false);
@@ -112,7 +113,7 @@ public class JiaXiaoFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
                 R.color.holo_orange_light, R.color.holo_red_light);
 
-        //设置下拉刷新的监听
+        //pull down to refresh
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -131,22 +132,21 @@ public class JiaXiaoFragment extends Fragment {
             }
         });
 
-        //设置群组列表Item点击事件的监听
         lvGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     // create a new group
-                    Toast.makeText(getActivity(), "create a group", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"create a group",Toast.LENGTH_SHORT).show();
                 } else if (position == 1) {
                     // join a public group
-                    Toast.makeText(getActivity(), "join a public group", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"join a public group",Toast.LENGTH_SHORT).show();
                 } else {
-                    // 进入对应群聊界面--ChatActivity
+                    // enter group chat
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
-                    intent.putExtra(EaseConstant.EXTRA_USER_ID, groupAdapter.getItem(position - 2).getGroupId());
+                    intent.putExtra("chatType", EaseConstant.CHATTYPE_GROUP);
+                    intent.putExtra("userId", groupAdapter.getItem(position - 2).getGroupId());
                     startActivityForResult(intent, 0);
                 }
             }
@@ -158,9 +158,6 @@ public class JiaXiaoFragment extends Fragment {
         return view;
     }
 
-    /**
-     * 第一次启动Fragment时需要从服务器获取一下群组列表
-     */
     private void getGroupsOnCreate() {
         new Thread() {
             @Override
@@ -180,9 +177,6 @@ public class JiaXiaoFragment extends Fragment {
         groupAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * 刷新群组列表
-     */
     private void refresh() {
         groupList = EMClient.getInstance().groupManager().getAllGroups();
         groupAdapter = new GroupAdapter(getActivity(), 1, groupList);
@@ -190,9 +184,6 @@ public class JiaXiaoFragment extends Fragment {
         groupAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * Resume时也需要刷新
-     */
     @Override
     public void onResume() {
         refresh();
