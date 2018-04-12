@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,15 +13,27 @@ import android.widget.Toast;
 
 import com.example.beikeapp.R;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.chat.EMMucSharedFile;
+import com.hyphenate.chat.EMPushConfigs;
+import com.hyphenate.easeui.ui.EaseGroupListener;
 import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.util.EMLog;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GroupDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "GroupDetailsActivity";
     private static final int REQUEST_CODE_EDIT_GROUP_NAME = 1;
     private static final int REQUEST_CODE_EDIT_GROUP_DESCRIPTION = 2;
 
     private ProgressDialog progressDialog;
+
+    private List<String> memberList = Collections.synchronizedList(new ArrayList<String>());
 
     private String groupId;
     private TextView tvGroupIdValue;
@@ -31,6 +44,9 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
     private RelativeLayout rlChangeGroupDescription;
     private RelativeLayout rlClearConversation;
     private RelativeLayout rlGroupMembers;
+
+    private EMPushConfigs pushConfigs;
+    GroupChangeListener groupChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +60,17 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
             return;
         }
 
+        //get push configs
+        pushConfigs = EMClient.getInstance().pushManager().getPushConfigs();
+
+        groupChangeListener = new GroupChangeListener();
+        EMClient.getInstance().groupManager().addGroupChangeListener(groupChangeListener);
+
         setContentView(R.layout.chat_group_details);
 
         initView();
+
+        updateGroup();
     }
 
     private void initView() {
@@ -181,5 +205,126 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
             return false;
         }
         return owner.equals(EMClient.getInstance().getCurrentUser());
+    }
+
+    protected void updateGroup() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    if (pushConfigs == null) {
+                        EMClient.getInstance().pushManager().getPushConfigsFromServer();
+                    }
+
+                    try {
+                        group = EMClient.getInstance().groupManager().getGroupFromServer(groupId);
+
+                        memberList.clear();
+                        EMCursorResult<String> result = null;
+                        do {
+                            // page size set to 20 is convenient for testing, should be applied to big value
+                            result = EMClient.getInstance().groupManager().fetchGroupMembers(groupId,
+                                    result != null ? result.getCursor() : "",
+                                    20);
+                            EMLog.d(TAG, "fetchGroupMembers result.size:" + result.getData().size());
+                            memberList.addAll(result.getData());
+                        } while (result.getCursor() != null && !result.getCursor().isEmpty());
+
+
+                    } catch (Exception e) {
+                        //e.printStackTrace();  // User may have no permission for fetch mute, fetch black list operation
+                    } finally {
+                        memberList.remove(group.getOwner());
+                    }
+
+                }catch (Exception e) {
+                    Log.d(TAG,e.getMessage());
+                }
+
+            }
+        }).start();
+
+    }
+
+    private class GroupChangeListener extends EaseGroupListener {
+
+        @Override
+        public void onUserRemoved(String groupId, String groupName) {
+            finish();
+        }
+
+        @Override
+        public void onGroupDestroyed(String groupId, String groupName) {
+            finish();
+        }
+
+        @Override
+        public void onMuteListAdded(String groupId, final List<String> mutes, final long muteExpire) {
+            updateGroup();
+        }
+
+        @Override
+        public void onMuteListRemoved(String groupId, final List<String> mutes) {
+            updateGroup();
+        }
+
+        @Override
+        public void onAdminAdded(String groupId, String administrator) {
+            updateGroup();
+        }
+
+        @Override
+        public void onAdminRemoved(String groupId, String administrator) {
+            updateGroup();
+        }
+
+        @Override
+        public void onOwnerChanged(String groupId, String newOwner, String oldOwner) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(GroupDetailsActivity.this, "onOwnerChanged", Toast.LENGTH_LONG).show();
+                }
+            });
+            updateGroup();
+        }
+
+        @Override
+        public void onMemberJoined(String groupId, String member) {
+            EMLog.d(TAG, "onMemberJoined");
+            updateGroup();
+        }
+
+        @Override
+        public void onMemberExited(String groupId, String member) {
+            EMLog.d(TAG, "onMemberExited");
+            updateGroup();
+        }
+
+
+
+        @Override
+        public void onSharedFileAdded(String groupId, final EMMucSharedFile sharedFile) {
+            if(groupId.equals(GroupDetailsActivity.this.groupId)) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(GroupDetailsActivity.this, "Group added a share file", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onSharedFileDeleted(String groupId, String fileId) {
+            if(groupId.equals(GroupDetailsActivity.this.groupId)) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(GroupDetailsActivity.this, "Group deleted a share file", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
     }
 }

@@ -51,7 +51,6 @@ public class GroupDetailsMembersActivity extends AppCompatActivity {
                     //get owner
                     memberList.add(emGroup.getOwner() + "(群主)");
                     if (memberList != null & memberList.size() >= 0) {
-
                         //do adapt
                         runOnUiThread(new Runnable() {
                             @Override

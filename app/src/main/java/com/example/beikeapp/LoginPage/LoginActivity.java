@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginAsTeacher(String account, String psw) {
 
         //在我们的服务器中登录
-        loginToUsAsTeacher(account,psw);
+        //loginToUsAsTeacher(account,psw);
         //在环信服务器中登录
         loginToHx(account,psw);
     }
