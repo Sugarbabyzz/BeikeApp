@@ -113,6 +113,7 @@ public class JiaXiaoFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
                 R.color.holo_orange_light, R.color.holo_red_light);
 
+
         //pull down to refresh
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
