@@ -7,13 +7,19 @@ import android.view.View.OnClickListener;
 
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.BaseActivity;
+import com.example.beikeapp.Util.BottomBar;
+import com.hjm.bottomtabbar.BottomTabBar;
 
 public class StudentMain extends BaseActivity implements OnClickListener{
+
+
+    private BottomTabBar btmBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_main);
+
 
     }
 

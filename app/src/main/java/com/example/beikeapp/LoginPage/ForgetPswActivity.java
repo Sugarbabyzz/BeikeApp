@@ -15,8 +15,10 @@ import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
 import com.example.beikeapp.Constant.GlobalConstant;
+import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentMain.StudentMain;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 
@@ -214,7 +216,9 @@ public class ForgetPswActivity extends AppCompatActivity implements View.OnClick
      * @param password    密码
      */
     private void changePswAsStudent(String phoneNumber, String password) {
-        String urlString = "waitin~~";
+        String urlString = StudentConstant.URL_ChangePsw
+                        + "?account=" + phoneNumber
+                        + "&password=" + password;
         ChangePswTask(ForgetPswActivity.this, urlString);
     }
 
