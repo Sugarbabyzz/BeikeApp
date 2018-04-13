@@ -12,6 +12,7 @@ public class ChatBaseActivity extends EaseBaseActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+
     }
 
     @Override

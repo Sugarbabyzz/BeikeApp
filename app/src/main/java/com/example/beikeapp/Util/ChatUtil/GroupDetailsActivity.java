@@ -2,6 +2,7 @@ package com.example.beikeapp.Util.ChatUtil;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,11 +14,13 @@ import android.widget.Toast;
 
 import com.example.beikeapp.R;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMucSharedFile;
 import com.hyphenate.chat.EMPushConfigs;
 import com.hyphenate.easeui.ui.EaseGroupListener;
+import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 
@@ -30,16 +33,16 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
     private static final String TAG = "GroupDetailsActivity";
     private static final int REQUEST_CODE_EDIT_GROUP_NAME = 1;
     private static final int REQUEST_CODE_EDIT_GROUP_DESCRIPTION = 2;
-
+    private static final int REQUEST_CODE_ADD_GROUP_MEMBERS = 3;
     private ProgressDialog progressDialog;
 
     private List<String> memberList = Collections.synchronizedList(new ArrayList<String>());
-
-    private String groupId;
-    private TextView tvGroupIdValue;
     private EMGroup group;
+    private String groupId;
+    private TextView tvGroupName;
+    private TextView tvGroupIdValue;
+
     private RelativeLayout rlAddGroupMembers;
-    private RelativeLayout rlGroupNotification;
     private RelativeLayout rlChangeGroupName;
     private RelativeLayout rlChangeGroupDescription;
     private RelativeLayout rlClearConversation;
@@ -51,6 +54,12 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //hide action bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.hide();
+        }
 
         groupId = getIntent().getStringExtra("groupId");
         group = EMClient.getInstance().groupManager().getGroup(groupId);
@@ -76,15 +85,16 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
     private void initView() {
         tvGroupIdValue = findViewById(R.id.tv_group_id_value);
         tvGroupIdValue.setText(groupId);
+        tvGroupName = findViewById(R.id.group_name);
+        tvGroupName.setText(group.getGroupName() + "(" + group.getMemberCount() + ")");
+
         rlAddGroupMembers = findViewById(R.id.rl_add_group_members);
-        rlGroupNotification = findViewById(R.id.rl_group_notification);
         rlChangeGroupName = findViewById(R.id.rl_change_group_name);
         rlChangeGroupDescription = findViewById(R.id.rl_change_group_description);
         rlClearConversation = findViewById(R.id.rl_clear_all_history);
         rlGroupMembers = findViewById(R.id.rl_group_members);
 
         rlAddGroupMembers.setOnClickListener(this);
-        rlGroupNotification.setOnClickListener(this);
         rlChangeGroupDescription.setOnClickListener(this);
         rlChangeGroupName.setOnClickListener(this);
         rlClearConversation.setOnClickListener(this);
@@ -94,27 +104,42 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_group_members:
-                startActivity(new Intent(this, GroupDetailsMembersActivity.class)
-                                .putExtra("data", group.getGroupName())
-                                .putExtra("groupId",groupId));
-
-            case R.id.rl_add_group_members:
-                //later
+            case R.id.rl_group_members: //查看群成员列表.由于该功能仅限查看列表无法修改,所以没有调用startActivityForResult.
+                startActivity(new Intent(this, GroupDetailsMemberListActivity.class)
+                        .putExtra("data", group.getGroupName())
+                        .putExtra("groupId", groupId));
                 break;
-            case R.id.rl_change_group_name:
+            case R.id.rl_add_group_members: //添加群成员
+                startActivityForResult(new Intent(this, GroupDetailsAddMembersActivity.class)
+                                .putExtra("editable", isCurrentOwner(group)),
+                        REQUEST_CODE_ADD_GROUP_MEMBERS);
+                break;
+            case R.id.rl_change_group_name: //修改群名称(和修改群签名用同一个activity和xml文件)
                 startActivityForResult(new Intent(this, GroupDetailsEditActivity.class)
                                 .putExtra("title", "Change Group Name")
                                 .putExtra("data", group.getGroupName())
                                 .putExtra("editable", isCurrentOwner(group)),
                         REQUEST_CODE_EDIT_GROUP_NAME);
                 break;
-            case R.id.rl_change_group_description:
+            case R.id.rl_change_group_description: //修改群签名
                 startActivityForResult(new Intent(this, GroupDetailsEditActivity.class)
                                 .putExtra("title", "Change Group Description")
                                 .putExtra("data", group.getDescription())
                                 .putExtra("editable", isCurrentOwner(group)),
                         REQUEST_CODE_EDIT_GROUP_DESCRIPTION);
+                break;
+            case R.id.rl_clear_all_history: //清空聊天记录
+                String str = "清空所有聊天记录?";
+                new EaseAlertDialog(GroupDetailsActivity.this,
+                        null, str, null, new EaseAlertDialog.AlertDialogUser() {
+
+                    @Override
+                    public void onResult(boolean confirmed, Bundle bundle) {
+                        if(confirmed){
+                            clearGroupHistory();
+                        }
+                    }
+                }, true).show();
                 break;
         }
     }
@@ -129,6 +154,12 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
                 progressDialog.setCanceledOnTouchOutside(false);
             }
             switch (requestCode) {
+                case REQUEST_CODE_ADD_GROUP_MEMBERS: //添加群成员
+                    final ArrayList<String> newMembersList = data.getStringArrayListExtra("data");
+                    progressDialog.setMessage("members are being added...");
+                    progressDialog.show();
+                    addMembersToGroup(newMembersList);
+                    break;
                 case REQUEST_CODE_EDIT_GROUP_NAME: //修改群名
                     final String returnData = data.getStringExtra("data");
                     if (!TextUtils.isEmpty(returnData)) {
@@ -142,7 +173,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
 
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        ((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "(" + group.getMemberCount() + ")");
+                                        tvGroupName.setText(group.getGroupName() + "(" + group.getMemberCount() + ")");
                                         progressDialog.dismiss();
                                         Toast.makeText(getApplicationContext(), "group name changeD!", Toast.LENGTH_SHORT).show();
                                     }
@@ -160,9 +191,9 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
                         }
                     }).start();
                     break;
-                case REQUEST_CODE_EDIT_GROUP_DESCRIPTION:
+                case REQUEST_CODE_EDIT_GROUP_DESCRIPTION: //修改群签名
                     final String returnData1 = data.getStringExtra("data");
-                    if(!TextUtils.isEmpty(returnData1)){
+                    if (!TextUtils.isEmpty(returnData1)) {
                         progressDialog.setMessage("changing the group description...");
                         progressDialog.show();
 
@@ -194,6 +225,45 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     /**
+     * 添加群成员列表
+     * @param newMembersList 获取到的Arraylist<String>类型的待添加的成员列表
+     */
+    private void addMembersToGroup(ArrayList<String> newMembersList) {
+        final String str = getResources().getString(R.string.Add_group_members_fail);
+        final String[] membersArray = new String[newMembersList.size()];
+        newMembersList.toArray(membersArray);
+
+        new Thread(new Runnable() {
+
+            public void run() {
+                try {
+                    // 创建者调用add方法
+                    if (EMClient.getInstance().getCurrentUser().equals(group.getOwner())) {
+                        EMClient.getInstance().groupManager().addUsersToGroup(groupId, membersArray);
+
+                        updateGroup();
+                       // refreshMembersAdapter();
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                tvGroupName.setText(group.getGroupName() + "(" + group.getMemberCount() + ")");
+                                Toast.makeText(GroupDetailsActivity.this,"Members added!",Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+                        });
+                    }
+                } catch (final Exception e) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), str + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    /**
      * 判断操作者是否是群主
      *
      * @param group emgroup
@@ -205,6 +275,18 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
             return false;
         }
         return owner.equals(EMClient.getInstance().getCurrentUser());
+    }
+
+    /**
+     * 清空聊天记录
+     */
+    private void clearGroupHistory() {
+
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(group.getGroupId(), EMConversation.EMConversationType.GroupChat);
+        if (conversation != null) {
+            conversation.clearAllMessages();
+        }
+        Toast.makeText(this, "已清空", Toast.LENGTH_SHORT).show();
     }
 
     protected void updateGroup() {
@@ -236,13 +318,17 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
                         memberList.remove(group.getOwner());
                     }
 
-                }catch (Exception e) {
-                    Log.d(TAG,e.getMessage());
+                } catch (Exception e) {
+                    Log.d(TAG, e.getMessage());
                 }
 
             }
         }).start();
 
+    }
+
+    public void back(View view){
+        finish();
     }
 
     private class GroupChangeListener extends EaseGroupListener {
@@ -302,10 +388,9 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
         }
 
 
-
         @Override
         public void onSharedFileAdded(String groupId, final EMMucSharedFile sharedFile) {
-            if(groupId.equals(GroupDetailsActivity.this.groupId)) {
+            if (groupId.equals(GroupDetailsActivity.this.groupId)) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -317,7 +402,7 @@ public class GroupDetailsActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         public void onSharedFileDeleted(String groupId, String fileId) {
-            if(groupId.equals(GroupDetailsActivity.this.groupId)) {
+            if (groupId.equals(GroupDetailsActivity.this.groupId)) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
