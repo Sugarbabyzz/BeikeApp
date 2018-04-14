@@ -21,7 +21,9 @@ import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.ChatUtil.AddGroupActivity;
 import com.example.beikeapp.Util.ChatUtil.ChatActivity;
+import com.example.beikeapp.Util.ChatUtil.NewGroupActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
@@ -52,7 +54,7 @@ public class JiaXiaoFragment extends Fragment {
     private GroupAdapter groupAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-
+@SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             swipeRefreshLayout.setRefreshing(false);
@@ -139,13 +141,13 @@ public class JiaXiaoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    // create a new group
-                    Toast.makeText(getActivity(),"create a group",Toast.LENGTH_SHORT).show();
+                    // 建群
+                    startActivity(new Intent(getActivity(),NewGroupActivity.class));
                 } else if (position == 1) {
-                    // join a public group
-                    Toast.makeText(getActivity(),"join a public group",Toast.LENGTH_SHORT).show();
+                    // 加群
+                    startActivity(new Intent(getActivity(), AddGroupActivity.class));
                 } else {
-                    // enter group chat
+                    // 进入对应群聊
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     intent.putExtra("chatType", EaseConstant.CHATTYPE_GROUP);
                     intent.putExtra("userId", groupAdapter.getItem(position - 2).getGroupId());
