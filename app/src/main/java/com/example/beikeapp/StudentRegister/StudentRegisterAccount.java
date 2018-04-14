@@ -150,10 +150,7 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，进入StudentRegister_Activity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
-                        Toast.makeText(getApplicationContext(), "注册成功",
-                                Toast.LENGTH_SHORT).show();
                         registerAccount(stuPhoneNumber.getText().toString(), stuSetPassword.getText().toString());
-
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "正在获取验证码",
                                 Toast.LENGTH_SHORT).show();
