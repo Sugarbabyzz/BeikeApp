@@ -4,6 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Student Main"
+        android:gravity="center"
+        android:textSize="40sp"/>
+
     <com.hjm.bottomtabbar.BottomTabBar
         android:id="@+id/student_bottom_tab_bar"
         android:layout_width="match_parent"

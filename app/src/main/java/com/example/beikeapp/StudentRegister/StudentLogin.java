@@ -8,8 +8,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentMain.StudentMain;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
@@ -22,8 +24,6 @@ public class StudentLogin extends BaseActivity implements View.OnClickListener{
     private Button btnLogin;
     private Button btnRegister;
     private ImageView image;
-    //回调参数
-    private List<String> receviceData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +75,11 @@ public class StudentLogin extends BaseActivity implements View.OnClickListener{
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                receviceData = listData;
-                Toast.makeText(StudentLogin.this, receviceData.toString(), Toast.LENGTH_SHORT).show();
+                if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
+                    startActivity(new Intent(StudentLogin.this, StudentMain.class));
+                }else {
+                    Toast.makeText(StudentLogin.this, "账号或密码错误！", Toast.LENGTH_SHORT).show();
+                }
             }
             @Override
             public void onDataReceivedFailed() {

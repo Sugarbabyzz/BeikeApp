@@ -13,8 +13,6 @@ import com.hjm.bottomtabbar.BottomTabBar;
 public class StudentMain extends BaseActivity implements OnClickListener{
 
 
-    private BottomTabBar btmBar;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
