@@ -114,7 +114,7 @@ public class JiaXiaoFragment extends Fragment {
                 R.color.holo_orange_light, R.color.holo_red_light);
 
 
-        //pull down to refresh
+        //下拉刷新群组列表
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -133,6 +133,7 @@ public class JiaXiaoFragment extends Fragment {
             }
         });
 
+        //注册列表项的点击事件的监听
         lvGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -159,6 +160,10 @@ public class JiaXiaoFragment extends Fragment {
         return view;
     }
 
+    /**
+     * 首次创建Fragment时从环信服务器获取群组列表。
+     * 同步方法，线程中进行。
+     */
     private void getGroupsOnCreate() {
         new Thread() {
             @Override
@@ -178,6 +183,9 @@ public class JiaXiaoFragment extends Fragment {
         groupAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 刷新群组列表
+     */
     private void refresh() {
         groupList = EMClient.getInstance().groupManager().getAllGroups();
         groupAdapter = new GroupAdapter(getActivity(), 1, groupList);
@@ -191,6 +199,11 @@ public class JiaXiaoFragment extends Fragment {
         super.onResume();
     }
 
+    /**
+     * 从我们的服务器获取班级列表。
+     * 暂时不用
+     * @param currentUser
+     */
     private void getClassList(String currentUser) {
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_GET_CLASS_LIST
                 + "?account=" + currentUser;

@@ -28,6 +28,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 群组详细信息
+ *
+ */
 public class GroupDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "GroupDetailsActivity";

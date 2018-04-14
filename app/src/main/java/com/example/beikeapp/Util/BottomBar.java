@@ -14,6 +14,7 @@ import com.hjm.bottomtabbar.BottomTabBar;
  *     此处不包含BottomBar的init方法。
  *     因为需要用到的getSupportFragmentManager方法不能写在静态类中。
  *     所以调用这里的静态方法前需先做一步初始化。
+ *     参考TeacherShiSheng包下TeacherMainFunction类中19-21行代码。
  */
 
 public class BottomBar {

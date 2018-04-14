@@ -8,10 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.beikeapp.Constant.GlobalConstant;
-import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherShiSheng.TeacherMainFunction;
-import com.example.beikeapp.Util.BaseActivity;
+import com.example.beikeapp.TeacherShiSheng.TeacherMainActivity;
 
 public class TeacherRegister_ThirdActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -56,7 +54,7 @@ public class TeacherRegister_ThirdActivity extends AppCompatActivity implements 
         //注册成功,转至首页
         if (flag == 0) {
             startActivity(new Intent(TeacherRegister_ThirdActivity.this,
-                    TeacherMainFunction.class));
+                    TeacherMainActivity.class));
         } else if (flag == 1) {//注册失败
             startActivity(new Intent(TeacherRegister_ThirdActivity.this,
                     TeacherRegister_FirstActivity.class));

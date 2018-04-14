@@ -13,6 +13,10 @@ import java.util.ArrayList;
 
 import mabbas007.tagsedittext.TagsEditText;
 
+/**
+ * 添加群成员
+ *
+ */
 public class GroupDetailsAddMembersActivity extends AppCompatActivity {
 
     private TagsEditText etAddMember;
@@ -36,7 +40,7 @@ public class GroupDetailsAddMembersActivity extends AppCompatActivity {
         findViewById(R.id.btn_add_members_save).setEnabled(editable);
     }
 
-   public void addMembersSave(View view){
+   public void save(View view){
        setResult(RESULT_OK, new Intent().putStringArrayListExtra("data", (ArrayList<String>) etAddMember.getTags()));
        finish();
    }

@@ -1,15 +1,17 @@
 package com.example.beikeapp.Util.ChatUtil;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.beikeapp.R;
 
+/**
+ * 群组详细信息的编辑。供修改群名和群签名。
+ *
+ */
 public class GroupDetailsEditActivity extends ChatBaseActivity{
     private EditText editText;
 

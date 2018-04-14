@@ -16,6 +16,10 @@ import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.List;
 
+/**
+ * 展示群成员列表
+ *
+ */
 public class GroupDetailsMemberListActivity extends AppCompatActivity {
 
     private List<String> memberList;
