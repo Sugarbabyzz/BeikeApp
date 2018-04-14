@@ -14,6 +14,7 @@ import com.hjm.bottomtabbar.BottomTabBar;
  *     此处不包含BottomBar的init方法。
  *     因为需要用到的getSupportFragmentManager方法不能写在静态类中。
  *     所以调用这里的静态方法前需先做一步初始化。
+ *     参考TeacherShiSheng包下TeacherMainFunction类中19-21行代码。
  */
 
 public class BottomBar {
@@ -33,22 +34,4 @@ public class BottomBar {
                 .setDividerColor(Color.parseColor("#FF0000"))
                 .setTabBarBackgroundColor(Color.parseColor("#00FF0000"));
     }
-
-    public static void setStudentBottomBar(BottomTabBar mBottomTabBar){
-
-        mBottomTabBar
-                .setImgSize(70, 70)
-                .setFontSize(14)
-                .setTabPadding(5, 0, 5)
-                .setChangeColor(Color.parseColor("#FF00F0"), Color.parseColor("#CCCCCC"))
-
-                .addTabItem("首页", R.mipmap.erweima, R.mipmap.ic_launcher, ShiShengFragment.class)
-                .addTabItem("会话", R.mipmap.ic_launcher, R.mipmap.ic_launcher_round, JiaXiaoFragment.class)
-                .addTabItem("我的", R.mipmap.ic_launcher, WoDeFragment.class)
-
-                .isShowDivider(true)
-                .setDividerColor(Color.parseColor("#FF0000"))
-                .setTabBarBackgroundColor(Color.parseColor("#00FF0000"));
-    }
-
 }

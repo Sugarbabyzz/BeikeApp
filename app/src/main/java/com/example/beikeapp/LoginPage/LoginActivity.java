@@ -7,15 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
 import com.example.beikeapp.Constant.GlobalConstant;
-import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherShiSheng.TeacherMainFunction;
+import com.example.beikeapp.TeacherShiSheng.TeacherMainActivity;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.EMCallBack;
@@ -30,6 +28,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private Button btnRegister;
     private RadioGroup rgIdentity;
+
+    private Button btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +47,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin = findViewById(R.id.btn_login);
         btnRegister = findViewById(R.id.btn_register);
         rgIdentity = findViewById(R.id.rg_identity);
+        btnLogout = findViewById(R.id.btn_logout);
         //设置按钮监听事件
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+        btnLogout.setOnClickListener(this);
     }
-
 
     /**
      * 所有点击事件
@@ -97,8 +98,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             // forget password
             case R.id.tv_forgetPsw:
-                startActivity(new Intent(LoginActivity.this,ForgetPswActivity.class));
+                startActivity(new Intent(LoginActivity.this, ForgetPswActivity.class));
                 break;
+
+            case R.id.btn_logout:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        EMClient.getInstance().logout(true);
+                    }
+                }).start();
+
             default:
                 break;
         }
@@ -115,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginAsTeacher(String account, String psw) {
 
         //在我们的服务器中登录
-        loginToUsAsTeacher(account,psw);
+        //loginToUsAsTeacher(account,psw);
         //在环信服务器中登录
         loginToHx(account,psw);
     }
@@ -167,14 +177,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 以学生身份登录至我们的服务器
      *
      * @param account 账号
-     * @param password 密码
+     * @param psw 密码
      */
-    private void loginToUsAsStudent(String account, String password) {
+    private void loginToUsAsStudent(String account, String psw) {
 
         //组装url
-        String urlString = StudentConstant.URL_Login
-                            + "?account=" + account
-                            + "&password=" + password;
+        String urlString = "**waiting**";
 
         loginTask(urlString);
     }
@@ -232,12 +240,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
-                startActivity(new Intent(LoginActivity.this, TeacherMainFunction.class));
+                startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
+                finish();
             }
 
             @Override
             public void onError(int i, String s) {
                 Log.d("TAG", "登录聊天服务器失败！");
+                Log.e("errorrr",i + ":" + s);
             }
 
             @Override

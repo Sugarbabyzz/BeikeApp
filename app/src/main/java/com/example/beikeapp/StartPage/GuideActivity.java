@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.beikeapp.Adapter.GuidePageAdapter;
-import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentRegister.StudentLogin;
 
@@ -65,7 +64,7 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
                     @Override
                     public boolean onTouch(View v, MotionEvent event){
                         //跳转到主界面
-                        startActivity(new Intent(GuideActivity.this, LoginActivity.class));
+                        startActivity(new Intent(GuideActivity.this, StudentLogin.class));
                         finish();
                         return true;
                     }

@@ -1,22 +1,32 @@
 package com.example.beikeapp.TeacherJiaXiao;
 
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.beikeapp.Adapter.GroupAdapter;
 import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.ChatUtil.ChatActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.List;
 
@@ -37,6 +47,29 @@ public class JiaXiaoFragment extends Fragment {
     private String mParam2;
 
     private ListView lvClassList;
+    private List<EMGroup> groupList;
+    private ListView lvGroup;
+    private GroupAdapter groupAdapter;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            swipeRefreshLayout.setRefreshing(false);
+            switch (msg.what) {
+                case 0:
+                    refresh();
+                    break;
+                case 1:
+                    Toast.makeText(getActivity(), R.string.Failed_to_get_group_chat_information, Toast.LENGTH_LONG).show();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
 
     public JiaXiaoFragment() {
         // Required empty public constructor
@@ -75,14 +108,102 @@ public class JiaXiaoFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_jiaxiao, null);
 
-        lvClassList = view.findViewById(R.id.lv_jiaXiaoClassList);
+        lvGroup = view.findViewById(R.id.lv_group_list);
+        swipeRefreshLayout = view.findViewById(R.id.group_chat_swipe_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
+                R.color.holo_orange_light, R.color.holo_red_light);
 
-        getClassList(EMClient.getInstance().getCurrentUser());
+
+        //下拉刷新群组列表
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                            handler.sendEmptyMessage(0);
+                        } catch (HyphenateException e) {
+                            e.printStackTrace();
+                            handler.sendEmptyMessage(1);
+                        }
+                    }
+                }.start();
+            }
+        });
+
+        //注册列表项的点击事件的监听
+        lvGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    // create a new group
+                    Toast.makeText(getActivity(),"create a group",Toast.LENGTH_SHORT).show();
+                } else if (position == 1) {
+                    // join a public group
+                    Toast.makeText(getActivity(),"join a public group",Toast.LENGTH_SHORT).show();
+                } else {
+                    // enter group chat
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("chatType", EaseConstant.CHATTYPE_GROUP);
+                    intent.putExtra("userId", groupAdapter.getItem(position - 2).getGroupId());
+                    startActivityForResult(intent, 0);
+                }
+            }
+
+        });
+
+        getGroupsOnCreate();
 
         return view;
     }
 
+    /**
+     * 首次创建Fragment时从环信服务器获取群组列表。
+     * 同步方法，线程中进行。
+     */
+    private void getGroupsOnCreate() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                    handler.sendEmptyMessage(0);
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                    handler.sendEmptyMessage(1);
+                }
+            }
+        }.start();
+        groupList = EMClient.getInstance().groupManager().getAllGroups();
+        groupAdapter = new GroupAdapter(getActivity(), 1, groupList);
+        lvGroup.setAdapter(groupAdapter);
+        groupAdapter.notifyDataSetChanged();
+    }
 
+    /**
+     * 刷新群组列表
+     */
+    private void refresh() {
+        groupList = EMClient.getInstance().groupManager().getAllGroups();
+        groupAdapter = new GroupAdapter(getActivity(), 1, groupList);
+        lvGroup.setAdapter(groupAdapter);
+        groupAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        refresh();
+        super.onResume();
+    }
+
+    /**
+     * 从我们的服务器获取班级列表。
+     * 暂时不用
+     * @param currentUser
+     */
     private void getClassList(String currentUser) {
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_GET_CLASS_LIST
                 + "?account=" + currentUser;
@@ -101,14 +222,21 @@ public class JiaXiaoFragment extends Fragment {
                 //获取成功,做适配
                 if (responseArray[0].equals(GlobalConstant.FLAG_SUCCESS)) {
                     //获得班级列表数组并适配至ListView中
-                    String[] classArray = responseArray[1].split(",");
+                    final String[] classArray = responseArray[1].split(",");
                     ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
-                            android.R.layout.simple_list_item_1,classArray);
+                            android.R.layout.simple_list_item_1, classArray);
                     lvClassList.setAdapter(mAdapter);
+
+                    lvClassList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        }
+                    });
                 }
                 //获取失败，提示
                 else if (responseArray[0].equals(GlobalConstant.FLAG_FAILURE)) {
-                    Toast.makeText(getContext(),"获取班级列表失败!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "获取班级列表失败!", Toast.LENGTH_SHORT).show();
                 }
             }
 

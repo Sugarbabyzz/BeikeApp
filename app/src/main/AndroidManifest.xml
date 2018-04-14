@@ -52,7 +52,6 @@
         <activity android:name=".StudentRegister.StudentRegisterAccount" />
         <activity android:name=".StudentRegister.StudentRegisterInfo" />
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
-        <activity android:name=".StudentMain.StudentMain" />
         //老师注册活动
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
@@ -85,9 +84,12 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".TeacherShiSheng.TeacherMainFunction" />
+        <activity android:name=".TeacherShiSheng.TeacherMainActivity" />
         <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
-        <activity android:name=".Util.ChatUtil.ChatDetailsEditActivity"></activity>
+        <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
+        <activity android:name=".Util.ChatUtil.ChatActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsMemberListActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsAddMembersActivity"></activity>
     </application>
 
 </manifest>

@@ -26,7 +26,8 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
     String account;
     String password;
 
-
+    //回调参数
+    private List<String> receviceData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

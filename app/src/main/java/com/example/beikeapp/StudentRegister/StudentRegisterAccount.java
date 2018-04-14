@@ -45,7 +45,8 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
 
     //
     int i = 30;
-
+    //回调参数
+    private List<String> receviceData = null;
 
 
     @Override
