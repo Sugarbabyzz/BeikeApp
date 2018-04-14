@@ -32,8 +32,8 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
     public GroupAdapter(Context context, int res, List<EMGroup> groups) {
         super(context, res, groups);
         this.inflater = LayoutInflater.from(context);
-        newGroup = "Create new group";
-        addPublicGroup = "Add public group";
+        newGroup = "建群";
+        addPublicGroup = "加群";
     }
 
     @Override
@@ -57,14 +57,14 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (getItemViewType(position) == 0) {
-            Log.d("Adapter0",position+"");
-            if (convertView == null) { //第一栏:create group
+
+            if (convertView == null) { //第一栏:建群
                 convertView = inflater.inflate(R.layout.em_row_add_group, parent, false);
             }
             ((ImageView) convertView.findViewById(R.id.avatar)).setImageResource(R.drawable.em_create_group);
             ((TextView) convertView.findViewById(R.id.name)).setText(newGroup);
-        } else if (getItemViewType(position) == 1) { // 第二栏:add group
-            Log.d("Adapter1",position+"");
+        } else if (getItemViewType(position) == 1) { // 第二栏:加群
+
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.em_row_add_group, parent, false);
             }
@@ -73,7 +73,7 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
             ((TextView) convertView.findViewById(R.id.header)).setVisibility(View.VISIBLE);
 
         } else { //第三栏开始:所在的群列表
-            Log.d("AdapterElse",position+"");
+
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.em_row_group, parent, false);
             }

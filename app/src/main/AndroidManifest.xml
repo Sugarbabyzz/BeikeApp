@@ -89,7 +89,10 @@
         <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
         <activity android:name=".Util.ChatUtil.ChatActivity" />
         <activity android:name=".Util.ChatUtil.GroupDetailsMemberListActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsAddMembersActivity"></activity>
+        <activity android:name=".Util.ChatUtil.GroupDetailsAddMembersActivity" />
+        <activity android:name=".Util.ChatUtil.NewGroupActivity" />
+        <activity android:name=".Util.ChatUtil.AddGroupActivity" />
+        <activity android:name=".Util.ChatUtil.GroupSearchedDetailsActivity"></activity>
     </application>
 
 </manifest>
