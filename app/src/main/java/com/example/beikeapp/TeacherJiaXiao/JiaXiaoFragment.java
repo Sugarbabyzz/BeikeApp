@@ -54,7 +54,7 @@ public class JiaXiaoFragment extends Fragment {
     private GroupAdapter groupAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-@SuppressLint("HandlerLeak")
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             swipeRefreshLayout.setRefreshing(false);

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private Button btnRegister;
     private RadioGroup rgIdentity;
+    private TextView tvForgetPsw;
 
     private Button btnLogout;
     @Override
@@ -51,10 +53,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnRegister = findViewById(R.id.btn_register);
         rgIdentity = findViewById(R.id.rg_identity);
         btnLogout = findViewById(R.id.btn_logout);
+        tvForgetPsw = findViewById(R.id.tv_forgetPsw);
         //设置按钮监听事件
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
+        tvForgetPsw.setOnClickListener(this);
+
     }
 
     /**
@@ -247,7 +252,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
-                startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
+                startActivity(new Intent(LoginActivity.this, StudentMain.class));
                 finish();
             }
 
