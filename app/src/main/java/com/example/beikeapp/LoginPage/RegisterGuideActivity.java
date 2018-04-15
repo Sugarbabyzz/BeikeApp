@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.beikeapp.ParentRegister.parent_1_register_select_student;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentRegister.StudentCheckCode;
 import com.example.beikeapp.TeacherRegister.TeacherRegister_FirstActivity;
@@ -44,7 +45,8 @@ public class RegisterGuideActivity extends AppCompatActivity implements View.OnC
                         TeacherRegister_FirstActivity.class));
                 break;
             case R.id.btn_asParent:
-                //later...or never..?come on.
+                startActivity(new Intent(RegisterGuideActivity.this,
+                        parent_1_register_select_student.class));
                 break;
         }
     }

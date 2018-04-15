@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
 import com.example.beikeapp.Constant.GlobalConstant;
+import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
@@ -193,12 +194,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * 以家长身份登录至我们的服务器
      * @param account 账号
-     * @param psw 密码
+     * @param password 密码
      */
-    private void loginToUsAsParent(String account, String psw) {
+    private void loginToUsAsParent(String account, String password) {
 
         //组装url
-        String urlString = "**waiting**";
+        String urlString = ParentConstant.URL_Login
+                + "?account=" + account
+                + "&password=" + password;
 
         loginTask(urlString);
     }
