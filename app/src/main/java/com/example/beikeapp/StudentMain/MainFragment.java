@@ -86,12 +86,13 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
             case R.id.btn_do_homework:
                 Toast.makeText(getActivity(), "Do homework Clicked ", Toast.LENGTH_SHORT).show();
-
+                break;
             case R.id.btn_search_exercise:
                 Toast.makeText(getActivity(), "Search exercie Clicked", Toast.LENGTH_SHORT).show();
-
+                break;
             case R.id.btn_do_exercise:
                 Toast.makeText(getActivity(), "Do exercise Clicked", Toast.LENGTH_SHORT).show();
+                break;
         }
 
     }
