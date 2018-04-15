@@ -247,7 +247,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
-                startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
+                startActivity(new Intent(LoginActivity.this, StudentMain.class));
                 finish();
             }
 
