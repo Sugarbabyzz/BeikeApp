@@ -34,6 +34,4 @@ public class StudentRegisterSuccess extends BaseActivity implements View.OnClick
                 startActivity(new Intent(StudentRegisterSuccess.this, StudentMain.class));
         }
     }
-
-
 }
