@@ -10,19 +10,18 @@ import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.BottomBar;
 import com.hjm.bottomtabbar.BottomTabBar;
 
-public class StudentMain extends BaseActivity implements OnClickListener{
+public class StudentMain extends BaseActivity{
 
-
+    private BottomTabBar btmBar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_main);
 
-
-    }
-
-    @Override
-    public void onClick(View view) {
+        //加载底部导航
+        btmBar = findViewById(R.id.student_bottom_tab_bar);
+        btmBar.init(getSupportFragmentManager(),720,1280);
+        BottomBar.setStudentBottomBar(btmBar);
 
     }
 }

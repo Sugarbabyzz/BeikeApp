@@ -3,6 +3,10 @@ package com.example.beikeapp.Util;
 import android.graphics.Color;
 
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentClass.ClassFragment;
+import com.example.beikeapp.StudentMain.MainFragment;
+import com.example.beikeapp.StudentNotify.NotifyFragment;
+import com.example.beikeapp.StudentSetting.SettingFragment;
 import com.example.beikeapp.TeacherJiaXiao.JiaXiaoFragment;
 import com.example.beikeapp.TeacherShiSheng.ShiShengFragment;
 import com.example.beikeapp.TeacherWoDe.WoDeFragment;
@@ -33,5 +37,24 @@ public class BottomBar {
                 .isShowDivider(true)
                 .setDividerColor(Color.parseColor("#FF0000"))
                 .setTabBarBackgroundColor(Color.parseColor("#00FF0000"));
+    }
+
+    public static void setStudentBottomBar(BottomTabBar mBottomTabBar){
+
+        mBottomTabBar
+                .setImgSize(70, 70)
+                .setFontSize(14)
+                .setTabPadding(5, 0, 5)
+                .setChangeColor(Color.parseColor("#FF00F0"),Color.parseColor("#CCCCCC"))
+
+                .addTabItem("首页", R.mipmap.erweima, R.mipmap.ic_launcher, MainFragment.class)
+                .addTabItem("会话", R.mipmap.ic_launcher,R.mipmap.ic_launcher_round, NotifyFragment.class)
+                .addTabItem("班级", R.mipmap.ic_launcher, R.mipmap.erweima, ClassFragment.class)
+                .addTabItem("我的", R.mipmap.erweima, R.mipmap.ic_launcher, SettingFragment.class)
+
+                .isShowDivider(true)
+                .setDividerColor(Color.parseColor("#FF0000"))
+                .setTabBarBackgroundColor(Color.parseColor("#00FF0000"));
+
     }
 }
