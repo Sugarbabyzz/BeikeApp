@@ -41,11 +41,13 @@ public class parent_1_register_select_student extends BaseActivity implements Vi
         switch (view.getId()){
             case R.id.button_select_student_info:
                 if (!stuId.getText().toString().equals("")){
-
+                    if(!stuName.getText().toString().equals("")){
                         checkCode(stuId.getText().toString());
-
+                    }else{
+                        Toast.makeText(parent_1_register_select_student.this, "学生姓名不能为空！", Toast.LENGTH_SHORT).show();
+                    }
                 }else {
-                    Toast.makeText(parent_1_register_select_student.this, "学生ID不能为空！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(parent_1_register_select_student.this, "学生ID不能为空！", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

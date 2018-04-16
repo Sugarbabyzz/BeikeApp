@@ -52,6 +52,7 @@ public class parent_home_page extends BaseActivity {
     }
 
 
+    //此方法修改后不需要，最后删除
     private void login(String account, String password) {
        // String registerUrlStr = Constant.URL_Login + "?account=" + account + "&password=" + password;
         //new MyAsyncTask(tvResult).execute(registerUrlStr);
