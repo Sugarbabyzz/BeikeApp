@@ -14,6 +14,8 @@ import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
 
     String account;
     String password;
+    String code;
 
 
     @Override
@@ -33,9 +36,9 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_register_info);
         //获取账号与密码
-        Intent intent = getIntent();
-        account = intent.getStringExtra("account");
-        password = intent.getStringExtra("password");
+        account = getIntent().getStringExtra("account");
+        password = getIntent().getStringExtra("password");
+        code = getIntent().getStringExtra("code");
         //UI初始化
         initViews();
         //注册按钮点击事件
@@ -82,7 +85,24 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
             public void onDataReceivedSuccess(List<String> listData) {
 
                 if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
-                    startActivity(new Intent(StudentRegisterInfo.this, StudentRegisterSuccess.class));
+
+                    //注册账号至环信
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                EMClient.getInstance().createAccount(account, password);
+                            } catch (HyphenateException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+
+                    Intent intent = new Intent(StudentRegisterInfo.this, StudentRegisterSuccess.class);
+                    intent.putExtra("account", account);
+                    intent.putExtra("password", password);
+                    intent.putExtra("code", code);
+                    startActivity(intent);
                 }else {
                     Toast.makeText(StudentRegisterInfo.this, "信息注册失败，请重新注册！", Toast.LENGTH_SHORT).show();
                 }

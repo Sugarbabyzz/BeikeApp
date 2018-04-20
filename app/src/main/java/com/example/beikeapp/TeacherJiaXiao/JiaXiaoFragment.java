@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,6 @@ public class JiaXiaoFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ListView lvClassList;
     private List<EMGroup> groupList;
     private ListView lvGroup;
     private GroupAdapter groupAdapter;
@@ -227,9 +225,9 @@ public class JiaXiaoFragment extends Fragment {
                     final String[] classArray = responseArray[1].split(",");
                     ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
                             android.R.layout.simple_list_item_1, classArray);
-                    lvClassList.setAdapter(mAdapter);
+                    lvGroup.setAdapter(mAdapter);
 
-                    lvClassList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    lvGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 

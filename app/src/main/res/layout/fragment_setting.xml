@@ -134,25 +134,24 @@
             android:text="快快快"
             android:textSize="16sp"
             />
-
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="#ffffff"
-        android:padding="5dp"
+        android:padding="5dp">
 
-        >
-        <TextView
-            android:layout_marginLeft="10dp"
+        <Button
+            android:id="@+id/exit_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="啊啊啊"
-            android:textSize="16sp"
-            />
+            android:layout_marginLeft="125dp"
+            android:layout_gravity="center_vertical"
+            android:text="退出当前账号"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
