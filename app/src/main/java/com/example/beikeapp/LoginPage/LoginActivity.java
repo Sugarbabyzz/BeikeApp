@@ -246,6 +246,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * @param psw 密码
      */
     private void loginToHx(String account, String psw) {
+        //环信登录命令
         EMClient.getInstance().login(account, psw, new EMCallBack() {
             @Override
             public void onSuccess() {
@@ -264,7 +265,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onProgress(int i, String s) {
-
             }
         });
     }

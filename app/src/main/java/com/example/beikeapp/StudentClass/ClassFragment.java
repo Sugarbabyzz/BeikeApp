@@ -14,7 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.beikeapp.Adapter.GroupAdapter;
+import com.example.beikeapp.Adapter.StudentGroupAdapter;
+import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.ChatUtil.AddGroupActivity;
 import com.example.beikeapp.Util.ChatUtil.ChatActivity;
@@ -43,9 +44,10 @@ public class ClassFragment extends Fragment {
 
     private List<EMGroup> classGroupList;
     private ListView lvClassGroup;
-    private GroupAdapter groupAdapter;
+    private StudentGroupAdapter groupAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -100,10 +102,10 @@ public class ClassFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_jiaxiao, null);
+        View view = inflater.inflate(R.layout.fragment_class, null);
 
-        lvClassGroup = view.findViewById(R.id.lv_group_list);
-        swipeRefreshLayout = view.findViewById(R.id.group_chat_swipe_layout);
+        lvClassGroup = view.findViewById(R.id.class_group_list);
+        swipeRefreshLayout = view.findViewById(R.id.class_group_swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
                 R.color.holo_orange_light, R.color.holo_red_light);
 
@@ -132,19 +134,11 @@ public class ClassFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    // 建群
-                    startActivity(new Intent(getActivity(),NewGroupActivity.class));
-                } else if (position == 1) {
-                    // 加群
-                    startActivity(new Intent(getActivity(), AddGroupActivity.class));
-                } else {
                     // 进入对应群聊
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     intent.putExtra("chatType", EaseConstant.CHATTYPE_GROUP);
-                    intent.putExtra("userId", groupAdapter.getItem(position - 2).getGroupId());
+                    intent.putExtra("userId", groupAdapter.getItem(position).getGroupId());
                     startActivityForResult(intent, 0);
-                }
             }
 
         });
@@ -172,7 +166,7 @@ public class ClassFragment extends Fragment {
             }
         }.start();
         classGroupList = EMClient.getInstance().groupManager().getAllGroups();
-        groupAdapter = new GroupAdapter(getActivity(), 1, classGroupList);
+        groupAdapter = new StudentGroupAdapter(getActivity(), 1, classGroupList);
         lvClassGroup.setAdapter(groupAdapter);
         groupAdapter.notifyDataSetChanged();
     }
@@ -182,9 +176,10 @@ public class ClassFragment extends Fragment {
      */
     private void refresh() {
         classGroupList = EMClient.getInstance().groupManager().getAllGroups();
-        groupAdapter = new GroupAdapter(getActivity(), 1, classGroupList);
+        groupAdapter = new StudentGroupAdapter(getActivity(), 1, classGroupList);
         lvClassGroup.setAdapter(groupAdapter);
         groupAdapter.notifyDataSetChanged();
+
     }
 
 }

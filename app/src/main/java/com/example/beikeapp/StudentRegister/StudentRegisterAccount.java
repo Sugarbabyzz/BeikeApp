@@ -44,6 +44,7 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
     private EditText stuSetPassword;
 
     //
+    String code;
     int i = 30;
 
 
@@ -52,6 +53,8 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_register_phone);
+
+        code = getIntent().getStringExtra("code");
 
         init();
     }
@@ -117,6 +120,17 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
                 break;
 
             case R.id.btn_phone:
+                /**
+                 * test
+                 */
+                /*
+                Intent intent = new Intent(StudentRegisterAccount.this, StudentRegisterInfo.class);
+                //将账号与密码参数传入下一Actiivity
+                intent.putExtra("account",stuPhoneNumber.getText().toString().trim());
+                intent.putExtra("password",stuSetPassword.getText().toString().trim());
+                intent.putExtra("code", code);
+                startActivity(intent);*/
+
                 if (stuPhoneNumber.getText().toString().equals("")) {
                     Toast.makeText(StudentRegisterAccount.this, "请进行手机验证！", Toast.LENGTH_SHORT).show();
                 } else if (stuSetPassword.getText().toString().equals("")){
@@ -124,9 +138,7 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
                 } else{
                     //将收到的验证码和手机号提交再次核对
                     SMSSDK.submitVerificationCode("86", phoneNums, VerCode.getText().toString());
-                    //createProgressBar();
                 }
-
                 break;
         }
     }
@@ -238,8 +250,9 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
                 }else if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
                     Intent intent = new Intent(StudentRegisterAccount.this, StudentRegisterInfo.class);
                     //将账号与密码参数传入下一Actiivity
-                    intent.putExtra("account",stuPhoneNumber.getText().toString());
-                    intent.putExtra("password",stuSetPassword.getText().toString());
+                    intent.putExtra("account",stuPhoneNumber.getText().toString().trim());
+                    intent.putExtra("password",stuSetPassword.getText().toString().trim());
+                    intent.putExtra("code", code);
                     startActivity(intent);
                 }else {
                     Toast.makeText(StudentRegisterAccount.this, "注册失败！", Toast.LENGTH_SHORT).show();
