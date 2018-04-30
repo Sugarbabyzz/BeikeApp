@@ -19,14 +19,11 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by m1821 on 2018/3/31.
- */
 
 public class MyApplication extends Application {
 
-    public static final String APP_ID = "2882303761517775040";
-    public static final String APP_KEY = "5401777562040";
+    public static final String XMPushAPP_ID = "2882303761517775040";
+    public static final String XMPushAPP_KEY = "5401777562040";
     public static final String TAG = "XiaomiPush********!!!!";
 
 
@@ -37,9 +34,9 @@ public class MyApplication extends Application {
         //mob初始化
         MobSDK.init(this);
 
-        //初始化push推送服务
+        //初始化小米push推送服务
         if(shouldInit()) {
-            MiPushClient.registerPush(this, APP_ID, APP_KEY);
+            MiPushClient.registerPush(this, XMPushAPP_ID, XMPushAPP_KEY);
         }
         //打开Log
         LoggerInterface newLogger = new LoggerInterface() {
@@ -68,6 +65,10 @@ public class MyApplication extends Application {
         //EMClient.getInstance().setDebugMode(true);
     }
 
+    /**
+     * 判断小米推送是否需要初始化
+     * @return
+     */
     private boolean shouldInit() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
         List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
@@ -81,6 +82,9 @@ public class MyApplication extends Application {
         return false;
     }
 
+    /**
+     * 初始化环信
+     */
     private void initECApp() {
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证

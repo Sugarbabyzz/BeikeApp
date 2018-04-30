@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     //环信要求的权限
-    <!-- Required -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -24,7 +23,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
-    //小米推送权限
+    //小米推送要求的权限
     <permission
         android:name="com.example.beikeapp.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
@@ -64,16 +63,26 @@
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //学生主页
         <activity android:name=".StudentMain.StudentMain" />
-        //老师注册活动
+        //老师注册
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity" />
-        //家长注册活动
+        //老师主页
+        <activity android:name=".TeacherShiSheng.TeacherMainActivity" />
+        //家长注册
         <activity android:name=".ParentRegister.parent_1_register_select_student"/>
         <activity android:name=".ParentRegister.parent_2_register_info" />
         <activity android:name=".ParentRegister.parent_3_register_identify" />
         <activity android:name=".ParentRegister.parent_4_register_result" />
-        //老师群聊
+        //工具类
+        <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
+        <activity android:name=".Util.ChatUtil.ChatActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsMemberListActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsAddMembersActivity" />
+        <activity android:name=".Util.ChatUtil.NewGroupActivity" />
+        <activity android:name=".Util.ChatUtil.AddGroupActivity" />
+        <activity android:name=".Util.ChatUtil.GroupSearchedDetailsActivity" />
         //环信服务、接收器、KEY
         <!-- 设置环信应用的AppKey -->
         <meta-data
@@ -150,15 +159,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".TeacherShiSheng.TeacherMainActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
-        <activity android:name=".Util.ChatUtil.ChatActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsMemberListActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsAddMembersActivity" />
-        <activity android:name=".Util.ChatUtil.NewGroupActivity" />
-        <activity android:name=".Util.ChatUtil.AddGroupActivity" />
-        <activity android:name=".Util.ChatUtil.GroupSearchedDetailsActivity"></activity>
+
     </application>
 
 </manifest>

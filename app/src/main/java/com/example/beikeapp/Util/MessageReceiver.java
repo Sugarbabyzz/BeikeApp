@@ -11,6 +11,14 @@ import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
 import java.util.List;
 
+/**
+ * PushMesssageReceiver广播接收器
+
+ PushMessageReceiver是一个抽象的BroadcastReceiver类，
+  它的用途有两种:
+    1、获取服务器推送的消息
+    2、获取调用MiPushClient方法的返回结果
+ */
 public class MessageReceiver extends PushMessageReceiver {
     private String mRegId;
     private long mResultCode = -1;
@@ -25,10 +33,6 @@ public class MessageReceiver extends PushMessageReceiver {
 
     /**
      * onReceivePassThroughMessage用来接收服务器发送的透传消息，
-     * onNotificationMessageClicked用来接收服务器发来的通知栏消息（用户点击通知栏时触发），
-     * onNotificationMessageArrived用来接收服务器发来的通知栏消息（消息到达客户端时触发，并且可以接收应用在前台时不弹出通知的通知消息），
-     * onCommandResult用来接收客户端向服务器发送命令消息后返回的响应，
-     * onReceiveRegisterResult用来接受客户端向服务器发送注册命令消息后返回的响应。
      * @param context
      * @param message
      */
@@ -43,6 +47,12 @@ public class MessageReceiver extends PushMessageReceiver {
             mUserAccount=message.getUserAccount();
         }
     }
+
+    /**
+     * onNotificationMessageClicked用来接收服务器发来的通知栏消息（用户点击通知栏时触发）
+     * @param context
+     * @param message
+     */
     @Override
     public void onNotificationMessageClicked(Context context, MiPushMessage message) {
         mMessage = message.getContent();
@@ -54,6 +64,12 @@ public class MessageReceiver extends PushMessageReceiver {
             mUserAccount=message.getUserAccount();
         }
     }
+
+    /**
+     * onNotificationMessageArrived用来接收服务器发来的通知栏消息（消息到达客户端时触发，并且可以接收应用在前台时不弹出通知的通知消息）
+     * @param context
+     * @param message
+     */
     @Override
     public void onNotificationMessageArrived(Context context, MiPushMessage message) {
         mMessage = message.getContent();
@@ -65,6 +81,12 @@ public class MessageReceiver extends PushMessageReceiver {
             mUserAccount=message.getUserAccount();
         }
     }
+
+    /**
+     * onCommandResult用来接收客户端向服务器发送命令消息后返回的响应
+     * @param context
+     * @param message
+     */
     @Override
     public void onCommandResult(Context context, MiPushCommandMessage message) {
         String command = message.getCommand();
@@ -98,6 +120,12 @@ public class MessageReceiver extends PushMessageReceiver {
             }
         }
     }
+
+    /**
+     * onReceiveRegisterResult用来接受客户端向服务器发送注册命令消息后返回的响应
+     * @param context
+     * @param message
+     */
     @Override
     public void onReceiveRegisterResult(Context context, MiPushCommandMessage message) {
         String command = message.getCommand();
