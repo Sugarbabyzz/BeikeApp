@@ -121,7 +121,8 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
 
             case R.id.btn_phone:
                 /**
-                 * test
+                 * testing
+                 * 正式版中需要改回手机号注册！！！！！
                  */
                 /*
                 Intent intent = new Intent(StudentRegisterAccount.this, StudentRegisterInfo.class);

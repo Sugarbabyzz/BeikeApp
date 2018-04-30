@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.beikeapp">
+    <!--小米推送服务SDK支持的最低安卓版本为2-->
+    <uses-sdk  android:minSdkVersion="8"/>
     //入网许可
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     //环信要求的权限
-    <!-- Required -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -21,6 +22,14 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    //小米推送要求的权限
+    <permission
+        android:name="com.example.beikeapp.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+    <!--这里com.xiaomi.mipushdemo改成app的包名-->
+    <uses-permission android:name="com.example.beikeapp.permission.MIPUSH_RECEIVE" />
+    <!--这里com.xiaomi.mipushdemo改成app的包名-->
 
     <application
         android:name=".InitApp.MyApplication"
@@ -54,16 +63,26 @@
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //学生主页
         <activity android:name=".StudentMain.StudentMain" />
-        //老师注册活动
+        //老师注册
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity" />
-        //家长注册活动
+        //老师主页
+        <activity android:name=".TeacherShiSheng.TeacherMainActivity" />
+        //家长注册
         <activity android:name=".ParentRegister.parent_1_register_select_student"/>
         <activity android:name=".ParentRegister.parent_2_register_info" />
         <activity android:name=".ParentRegister.parent_3_register_identify" />
         <activity android:name=".ParentRegister.parent_4_register_result" />
-        //老师群聊
+        //工具类
+        <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
+        <activity android:name=".Util.ChatUtil.ChatActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsMemberListActivity" />
+        <activity android:name=".Util.ChatUtil.GroupDetailsAddMembersActivity" />
+        <activity android:name=".Util.ChatUtil.NewGroupActivity" />
+        <activity android:name=".Util.ChatUtil.AddGroupActivity" />
+        <activity android:name=".Util.ChatUtil.GroupSearchedDetailsActivity" />
         //环信服务、接收器、KEY
         <!-- 设置环信应用的AppKey -->
         <meta-data
@@ -90,16 +109,57 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        //小米推送
+        <service
+            android:name="com.xiaomi.push.service.XMPushService"
+            android:enabled="true"
+            android:process=":pushservice" />
+        <service
+            android:name="com.xiaomi.push.service.XMJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":pushservice" /> <!--注：此service必须在3.0.1版本以后（包括3.0.1版本）加入-->
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" /> <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.PingReceiver"
+            android:exported="false"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.xiaomi.push.PING_TIMER" />
+            </intent-filter>
+        </receiver>
+        //小米广播
+        <receiver
+            android:exported="true"
+            android:name="com.example.beikeapp.Util.MessageReceiver">
+            <!--这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名-->
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR" />
+            </intent-filter>
+        </receiver>
 
-        <activity android:name=".TeacherShiSheng.TeacherMainActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
-        <activity android:name=".Util.ChatUtil.ChatActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsMemberListActivity" />
-        <activity android:name=".Util.ChatUtil.GroupDetailsAddMembersActivity" />
-        <activity android:name=".Util.ChatUtil.NewGroupActivity" />
-        <activity android:name=".Util.ChatUtil.AddGroupActivity" />
-        <activity android:name=".Util.ChatUtil.GroupSearchedDetailsActivity"></activity>
+
     </application>
 
 </manifest>

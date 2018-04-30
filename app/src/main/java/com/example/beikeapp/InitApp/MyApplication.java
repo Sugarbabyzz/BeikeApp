@@ -2,7 +2,9 @@ package com.example.beikeapp.InitApp;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Process;
 import android.util.Log;
 
 
@@ -10,15 +12,21 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.EaseUI;
 import com.mob.MobSDK;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by m1821 on 2018/3/31.
- */
 
 public class MyApplication extends Application {
+
+    public static final String XMPushAPP_ID = "2882303761517775040";
+    public static final String XMPushAPP_KEY = "5401777562040";
+    public static final String TAG = "XiaomiPush********!!!!";
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,13 +34,57 @@ public class MyApplication extends Application {
         //mob初始化
         MobSDK.init(this);
 
+        //初始化小米push推送服务
+        if(shouldInit()) {
+            MiPushClient.registerPush(this, XMPushAPP_ID, XMPushAPP_KEY);
+        }
+        //打开Log
+        LoggerInterface newLogger = new LoggerInterface() {
+
+            @Override
+            public void setTag(String tag) {
+                // ignore
+            }
+
+            @Override
+            public void log(String content, Throwable t) {
+                Log.d(TAG, content, t);
+            }
+
+            @Override
+            public void log(String content) {
+                Log.d(TAG, content);
+            }
+        };
+        Logger.setLogger(this, newLogger);
+
         //环信初始化
         initECApp();
 
 
-        EMClient.getInstance().setDebugMode(true);
+        //EMClient.getInstance().setDebugMode(true);
     }
 
+    /**
+     * 判断小米推送是否需要初始化
+     * @return
+     */
+    private boolean shouldInit() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 初始化环信
+     */
     private void initECApp() {
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
@@ -41,8 +93,6 @@ public class MyApplication extends Application {
         options.setAutoTransferMessageAttachments(true);
         // 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
         options.setAutoDownloadThumbnail(true);
-//
-
 
         //easeUI 初始化
         options.setAcceptInvitationAlways(false);
