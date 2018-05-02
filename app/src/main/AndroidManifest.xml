@@ -27,9 +27,7 @@
     <permission
         android:name="com.example.beikeapp.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
-    <!--这里com.xiaomi.mipushdemo改成app的包名-->
     <uses-permission android:name="com.example.beikeapp.permission.MIPUSH_RECEIVE" />
-    <!--这里com.xiaomi.mipushdemo改成app的包名-->
 
     <application
         android:name=".InitApp.MyApplication"
@@ -63,6 +61,8 @@
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //学生主页
         <activity android:name=".StudentMain.StudentMain" />
+        <activity android:name=".StudentMain.Activity.SearchActivity" />    //搜题
+        <activity android:name=".StudentMain.Activity.DetailActivity" />    //搜题结果
         //老师注册
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
