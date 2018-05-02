@@ -1,6 +1,7 @@
 package com.example.beikeapp.StudentMain;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentMain.Activity.SearchActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +28,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private String mParam1;
     private String mParam2;
 
+    //UI声明
     private Button btnHomework;
     private Button btnSearchExercise;
     private Button btnDoExercise;
@@ -70,6 +73,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, null);
+        //按钮注册监听
         btnHomework = (Button) view.findViewById(R.id.btn_do_homework);
         btnSearchExercise = (Button) view.findViewById(R.id.btn_search_exercise);
         btnDoExercise = (Button) view.findViewById(R.id.btn_do_exercise);
@@ -88,7 +92,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                 Toast.makeText(getActivity(), "Do homework Clicked ", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_search_exercise:
-                Toast.makeText(getActivity(), "Search exercie Clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.btn_do_exercise:
                 Toast.makeText(getActivity(), "Do exercise Clicked", Toast.LENGTH_SHORT).show();
