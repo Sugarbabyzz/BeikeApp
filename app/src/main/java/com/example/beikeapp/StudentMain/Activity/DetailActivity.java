@@ -106,10 +106,12 @@ public class DetailActivity extends AppCompatActivity {
                     fabcollect.setImageResource(R.drawable.star_uncollected);
                     Toast.makeText(DetailActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
                     ToolHelper.excuteDB(DetailActivity.this, "delete from collection where qid=" + qid);
+                    isCollected = false;
                 } else {
                     fabcollect.setImageResource(R.drawable.star_collected);
                     Toast.makeText(DetailActivity.this, "成功收藏", Toast.LENGTH_SHORT).show();
                     ToolHelper.excuteDB(DetailActivity.this, "insert into collection (_id,qid) values (" + (Math.random()*10000) + "," + qid + ")");
+                    isCollected = true ;
                 }
             }
         });
