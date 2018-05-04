@@ -16,8 +16,7 @@ import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.StudentMain.StudentMain;
-import com.example.beikeapp.TeacherShiSheng.TeacherMainActivity;
+import com.example.beikeapp.TeacherMain.TeacherMainActivity;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.EMCallBack;
@@ -253,7 +252,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
-                startActivity(new Intent(LoginActivity.this, StudentMain.class));
+                startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
                 finish();
             }
 

@@ -12,5 +12,7 @@ public class TeacherConstant {
     public static final String URL_LOGIN = "LoginServlet";
     public static final String URL_CHANGE_PSW = "ChangePswServlet";
     public static final String URL_GET_CLASS_LIST = "GetClassListServlet";
+    public static final String URL_GET_DETAILED_INFO = "GetDetailedInfoServlet";
+    public static final String URL_GET_GENERAL_INFO = "GetGeneralInfoServlet";
 
 }

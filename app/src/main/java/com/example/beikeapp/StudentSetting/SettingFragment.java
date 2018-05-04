@@ -44,7 +44,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingFragment.
+     * @return A new instance of fragment MyFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static SettingFragment newInstance(String param1, String param2) {

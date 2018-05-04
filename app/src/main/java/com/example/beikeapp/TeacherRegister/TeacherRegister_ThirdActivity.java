@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherShiSheng.TeacherMainActivity;
+import com.example.beikeapp.TeacherMain.TeacherMainActivity;
 
 public class TeacherRegister_ThirdActivity extends AppCompatActivity implements View.OnClickListener {
 

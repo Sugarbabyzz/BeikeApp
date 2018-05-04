@@ -1,4 +1,4 @@
-package com.example.beikeapp.TeacherWoDe;
+package com.example.beikeapp.TeacherMain;
 
 
 import android.os.Bundle;
@@ -6,16 +6,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.beikeapp.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WoDeFragment#newInstance} factory method to
+ * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WoDeFragment extends Fragment {
+public class MainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -25,8 +27,9 @@ public class WoDeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private ListView lvFunctionList;
 
-    public WoDeFragment() {
+    public MainFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +39,11 @@ public class WoDeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment WoDeFragment.
+     * @return A new instance of fragment MainFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static WoDeFragment newInstance(String param1, String param2) {
-        WoDeFragment fragment = new WoDeFragment();
+    public static MainFragment newInstance(String param1, String param2) {
+        MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,8 +63,20 @@ public class WoDeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wode, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_teacher_main,null);
+        initView(view);
+
+        return view;
     }
+
+    private void initView(View view) {
+        lvFunctionList = view.findViewById(R.id.lv_shiShengFunctionList);
+        String[] functionList = new String[]{"发布通知","发布作业","发布评教","作业完成情况","师生群聊"};
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1,functionList);
+        lvFunctionList.setAdapter(mAdapter);
+    }
+
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 
 import com.andreabaccega.widget.FormEditText;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -32,6 +33,8 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
     private FormEditText etName;
     private FormEditText etSchool;
 
+    private RadioGroup rgGender;
+
     private Button registerBtn;
     private Button addClassBtn;
     //滑动选择器，用于选择班级
@@ -52,6 +55,7 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
         password = intent.getStringExtra("password");
         etName = findViewById(R.id.et_name);
         etSchool = findViewById(R.id.et_school);
+        rgGender = findViewById(R.id.rg_teacher_gender);
         registerBtn = findViewById(R.id.button_register);
         addClassBtn = findViewById(R.id.button_addClass);
         addClassBtn.setOnClickListener(this);
@@ -66,7 +70,7 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
             case R.id.button_register:
                 String name = etName.getText().toString();
                 String school = etSchool.getText().toString();
-
+                String gender = rgGender.getCheckedRadioButtonId() == R.id.rb_male?"男":"女";
                 //从tagsList获取List并转换成String类型，用","隔开
                 List<String> tagsList = mTagsEdit.getTags();
                 String classes = StringUtils.join(tagsList, ",");
@@ -74,7 +78,7 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
                 //注册至环信后台
                 registerToHX(phoneNumber, password);
                 //注册至我们自己的服务器
-                registerToUs(name, school, classes);
+                registerToUs(name, gender,school, classes);
 
                 break;
             case R.id.button_addClass:
@@ -152,11 +156,12 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
 
     }
 
-    public void registerToUs(String name, String school, String classes) {
+    public void registerToUs(String name, String gender,String school, String classes) {
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_REGISTER
                 + "?phoneNumber=" + phoneNumber
                 + "&password=" + password
                 + "&name=" + name
+                + "&gender=" + gender
                 + "&school=" + school
                 + "&classes=" + classes;
         MyAsyncTask a = new MyAsyncTask(this);

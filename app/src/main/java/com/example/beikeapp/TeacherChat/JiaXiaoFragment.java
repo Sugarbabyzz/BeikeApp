@@ -1,4 +1,4 @@
-package com.example.beikeapp.TeacherJiaXiao;
+package com.example.beikeapp.TeacherChat;
 
 
 import android.annotation.SuppressLint;
@@ -106,7 +106,7 @@ public class JiaXiaoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_jiaxiao, null);
+        View view = inflater.inflate(R.layout.fragment_teacher_chat, null);
 
         lvGroup = view.findViewById(R.id.lv_group_list);
         swipeRefreshLayout = view.findViewById(R.id.group_chat_swipe_layout);
