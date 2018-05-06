@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.beikeapp">
     <!--小米推送服务SDK支持的最低安卓版本为2-->
-    <uses-sdk  android:minSdkVersion="8"/>
+    <uses-sdk android:minSdkVersion="8" />
     //入网许可
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -40,16 +40,20 @@
         tools:replace="android:name">
         //活动注册
         //启动页
-        <activity android:name=".StartPage.WelcomeActivity" />
-        //引导页
-        <activity android:name=".StartPage.GuideActivity" />
-        //登录页
-        <activity android:name=".LoginPage.LoginActivity">
+        <activity android:name=".StartPage.WelcomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        //引导页
+        <activity android:name=".StartPage.GuideActivity" />
+        //登录页
+        <activity android:name=".LoginPage.LoginActivity">
+
         </activity>
         <activity android:name=".LoginPage.RegisterGuideActivity" />
         <activity android:name=".LoginPage.ForgetPswActivity" />
@@ -61,8 +65,16 @@
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //学生主页
         <activity android:name=".StudentMain.StudentMain" />
-        <activity android:name=".StudentMain.Activity.SearchActivity" />    //搜题
-        <activity android:name=".StudentMain.Activity.DetailActivity" />    //搜题结果
+        <activity android:name=".StudentMain.Activity.SearchActivity" />
+        //搜题
+        <activity android:name=".StudentMain.Activity.DetailActivity" />
+        //搜题结果
+        <activity android:name=".StudentMain.Activity.ExerciseMainActivity" />
+        <activity android:name=".StudentMain.Activity.QuestionActivity" />
+        <activity android:name=".StudentMain.Activity.CardActivity" />
+        <activity android:name=".StudentMain.Activity.ExamActivity" />
+        <activity android:name=".StudentMain.Activity.PracticeActivity" />
+        <activity android:name=".StudentMain.Activity.ResultActivity" />
         //老师注册
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
@@ -70,7 +82,7 @@
         //老师主页
         <activity android:name=".TeacherShiSheng.TeacherMainActivity" />
         //家长注册
-        <activity android:name=".ParentRegister.parent_1_register_select_student"/>
+        <activity android:name=".ParentRegister.parent_1_register_select_student" />
         <activity android:name=".ParentRegister.parent_2_register_info" />
         <activity android:name=".ParentRegister.parent_3_register_identify" />
         <activity android:name=".ParentRegister.parent_4_register_result" />
@@ -145,8 +157,8 @@
         </receiver>
         //小米广播
         <receiver
-            android:exported="true"
-            android:name="com.example.beikeapp.Util.MessageReceiver">
+            android:name="com.example.beikeapp.Util.MessageReceiver"
+            android:exported="true">
             <!--这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名-->
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />

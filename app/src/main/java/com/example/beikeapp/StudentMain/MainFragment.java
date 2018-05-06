@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentMain.Activity.ExerciseMainActivity;
 import com.example.beikeapp.StudentMain.Activity.SearchActivity;
 
 /**
@@ -95,7 +96,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.btn_do_exercise:
-                Toast.makeText(getActivity(), "Do exercise Clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), ExerciseMainActivity.class));
                 break;
         }
 

@@ -269,4 +269,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+
+    /**
+     * 实现再次打开app显示上次的页面
+     *
+     * @return is or not root task
+     */
+    protected boolean initRootCheck() {
+        // 判断该Activity是不是任务空间的源Activity，“非”也就是说是被系统重新实例化出来
+        if (!this.isTaskRoot()) {
+            // 如果你就放在launcher Activity中话，这里可以直接return了
+            Intent mainIntent = this.getIntent();
+            String action = mainIntent.getAction();
+            if (mainIntent.hasCategory(Intent.CATEGORY_LAUNCHER)
+                    && action != null
+                    && action.equals(Intent.ACTION_MAIN)) {
+                this.finish();
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
