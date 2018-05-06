@@ -41,19 +41,17 @@
         //活动注册
         //启动页
         <activity android:name=".StartPage.WelcomeActivity" >
+
+        </activity>
+        //引导页
+        <activity android:name=".StartPage.GuideActivity" />
+        //登录页
+        <activity android:name=".LoginPage.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-
-        //引导页
-        <activity android:name=".StartPage.GuideActivity" />
-        //登录页
-        <activity android:name=".LoginPage.LoginActivity">
-
         </activity>
         <activity android:name=".LoginPage.RegisterGuideActivity" />
         <activity android:name=".LoginPage.ForgetPswActivity" />
@@ -66,9 +64,7 @@
         //学生主页
         <activity android:name=".StudentMain.StudentMain" />
         <activity android:name=".StudentMain.Activity.SearchActivity" />
-        //搜题
-        <activity android:name=".StudentMain.Activity.DetailActivity" />
-        //搜题结果
+        <activity android:name=".StudentMain.Activity.DetailActivity"  android:launchMode="singleInstance"/>
         <activity android:name=".StudentMain.Activity.ExerciseMainActivity" />
         <activity android:name=".StudentMain.Activity.QuestionActivity" />
         <activity android:name=".StudentMain.Activity.CardActivity" />
