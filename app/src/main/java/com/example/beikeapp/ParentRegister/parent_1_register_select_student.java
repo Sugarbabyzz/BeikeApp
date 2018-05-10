@@ -42,7 +42,10 @@ public class parent_1_register_select_student extends BaseActivity implements Vi
             case R.id.button_select_student_info:
                 if (!stuId.getText().toString().equals("")){
                     if(!stuName.getText().toString().equals("")){
-                        checkCode(stuId.getText().toString());
+                       // checkCode(stuId.getText().toString());
+                        Intent intent = new Intent(parent_1_register_select_student.this, parent_2_register_info.class);
+                        startActivity(intent);
+
                     }else{
                         Toast.makeText(parent_1_register_select_student.this, "学生姓名不能为空！", Toast.LENGTH_SHORT).show();
                     }
