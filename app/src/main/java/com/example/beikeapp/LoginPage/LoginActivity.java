@@ -2,7 +2,6 @@ package com.example.beikeapp.LoginPage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,15 +16,15 @@ import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentMain.StudentMain;
-import com.example.beikeapp.TeacherShiSheng.TeacherMainActivity;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private FormEditText etAccount;
     private FormEditText etPsw;
@@ -136,6 +135,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //loginToUsAsTeacher(account,psw);
         //在环信服务器中登录
         loginToHx(account,psw);
+        //基类存储身份
+        BaseId = "teacher";
     }
 
     /**
@@ -150,6 +151,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginToUsAsStudent(account,psw);
         //在环信服务器中登录
         loginToHx(account,psw);
+        //基类存储身份
+        BaseId = "student";
     }
 
     /**
@@ -161,6 +164,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginAsParent(String account, String psw) {
         loginToUsAsParent(account,psw);
         loginToHx(account,psw);
+        //基类存储身份
+        BaseId = "parent";
     }
 
 

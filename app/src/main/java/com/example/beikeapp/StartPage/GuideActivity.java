@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.beikeapp.Adapter.GuidePageAdapter;
 import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
-import com.example.beikeapp.StudentRegister.StudentLogin;
 
 import java.util.ArrayList;
 import java.util.Timer;

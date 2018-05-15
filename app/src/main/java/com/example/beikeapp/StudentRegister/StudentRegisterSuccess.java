@@ -1,22 +1,16 @@
 package com.example.beikeapp.StudentRegister;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentMain.StudentMain;
-import com.example.beikeapp.TeacherShiSheng.TeacherMainActivity;
 import com.example.beikeapp.Util.BaseActivity;
-import com.example.beikeapp.Util.ChatUtil.GroupSearchedDetailsActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 
 public class StudentRegisterSuccess extends BaseActivity implements View.OnClickListener {
 

@@ -10,6 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
 
+    //在基类存下用户的身份
+    // teacher/student/parent
+    protected static String BaseId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

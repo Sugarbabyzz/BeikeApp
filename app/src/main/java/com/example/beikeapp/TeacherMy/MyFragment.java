@@ -1,4 +1,4 @@
-package com.example.beikeapp.StudentSetting;
+package com.example.beikeapp.TeacherMy;
 
 
 import android.app.Activity;
@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.StudentMain.StudentMain;
+import com.example.beikeapp.TeacherMain.TeacherMainActivity;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.example.beikeapp.Util.ProfileUtil.ProfileActivity;
@@ -25,12 +24,13 @@ import com.hyphenate.chat.EMClient;
 
 import java.util.List;
 
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SettingFragment#newInstance} factory method to
+ * Use the {@link MyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingFragment extends Fragment implements View.OnClickListener{
+public class MyFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,8 +40,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
     private String mParam1;
     private String mParam2;
 
-    private Button btnExitAccount;
-
     String id; // 用户身份
     String name,gender,school,classes;
     RelativeLayout rlProfile;
@@ -49,7 +47,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
     TextView tvName;
     ImageView ivPhoto;
 
-    public SettingFragment() {
+    public MyFragment() {
         // Required empty public constructor
     }
 
@@ -62,8 +60,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment MyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SettingFragment newInstance(String param1, String param2) {
-        SettingFragment fragment = new SettingFragment();
+    public static MyFragment newInstance(String param1, String param2) {
+        MyFragment fragment = new MyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,6 +76,31 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    /**
+     * sdk api >= 23, 执行onAttach(context)，不执行onAttach(Activity activity)
+     * [注]onAttach先于onCreate方法调用
+     * 故id字段一开始就获取到了
+     * @param context
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        // 获取到身份
+        id = ((TeacherMainActivity)context).getBaseId();
+
+    }
+
+    /**
+     * sdk api < 23, 执行onAttach(activity)，不执行onAttach(Context context)
+     * @param activity
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        //获取到身份
+        id = ((TeacherMainActivity)activity).getBaseId();
     }
 
     @Override
@@ -139,30 +162,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
         rlSetting.setOnClickListener(this);
     }
 
-    /**
-     * sdk api >= 23, 执行onAttach(context)，不执行onAttach(Activity activity)
-     * [注]onAttach先于onCreate方法调用
-     * 故id字段一开始就获取到了
-     * @param context
-     */
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        // 获取到身份
-        id = ((StudentMain)context).getBaseId();
-
-    }
-
-    /**
-     * sdk api < 23, 执行onAttach(activity)，不执行onAttach(Context context)
-     * @param activity
-     */
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        //获取到身份
-        id = ((StudentMain)activity).getBaseId();
-    }
 
     @Override
     public void onClick(View view) {

@@ -18,7 +18,6 @@ import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
-import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 
 import java.util.List;
@@ -212,24 +211,23 @@ public class TeacherRegister_FirstActivity extends AppCompatActivity implements 
     }
 
     //查数据库判断是否存在
-    public void isExisted(final String phoneNumber) {
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_IS_EXISTED + "?phoneNumber=" + phoneNumber;
+    public void isExisted(final String account) {
+        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_IS_EXISTED + "?account=" + account;
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(urlString);
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-
                 //手机号已注册，提示
                 if (listData.get(0).equals(GlobalConstant.FLAG_YES)) {
                     Toast.makeText(TeacherRegister_FirstActivity.this,
                             "手机号已注册!", Toast.LENGTH_SHORT).show();
                 }
                 //手机号尚未注册，进入下一页面
-                else if (listData.toString().equals(GlobalConstant.FLAG_NO)) {
+                else if (listData.get(0).equals(GlobalConstant.FLAG_NO)) {
                     Intent intent = new Intent(TeacherRegister_FirstActivity.this,
                             TeacherRegister_SecondActivity.class);
-                    intent.putExtra("phoneNumber", phoneNumber);
+                    intent.putExtra("account", account);
                     intent.putExtra("password", password);
                     startActivity(intent);
                 }

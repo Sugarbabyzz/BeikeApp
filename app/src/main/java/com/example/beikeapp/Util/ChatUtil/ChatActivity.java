@@ -2,10 +2,9 @@ package com.example.beikeapp.Util.ChatUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherJiaXiao.JiaXiaoFragment;
+import com.example.beikeapp.TeacherChat.JiaXiaoFragment;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 

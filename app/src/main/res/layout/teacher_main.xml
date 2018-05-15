@@ -8,20 +8,20 @@
     <!--<fragment-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/fragment_shisheng"-->
-        <!--class="com.example.beikeapp.TeacherShiSheng.ShiShengFragment"/>-->
+        <!--android:id="@fragment_teacher_mainheng"-->
+        <!--class="com.example.beikeapp.TeacherShiShMainFragmentment"/>-->
 
     <!--<fragment-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/fragment_jiaxiao"-->
+        <!--android:id="@fragment_teacher_chatxiao"-->
         <!--class="com.example.beikeapp.TeacherJiaXiao.JiaXiaoFragment"/>-->
 
     <!--<fragment-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/fragment_wode"-->
-        <!--class="com.example.beikeapp.TeacherWoDe.WoDeFragment"/>-->
+        <!--android:id="@fragment_teacher_profilewode"-->
+        <!--class="com.example.beikeapp.TeacherWInfoFragmentment"/>-->
 
     <com.hjm.bottomtabbar.BottomTabBar
         android:id="@+id/bottom_tab_bar"

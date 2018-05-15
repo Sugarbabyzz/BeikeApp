@@ -15,11 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.beikeapp.Adapter.StudentGroupAdapter;
-import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
-import com.example.beikeapp.Util.ChatUtil.AddGroupActivity;
 import com.example.beikeapp.Util.ChatUtil.ChatActivity;
-import com.example.beikeapp.Util.ChatUtil.NewGroupActivity;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.easeui.EaseConstant;

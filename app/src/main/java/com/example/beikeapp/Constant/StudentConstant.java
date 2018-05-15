@@ -11,5 +11,7 @@ public class StudentConstant {
     public static String URL_Login = URL + "StudentLoginServlet";
     public static String URL_CheckCode = URL + "StudentCheckCodeServlet";
     public static String URL_RegisterAccount = URL + "StudentRegisterAccountServlet";
+    public static String URL_GetGeneralInfo = URL + "StudentGetGeneralInfoServlet";
+    public static String URL_GetDetailedInfo = URL + "StudentGetDetailedInfoServlet";
 
 }

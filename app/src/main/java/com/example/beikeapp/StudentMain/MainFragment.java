@@ -44,7 +44,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MainFragment.
+     * @return A new instance of fragment TeacherMainFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static MainFragment newInstance(String param1, String param2) {

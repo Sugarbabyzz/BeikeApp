@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
-import com.example.beikeapp.StudentRegister.StudentLogin;
 
 /**
  * Created by SugarSugar on 2018/3/31.

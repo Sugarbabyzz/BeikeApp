@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.beikeapp">
-    <!--小米推送服务SDK支持的最低安卓版本为2-->
-    <uses-sdk  android:minSdkVersion="8"/>
+    package="com.example.beikeapp"> <!-- 小米推送服务SDK支持的最低安卓版本为2 -->
+    <uses-sdk android:minSdkVersion="8" />
     //入网许可
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -68,9 +67,9 @@
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity" />
         //老师主页
-        <activity android:name=".TeacherShiSheng.TeacherMainActivity" />
+        <activity android:name=".TeacherMain.TeacherMainActivity" />
         //家长注册
-        <activity android:name=".ParentRegister.parent_1_register_select_student"/>
+        <activity android:name=".ParentRegister.parent_1_register_select_student" />
         <activity android:name=".ParentRegister.parent_2_register_info" />
         <activity android:name=".ParentRegister.parent_3_register_identify" />
         <activity android:name=".ParentRegister.parent_4_register_result" />
@@ -119,19 +118,20 @@
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE"
-            android:process=":pushservice" /> <!--注：此service必须在3.0.1版本以后（包括3.0.1版本）加入-->
+            android:process=":pushservice" /> <!-- 注：此service必须在3.0.1版本以后（包括3.0.1版本）加入 -->
         <service
             android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
             android:exported="true" />
         <service
             android:name="com.xiaomi.mipush.sdk.MessageHandleService"
-            android:enabled="true" /> <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
+            android:enabled="true" /> <!-- 注：此service必须在2.2.5版本以后（包括2.2.5版本）加入 -->
         <receiver
             android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -145,9 +145,10 @@
         </receiver>
         //小米广播
         <receiver
-            android:exported="true"
-            android:name="com.example.beikeapp.Util.MessageReceiver">
-            <!--这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名-->
+            android:name=".Util.MessageReceiver"
+            android:exported="true">
+
+            <!-- 这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名 -->
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
             </intent-filter>
@@ -159,7 +160,11 @@
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".Util.ProfileUtil.ProfileActivity" />
+        <activity android:name=".Util.ProfileUtil.ProfileDetailsEditActivity" />
+        <activity android:name=".Util.ProfileUtil.ProfileDetailsEditGenderActivity" />
+        <activity android:name=".Util.ProfileUtil.ProfileDetailsEditClassActivity" />
+        <activity android:name=".ParentMain.ParentMainActivity"></activity>
     </application>
 
 </manifest>
