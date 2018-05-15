@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,21 +36,21 @@ import java.util.List;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
 
-    RelativeLayout rlProfilePhoto;
-    RelativeLayout rlProfileName;
-    RelativeLayout rlProfileGender;
-    RelativeLayout rlProfileSchool;
-    RelativeLayout rlProfileClass;
-    TextView tvProfileName;
-    TextView tvProfileGender;
-    TextView tvProfileSchool;
-    TextView tvProfileClass;
-
-    String id;
-    String pfName;
-    String pfGender;
-    String pfSchool;
-    String pfClasses;
+    private RelativeLayout rlProfilePhoto;
+    private RelativeLayout rlProfileName;
+    private RelativeLayout rlProfileGender;
+    private RelativeLayout rlProfileSchool;
+    private RelativeLayout rlProfileClass;
+    private TextView tvProfileName;
+    private TextView tvProfileGender;
+    private TextView tvProfileSchool;
+    private TextView tvProfileClass;
+    private LinearLayout llSchoolAndClass;
+    private String id;
+    private String pfName;
+    private String pfGender;
+    private String pfSchool;
+    private String pfClasses;
 
     private static final String TAG = "ProfileActivity";
 
@@ -85,6 +86,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         tvProfileGender.setText(pfGender);
         //学生和老师的身份，还需要获取school,classes字段
         if (id.equals(GlobalConstant.ID_TEACHER) || id.equals(GlobalConstant.ID_STUDENT)){
+            llSchoolAndClass.setVisibility(View.VISIBLE); //学生和老师的身份，学校名和班级也可修改，改为可见
             pfSchool = getIntent().getStringExtra("school");
             pfClasses = getIntent().getStringExtra("classes");
             tvProfileSchool.setText(pfSchool);
@@ -102,6 +104,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         rlProfileSchool = findViewById(R.id.rl_profile_school);
         rlProfileClass = findViewById(R.id.rl_profile_class);
 
+        llSchoolAndClass = findViewById(R.id.ll_school_and_class);
+
         tvProfileName = findViewById(R.id.tv_profile_name);
         tvProfileGender = findViewById(R.id.tv_profile_gender);
         tvProfileSchool = findViewById(R.id.tv_profile_school);
@@ -112,6 +116,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         rlProfileGender.setOnClickListener(this);
         rlProfileName.setOnClickListener(this);
         rlProfilePhoto.setOnClickListener(this);
+
+
     }
 
     @Override

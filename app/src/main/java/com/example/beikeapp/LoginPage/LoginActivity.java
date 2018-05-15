@@ -2,7 +2,6 @@ package com.example.beikeapp.LoginPage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +15,7 @@ import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherMain.TeacherMainActivity;
+import com.example.beikeapp.Student.StudentMain.StudentMain;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
@@ -259,7 +258,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
                 Log.d("TAG", "登录聊天服务器成功！");
-                startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
+                startActivity(new Intent(LoginActivity.this, StudentMain.class));
                 finish();
             }
 

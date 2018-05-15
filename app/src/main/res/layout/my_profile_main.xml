@@ -156,11 +156,13 @@
             </RelativeLayout>
 
             <!--学校、班级-->
+            <!--老师和学生的身份时会可见-->
             <LinearLayout
                 android:id="@+id/ll_school_and_class"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:id="@+id/rl_profile_school"
