@@ -53,24 +53,24 @@
         <activity android:name=".LoginPage.RegisterGuideActivity" />
         <activity android:name=".LoginPage.ForgetPswActivity" />
         //学生注册
-        <activity android:name=".Student.StudentRegister.StudentLogin" />
-        <activity android:name=".Student.StudentRegister.StudentCheckCode" />
-        <activity android:name=".Student.StudentRegister.StudentRegisterAccount" />
-        <activity android:name=".Student.StudentRegister.StudentRegisterInfo" />
-        <activity android:name=".Student.StudentRegister.StudentRegisterSuccess" />
+        <activity android:name=".StudentRegister.StudentLogin" />
+        <activity android:name=".StudentRegister.StudentCheckCode" />
+        <activity android:name=".StudentRegister.StudentRegisterAccount" />
+        <activity android:name=".StudentRegister.StudentRegisterInfo" />
+        <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //学生主页
-        <activity android:name=".Student.StudentMain.StudentMain" />
+        <activity android:name=".StudentMain.StudentMain" />
         //老师注册
-        <activity android:name=".Teacher.TeacherRegister.TeacherRegister_FirstActivity" />
-        <activity android:name=".Teacher.TeacherRegister.TeacherRegister_SecondActivity" />
-        <activity android:name=".Teacher.TeacherRegister.TeacherRegister_ThirdActivity" />
+        <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
+        <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />
+        <activity android:name=".TeacherRegister.TeacherRegister_ThirdActivity" />
         //老师主页
-        <activity android:name=".Teacher.TeacherMain.TeacherMainActivity" />
+        <activity android:name=".TeacherMain.TeacherMainActivity" />
         //家长注册
-        <activity android:name=".Parent.ParentRegister.parent_1_register_select_student" />
-        <activity android:name=".Parent.ParentRegister.parent_2_register_info" />
-        <activity android:name=".Parent.ParentRegister.parent_3_register_identify" />
-        <activity android:name=".Parent.ParentRegister.parent_4_register_result" />
+        <activity android:name=".ParentRegister.parent_1_register_select_student" />
+        <activity android:name=".ParentRegister.parent_2_register_info" />
+        <activity android:name=".ParentRegister.parent_3_register_identify" />
+        <activity android:name=".ParentRegister.parent_4_register_result" />
         //工具类
         <activity android:name=".Util.ChatUtil.GroupDetailsActivity" />
         <activity android:name=".Util.ChatUtil.GroupDetailsEditActivity" />
@@ -162,7 +162,7 @@
         <activity android:name=".Util.ProfileUtil.ProfileDetailsEditActivity" />
         <activity android:name=".Util.ProfileUtil.ProfileDetailsEditGenderActivity" />
         <activity android:name=".Util.ProfileUtil.ProfileDetailsEditClassActivity" />
-        <activity android:name=".Parent.ParentMain.ParentMainActivity"></activity>
+        <activity android:name=".ParentMain.ParentMainActivity"></activity>
     </application>
 
 </manifest>

@@ -2,17 +2,17 @@ package com.example.beikeapp.Util;
 
 import android.graphics.Color;
 
-import com.example.beikeapp.Parent.ParentClass.ParentClassFragment;
-import com.example.beikeapp.Parent.ParentMain.ParentMainFragment;
-import com.example.beikeapp.Parent.ParentMy.ParentMyFragment;
+import com.example.beikeapp.ParentClass.ParentClassFragment;
+import com.example.beikeapp.ParentMain.ParentMainFragment;
+import com.example.beikeapp.ParentMy.ParentMyFragment;
 import com.example.beikeapp.R;
-import com.example.beikeapp.Student.StudentClass.ClassFragment;
-import com.example.beikeapp.Student.StudentMain.MainFragment;
-import com.example.beikeapp.Student.StudentNotify.NotifyFragment;
-import com.example.beikeapp.Student.StudentSetting.SettingFragment;
-import com.example.beikeapp.Teacher.TeacherChat.JiaXiaoFragment;
-import com.example.beikeapp.Teacher.TeacherMain.TeacherMainFragment;
-import com.example.beikeapp.Teacher.TeacherMy.MyFragment;
+import com.example.beikeapp.StudentClass.ClassFragment;
+import com.example.beikeapp.StudentMain.MainFragment;
+import com.example.beikeapp.StudentNotify.NotifyFragment;
+import com.example.beikeapp.StudentSetting.SettingFragment;
+import com.example.beikeapp.TeacherChat.JiaXiaoFragment;
+import com.example.beikeapp.TeacherMain.TeacherMainFragment;
+import com.example.beikeapp.TeacherMy.MyFragment;
 import com.hjm.bottomtabbar.BottomTabBar;
 
 /**
