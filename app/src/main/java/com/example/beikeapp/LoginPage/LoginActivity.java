@@ -15,7 +15,7 @@ import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
-import com.example.beikeapp.StudentMain.StudentMain;
+import com.example.beikeapp.Student.StudentMain.StudentMain;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;

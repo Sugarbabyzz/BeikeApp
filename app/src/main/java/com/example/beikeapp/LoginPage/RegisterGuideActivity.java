@@ -6,10 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.beikeapp.ParentRegister.parent_1_register_select_student;
+import com.example.beikeapp.Parent.ParentRegister.parent_1_register_select_student;
 import com.example.beikeapp.R;
-import com.example.beikeapp.StudentRegister.StudentCheckCode;
-import com.example.beikeapp.TeacherRegister.TeacherRegister_FirstActivity;
+import com.example.beikeapp.Student.StudentRegister.StudentCheckCode;
+import com.example.beikeapp.Teacher.TeacherRegister.TeacherRegister_FirstActivity;
 
 
 public class RegisterGuideActivity extends AppCompatActivity implements View.OnClickListener {

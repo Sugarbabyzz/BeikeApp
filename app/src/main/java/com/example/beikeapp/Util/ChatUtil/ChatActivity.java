@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherChat.JiaXiaoFragment;
+import com.example.beikeapp.Teacher.TeacherChat.JiaXiaoFragment;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 
