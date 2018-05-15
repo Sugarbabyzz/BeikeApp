@@ -24,4 +24,12 @@ public class StudentMain extends BaseActivity{
         BottomBar.setStudentBottomBar(btmBar);
 
     }
+
+    /**
+     * 用于Fragment获取BaseId
+     * @return
+     */
+    public  String getBaseId(){
+        return BaseId;
+    }
 }

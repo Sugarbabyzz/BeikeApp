@@ -27,7 +27,7 @@ public class TeacherMainActivity extends BaseActivity {
     }
 
     /**
-     * 用于给Fragment获取BaseId
+     * 用于Fragment获取BaseId
      * @return
      */
     public  String getBaseId(){

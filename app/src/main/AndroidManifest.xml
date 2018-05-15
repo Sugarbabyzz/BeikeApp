@@ -162,7 +162,9 @@
         </receiver>
 
         <activity android:name=".Util.ProfileUtil.ProfileActivity" />
-        <activity android:name=".Util.ProfileUtil.ProfileDetailsEditActivity"></activity>
+        <activity android:name=".Util.ProfileUtil.ProfileDetailsEditActivity" />
+        <activity android:name=".Util.ProfileUtil.ProfileDetailsEditGenderActivity" />
+        <activity android:name=".Util.ProfileUtil.ProfileDetailsEditClassActivity"></activity>
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ import com.example.beikeapp.R;
 import com.example.beikeapp.Util.ChatUtil.ChatBaseActivity;
 
 /**
- * 详细编辑个人资料信息。供姓名、学校、班级的编辑
+ * 详细编辑个人资料信息。供姓名、学校的编辑
  *
  */
 public class ProfileDetailsEditActivity extends ChatBaseActivity {

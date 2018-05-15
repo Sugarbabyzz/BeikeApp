@@ -113,15 +113,19 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_main,null);
         initView(view);
-        //组装url
-        String url = assembleUrl();
+
         //获取到身份信息并显示
-        setupValue(url);
+        setupValue();
 
         return view;
     }
 
-    private void setupValue(String url) {
+    private void setupValue() {
+
+        String url = GlobalConstant.URL_GET_GENERAL_INFO
+                +"?id=" + id
+                +"&account=" + EMClient.getInstance().getCurrentUser();
+
         MyAsyncTask a = new MyAsyncTask(getActivity());
         a.execute(url);
         a.setOnAsyncResponse(new AsyncResponse() {
@@ -163,34 +167,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         rlSetting.setOnClickListener(this);
     }
 
-    /**
-     * 组装URL，三种身份
-     * @return 返回值URL
-     */
-    private String assembleUrl() {
-        String url = null;
-        Activity y = getActivity();
 
-        switch (id){
-            case GlobalConstant.ID_TEACHER:
-                url = TeacherConstant.URL_BASIC + TeacherConstant.URL_GET_GENERAL_INFO
-                        +"?id=" + id
-                        +"&account=" + EMClient.getInstance().getCurrentUser();
-                break;
-            case GlobalConstant.ID_STUDENT:
-                url = StudentConstant.URL_GetGeneralInfo
-                        +"?id=" + id
-                        +"&account=" + EMClient.getInstance().getCurrentUser();
-                break;
-            case GlobalConstant.ID_PARENT:
-                url = ParentConstant.URL_Get_General_Info
-                        +"?id=" + id
-                        +"&account=" + EMClient.getInstance().getCurrentUser();
-                break;
-        }
-
-        return url;
-    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
