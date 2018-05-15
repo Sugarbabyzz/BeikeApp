@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <!--标题栏 -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
@@ -36,6 +36,7 @@
 
     </RelativeLayout>
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,6 +48,7 @@
             android:background="@android:color/transparent"
             android:orientation="vertical">
 
+            <!--头像-->
             <RelativeLayout
                 android:id="@+id/rl_profile_photo"
                 android:layout_width="match_parent"
@@ -85,6 +87,7 @@
                     android:background="#E6E6E6" />
             </RelativeLayout>
 
+            <!--姓名-->
             <RelativeLayout
                 android:id="@+id/rl_profile_name"
                 android:layout_width="match_parent"
@@ -118,6 +121,7 @@
                     android:background="#E6E6E6" />
             </RelativeLayout>
 
+            <!--性别-->
             <RelativeLayout
                 android:id="@+id/rl_profile_gender"
                 android:layout_width="match_parent"
@@ -151,6 +155,7 @@
                     android:background="#E6E6E6" />
             </RelativeLayout>
 
+            <!--学校、班级-->
             <LinearLayout
                 android:id="@+id/ll_school_and_class"
                 android:layout_width="match_parent"

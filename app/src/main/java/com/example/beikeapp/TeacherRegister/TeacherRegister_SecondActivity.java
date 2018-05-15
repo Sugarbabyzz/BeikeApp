@@ -28,7 +28,7 @@ import mabbas007.tagsedittext.TagsEditText;
 
 public class TeacherRegister_SecondActivity extends AppCompatActivity implements View.OnClickListener {
     //上一活动传来的手机和密码
-    private String phoneNumber, password;
+    private String account, password;
     //带错误校验的输入框
     private FormEditText etName;
     private FormEditText etSchool;
@@ -51,7 +51,7 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
 
     private void initView() {
         Intent intent = getIntent();
-        phoneNumber = intent.getStringExtra("phoneNumber");
+        account = intent.getStringExtra("account");
         password = intent.getStringExtra("password");
         etName = findViewById(R.id.et_name);
         etSchool = findViewById(R.id.et_school);
@@ -76,7 +76,7 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
                 String classes = StringUtils.join(tagsList, ",");
 
                 //注册至环信后台
-                registerToHX(phoneNumber, password);
+                registerToHX(account, password);
                 //注册至我们自己的服务器
                 registerToUs(name, gender,school, classes);
 
@@ -142,12 +142,12 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
     }
 
 
-    public void registerToHX(final String phoneNumber, final String password) {
+    public void registerToHX(final String account, final String password) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    EMClient.getInstance().createAccount(phoneNumber, password);
+                    EMClient.getInstance().createAccount(account, password);
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
@@ -158,7 +158,7 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
 
     public void registerToUs(String name, String gender,String school, String classes) {
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_REGISTER
-                + "?phoneNumber=" + phoneNumber
+                + "?account=" + account
                 + "&password=" + password
                 + "&name=" + name
                 + "&gender=" + gender

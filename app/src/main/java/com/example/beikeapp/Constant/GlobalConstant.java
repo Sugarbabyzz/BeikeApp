@@ -10,4 +10,8 @@ public class GlobalConstant {
     public static final String FLAG_SUCCESS = "200";
     public static final String FLAG_YES = "100";
     public static final String FLAG_NO = "400";
+
+    public static final String ID_TEACHER = "teacher";
+    public static final String ID_STUDENT = "student";
+    public static final String ID_PARENT = "parent";
 }

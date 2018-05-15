@@ -19,6 +19,7 @@ import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.ChatUtil.GroupDetailsActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
@@ -27,7 +28,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener {
 
     RelativeLayout rlProfilePhoto;
     RelativeLayout rlProfileName;
@@ -68,15 +69,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         initView();
 
-        id = getIntent().getStringExtra("id");
+        id = BaseId;
         pfName = getIntent().getStringExtra("name");
         pfGender = getIntent().getStringExtra("gender");
-        pfSchool = getIntent().getStringExtra("school");
-        pfClasses = getIntent().getStringExtra("classes");
+
         tvProfileName.setText(pfName);
         tvProfileGender.setText(pfGender);
-        tvProfileSchool.setText(pfSchool);
-        tvProfileClass.setText(pfClasses);
+        //学生和老师的身份，还需要获取school,classes字段
+        if (id.equals(GlobalConstant.ID_TEACHER) || id.equals(GlobalConstant.ID_STUDENT)){
+            pfSchool = getIntent().getStringExtra("school");
+            pfClasses = getIntent().getStringExtra("classes");
+            tvProfileSchool.setText(pfSchool);
+            tvProfileClass.setText(pfClasses);
+        }
+
+
 
     }
 

@@ -212,8 +212,8 @@ public class TeacherRegister_FirstActivity extends AppCompatActivity implements 
     }
 
     //查数据库判断是否存在
-    public void isExisted(final String phoneNumber) {
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_IS_EXISTED + "?phoneNumber=" + phoneNumber;
+    public void isExisted(final String account) {
+        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_IS_EXISTED + "?account=" + account;
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(urlString);
         a.setOnAsyncResponse(new AsyncResponse() {
@@ -228,7 +228,7 @@ public class TeacherRegister_FirstActivity extends AppCompatActivity implements 
                 else if (listData.get(0).equals(GlobalConstant.FLAG_NO)) {
                     Intent intent = new Intent(TeacherRegister_FirstActivity.this,
                             TeacherRegister_SecondActivity.class);
-                    intent.putExtra("phoneNumber", phoneNumber);
+                    intent.putExtra("account", account);
                     intent.putExtra("password", password);
                     startActivity(intent);
                 }
