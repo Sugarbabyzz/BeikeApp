@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.beikeapp.Parent.ParentMain.ParentMainActivity">
+    tools:context=".ParentMain.ParentMainActivity">
 
 </android.support.constraint.ConstraintLayout>
