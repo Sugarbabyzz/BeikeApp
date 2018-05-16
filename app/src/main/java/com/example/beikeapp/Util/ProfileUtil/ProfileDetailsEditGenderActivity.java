@@ -8,8 +8,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.beikeapp.R;
+import com.example.beikeapp.Util.ChatUtil.ChatBaseActivity;
 
-public class ProfileDetailsEditGenderActivity extends AppCompatActivity {
+public class ProfileDetailsEditGenderActivity extends ChatBaseActivity {
 
     private RadioGroup rgProfileGender;
     private RadioButton rbMale;

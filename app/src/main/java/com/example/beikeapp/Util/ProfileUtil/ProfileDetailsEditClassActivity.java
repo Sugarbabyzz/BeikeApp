@@ -11,13 +11,14 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.beikeapp.R;
+import com.example.beikeapp.Util.ChatUtil.ChatBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mabbas007.tagsedittext.TagsEditText;
 
-public class ProfileDetailsEditClassActivity extends AppCompatActivity {
+public class ProfileDetailsEditClassActivity extends ChatBaseActivity {
 
     private TagsEditText mTagsEdit;
 

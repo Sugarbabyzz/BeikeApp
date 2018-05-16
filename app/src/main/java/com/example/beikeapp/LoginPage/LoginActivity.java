@@ -194,6 +194,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
+
                 if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
                     Log.d(TAG,"login to us success");
                     // login to HX
@@ -235,7 +236,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                     }
                 });
-                
+
                 //根据身份登录
                 switch (BaseId){
                     case GlobalConstant.ID_TEACHER:
