@@ -48,7 +48,7 @@ public class BottomBar {
                 .setChangeColor(Color.parseColor("#FF00F0"),Color.parseColor("#CCCCCC"))
 
                 .addTabItem("首页", R.mipmap.erweima, R.mipmap.ic_launcher, MainFragment.class)
-                .addTabItem("会话", R.mipmap.ic_launcher,R.mipmap.ic_launcher_round, NotifyFragment.class)
+                .addTabItem("通知", R.mipmap.ic_launcher,R.mipmap.ic_launcher_round, NotifyFragment.class)
                 .addTabItem("班级", R.mipmap.ic_launcher, R.mipmap.erweima, ClassFragment.class)
                 .addTabItem("我的", R.mipmap.erweima, R.mipmap.ic_launcher, SettingFragment.class)
 
