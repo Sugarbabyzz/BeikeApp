@@ -14,8 +14,10 @@ import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
+import com.example.beikeapp.ParentMain.ParentMainActivity;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentMain.StudentMain;
+import com.example.beikeapp.TeacherMain.TeacherMainActivity;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
@@ -26,6 +28,8 @@ import java.util.List;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
+    private final String TAG = "LoginActivity";
+
     private FormEditText etAccount;
     private FormEditText etPsw;
     private Button btnLogin;
@@ -34,6 +38,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView tvForgetPsw;
 
     private Button btnLogout;
+
+    private String account,password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,20 +85,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 //字段无空值
                 if (allValid) {
+                    //获取到用户名和密码
+                    account = etAccount.getText().toString().trim();
+                    password = etPsw.getText().toString().trim();
+
                    //三种身份选一种登录
                    int flagId = rgIdentity.getCheckedRadioButtonId();
-                   if (flagId == R.id.rb_teacher){
-                       loginAsTeacher(etAccount.getText().toString().trim(),etPsw.getText().toString().trim());
-                   }
-                   else if (flagId == R.id.rb_student){
-                       loginAsStudent(etAccount.getText().toString().trim(),etPsw.getText().toString().trim());
-                   }
-                   else if (flagId == R.id.rb_parent){
-                       loginAsParent(etAccount.getText().toString().trim(),etPsw.getText().toString().trim());
-                   }
-                   //未选择身份
-                   else {
-                       Toast.makeText(LoginActivity.this,"请选择一种身份登录",Toast.LENGTH_SHORT).show();
+                   switch (flagId){
+                       case R.id.rb_teacher:
+                           //在基类里存储身份
+                           BaseId = GlobalConstant.ID_TEACHER;
+
+                           loginAsTeacher();
+
+                           break;
+                       case R.id.rb_student:
+                           //在基类里存储身份
+                           BaseId = GlobalConstant.ID_STUDENT;
+
+                           loginAsStudent();
+                           break;
+                       case R.id.rb_parent:
+                           //在基类里存储身份
+                           BaseId = GlobalConstant.ID_PARENT;
+
+                           loginAsParent();
+                           break;
+                       default: //未选择身份
+                           Toast.makeText(LoginActivity.this,"请选择一种身份登录",Toast.LENGTH_SHORT).show();
+                           break;
                    }
                 }
                 //字段有空值,formEditText会自动错误提示
@@ -126,58 +147,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     /**
      * 老师身份登录
      *
-     * @param account 账号
-     * @param psw 密码
      */
-    private void loginAsTeacher(String account, String psw) {
-
-        //在我们的服务器中登录
-        //loginToUsAsTeacher(account,psw);
-        //在环信服务器中登录
-        loginToHx(account,psw);
-        //基类存储身份
-        BaseId = "teacher";
-    }
-
-    /**
-     * 学生身份登录
-     *
-     * @param account 账号
-     * @param psw 密码
-     */
-    private void loginAsStudent(String account, String psw) {
-
-        //在我们的服务器中登录
-        loginToUsAsStudent(account,psw);
-        //在环信服务器中登录
-        loginToHx(account,psw);
-        //基类存储身份
-        BaseId = "student";
-    }
-
-    /**
-     * 家长身份登录
-     *
-     * @param account 账号
-     * @param psw 密码
-     */
-    private void loginAsParent(String account, String psw) {
-        loginToUsAsParent(account,psw);
-        loginToHx(account,psw);
-        //基类存储身份
-        BaseId = "parent";
-    }
-
-
-
-    /**
-     * 以老师身份登录至我们的服务器
-     *
-     * @param account 账号
-     * @param password 密码
-     */
-    private void loginToUsAsTeacher(String account, String password) {
-
+    private void loginAsTeacher() {
         //组装url
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_LOGIN
                 + "?account=" + account
@@ -187,12 +158,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     /**
-     * 以学生身份登录至我们的服务器
+     * 学生身份登录
      *
-     * @param account 账号
-     * @param password 密码
      */
-    private void loginToUsAsStudent(String account, String password) {
+    private void loginAsStudent() {
 
         //组装url
         String urlString = StudentConstant.URL_Login
@@ -203,12 +172,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     /**
-     * 以家长身份登录至我们的服务器
-     * @param account 账号
-     * @param password 密码
+     * 家长身份登录
+     *
      */
-    private void loginToUsAsParent(String account, String password) {
-
+    private void loginAsParent() {
         //组装url
         String urlString = ParentConstant.URL_Login
                 + "?account=" + account
@@ -228,13 +195,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
                 if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
-                    Toast.makeText(LoginActivity.this,"login success", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"login to us success");
+                    // login to HX
+                    loginToHx(account,password);
+
                 }
                 else if (listData.get(0).equals(GlobalConstant.FLAG_FAILURE)){
-                    Toast.makeText(LoginActivity.this,"login fail", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"login to us fail");
                 }
                 else {
-                    Toast.makeText(LoginActivity.this,"login error!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG,"login to us unknown error");
                 }
             }
 
@@ -257,15 +227,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onSuccess() {
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
-                Log.d("TAG", "登录聊天服务器成功！");
-                startActivity(new Intent(LoginActivity.this, StudentMain.class));
+
+                Log.d(TAG, "登录聊天服务器成功！");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                
+                //根据身份登录
+                switch (BaseId){
+                    case GlobalConstant.ID_TEACHER:
+                        startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
+                        break;
+                    case GlobalConstant.ID_STUDENT:
+                        startActivity(new Intent(LoginActivity.this, StudentMain.class));
+                        break;
+                    case GlobalConstant.ID_PARENT:
+                        startActivity(new Intent(LoginActivity.this, ParentMainActivity.class));
+                        break;
+                }
                 finish();
             }
 
             @Override
             public void onError(int i, String s) {
-                Log.d("TAG", "登录聊天服务器失败！");
-                Log.e("errorrr",i + ":" + s);
+                Log.d(TAG, "登录聊天服务器失败！");
+                Log.e(TAG + "**ERROR**",i + ":" + s);
             }
 
             @Override
