@@ -14,10 +14,10 @@ public class ParentMainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.parent_main);
 
         //加载底部导航
-        btmBar = findViewById(R.id.student_bottom_tab_bar);
+        btmBar = findViewById(R.id.parent_bottom_tab_bar);
         btmBar.init(getSupportFragmentManager(),720,1280);
         BottomBar.setParentBottomBar(btmBar);
     }
