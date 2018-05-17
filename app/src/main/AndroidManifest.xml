@@ -165,7 +165,8 @@
         <activity android:name=".Util.ProfileUtil.ProfileDetailsEditGenderActivity" />
         <activity android:name=".Util.ProfileUtil.ProfileDetailsEditClassActivity" />
         <activity android:name=".ParentMain.ParentMainActivity" />
-        <activity android:name=".Util.ProfileUtil.SettingActivity"></activity>
+        <activity android:name=".Util.ProfileUtil.SettingActivity" />
+        <activity android:name=".Util.ProfileUtil.ProfileEditPhotoActivity"/>
     </application>
 
 </manifest>

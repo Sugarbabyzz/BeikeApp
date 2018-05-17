@@ -23,6 +23,9 @@ import com.example.beikeapp.Util.MyAsyncTask;
 import com.example.beikeapp.Util.ProfileUtil.ProfileActivity;
 import com.hyphenate.chat.EMClient;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -42,12 +45,14 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
 
     private Button btnExitAccount;
 
-    String id; // 用户身份
-    String name,gender,school,classes;
-    RelativeLayout rlProfile;
-    RelativeLayout rlSetting;
-    TextView tvName;
-    ImageView ivPhoto;
+    private String id; // 用户身份
+    private String name,gender,school,classes;
+    private RelativeLayout rlProfile;
+    private RelativeLayout rlSetting;
+    private RelativeLayout rlCorrectionBook;
+    private TextView tvName;
+    private ImageView ivPhoto;
+
 
     public SettingFragment() {
         // Required empty public constructor
@@ -133,6 +138,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
     private void initView(View view) {
         rlProfile = view.findViewById(R.id.rl_profile);
         rlSetting = view.findViewById(R.id.rl_setting);
+        rlCorrectionBook = view.findViewById(R.id.rl_correction_book);
+        rlCorrectionBook.setVisibility(View.VISIBLE);
+
         tvName = view.findViewById(R.id.tv_profile_name);
         ivPhoto = view.findViewById(R.id.img_profile_photo);
         rlProfile.setOnClickListener(this);
@@ -173,8 +181,10 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
                         .putExtra("gender",gender)
                         .putExtra("school",school)
                         .putExtra("classes",classes));
+
                 break;
             case R.id.rl_setting:
+                
                 break;
         }
     }

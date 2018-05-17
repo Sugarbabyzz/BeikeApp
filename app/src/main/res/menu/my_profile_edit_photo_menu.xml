@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.beikeapp.Util.ProfileUtil.ProfileEditPhotoActivity" >
+
+    <item
+        android:id="@+id/menu_use_gallery"
+        android:title="来自相册"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_use_camera"
+        android:title="使用相机"
+        app:showAsAction="never" />
+
+</menu>

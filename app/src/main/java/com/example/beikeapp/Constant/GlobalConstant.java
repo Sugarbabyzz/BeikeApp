@@ -20,4 +20,6 @@ public class GlobalConstant {
     public static final String URL_GET_GENERAL_INFO = URL_PROFILE_BASIC + "GetGeneralInfoServlet";
 
     public static final String URL_CHANGE_PROFILE_INFO = URL_PROFILE_BASIC + "ChangeInfoServlet";
+
+    public static final String URL_CHANGE_PROFILE_PHOTO = URL_PROFILE_BASIC + "UploadImageServlet";
 }

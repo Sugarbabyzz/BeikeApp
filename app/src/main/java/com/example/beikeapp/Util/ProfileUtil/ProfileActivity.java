@@ -28,9 +28,11 @@ import com.example.beikeapp.Util.ChatUtil.GroupDetailsActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.mob.commons.filesys.FileUploader;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,6 +126,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.rl_profile_photo:
+                startActivityForResult(new Intent(ProfileActivity.this,ProfileEditPhotoActivity.class),
+                        REQUEST_CODE_EDIT_PROFILE_PHOTO);
                 break;
             case R.id.rl_profile_name: // 更改姓名
                 startActivityForResult(new Intent(ProfileActivity.this,ProfileDetailsEditActivity.class)
@@ -259,7 +263,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     break;
                 case REQUEST_CODE_EDIT_PROFILE_CLASS: //修改班级
                     final ArrayList classesList = data.getStringArrayListExtra("data");
-                    if (classesList.isEmpty()) {
+                    if (!classesList.isEmpty()) {
                         progressDialog.setMessage("正在修改班级...");
                         progressDialog.show();
                     }
@@ -287,6 +291,41 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             }
                         }
                     }).start();
+                    break;
+
+                case REQUEST_CODE_EDIT_PROFILE_PHOTO:
+                    final String path = data.getStringExtra("data");
+
+                    Log.d(TAG + "imgPath:",path);
+
+                    if (!path.isEmpty()) {
+                        progressDialog.setMessage("正在上传图片...");
+                        progressDialog.show();
+                    }
+
+                            try {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new UploadImageTask(path).execute();
+                                    }
+                                }).start();
+
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        progressDialog.dismiss();
+                                    }
+                                });
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), "fail to upload image!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                     break;
 
             }
