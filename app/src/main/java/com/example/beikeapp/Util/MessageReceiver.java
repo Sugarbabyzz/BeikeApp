@@ -47,6 +47,10 @@ public class MessageReceiver extends PushMessageReceiver {
         } else if(!TextUtils.isEmpty(message.getUserAccount())) {
             mUserAccount=message.getUserAccount();
         }
+
+        //打印消息方便测试
+        System.out.println("透传消息到达了");
+        System.out.println("透传消息是"+message.toString());
     }
 
     /**
@@ -64,6 +68,12 @@ public class MessageReceiver extends PushMessageReceiver {
         } else if(!TextUtils.isEmpty(message.getUserAccount())) {
             mUserAccount=message.getUserAccount();
         }
+
+        //打印消息方便测试
+        System.out.println("用户点击了通知消息");
+        System.out.println("通知消息是" + message.toString());
+        System.out.println("点击后,会进入应用" );
+
     }
 
     /**
@@ -81,6 +91,11 @@ public class MessageReceiver extends PushMessageReceiver {
         } else if(!TextUtils.isEmpty(message.getUserAccount())) {
             mUserAccount=message.getUserAccount();
         }
+
+        //打印消息方便测试
+        System.out.println("通知消息到达了");
+        System.out.println("通知消息是"+message.toString());
+
     }
 
     /**
@@ -120,6 +135,21 @@ public class MessageReceiver extends PushMessageReceiver {
                 mEndTime = cmdArg2;
             }
         }
+
+        //test
+        System.out.println(command );
+
+
+        if (MiPushClient.COMMAND_REGISTER.equals(command)) {
+            if (message.getResultCode() == ErrorCode.SUCCESS) {
+
+                //打印信息便于测试注册成功与否
+                System.out.println("注册成功");
+
+            } else {
+                System.out.println("注册失败");
+            }
+        }
     }
 
     /**
@@ -138,5 +168,22 @@ public class MessageReceiver extends PushMessageReceiver {
                 mRegId = cmdArg1;
             }
         }
+
+        //test
+        System.out.println(command );
+
+        if (MiPushClient.COMMAND_REGISTER.equals(command)) {
+            if (message.getResultCode() == ErrorCode.SUCCESS) {
+
+                //打印日志：注册成功
+                System.out.println("注册成功");
+            } else {
+                //打印日志：注册失败
+                System.out.println("注册失败");
+            }
+        } else {
+            System.out.println("其他情况"+message.getReason());
+        }
+
     }
 }

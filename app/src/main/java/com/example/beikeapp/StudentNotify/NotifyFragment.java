@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.ChatUtil.ChatActivity;
@@ -27,7 +29,7 @@ public class NotifyFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private Button btnChat;
+    private ListView lvNotifyList;
 
 
     public NotifyFragment() {
@@ -65,20 +67,17 @@ public class NotifyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notify, null);
-        /*
-        测试聊天功能
-         */
-        btnChat = (Button) view.findViewById(R.id.btn_chat);
-        btnChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("userId", "123");
-                startActivity(intent);
-            }
-        });
 
+        initView(view);
         return view;
+    }
+
+    private void initView(View view) {
+        lvNotifyList = view.findViewById(R.id.lv_StudentNotifyList);
+        String[] functionList = new String[]{"查看通知","查看作业","查看评教"};
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1,functionList);
+        lvNotifyList.setAdapter(mAdapter);
     }
 
 }
