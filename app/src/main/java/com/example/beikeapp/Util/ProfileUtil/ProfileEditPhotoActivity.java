@@ -24,10 +24,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Manifest;
 import com.example.beikeapp.R;
+import com.example.beikeapp.Util.BaseActivity;
+import com.hyphenate.chat.EMClient;
 
-public class ProfileEditPhotoActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ProfileEditPhotoActivity extends BaseActivity {
 
     private final int REQUEST_CODE_GET_IMAGE = 1;
 
@@ -36,6 +45,8 @@ public class ProfileEditPhotoActivity extends AppCompatActivity {
     private ImageView ivPhoto;
 
     private String imagePath;
+
+    private Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +54,74 @@ public class ProfileEditPhotoActivity extends AppCompatActivity {
 
         ivPhoto = findViewById(R.id.imageView_photo);
 
+        // 开启线程从服务器获取头像
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 从服务器获取图片输入流并解析成bitmap
+                // 并set好bitmap
+                getImageFromServer();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivPhoto.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        }).start();
+
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
             actionBar.setTitle("                               获取头像");
         }
+    }
+
+    /**
+     * 获取服务器图片输入流
+     */
+    private void getImageFromServer() {
+        InputStream inputStream = null;
+        try {
+            //得到io流
+            inputStream = getInputStreamFromURL(GlobalConstant.URL_GET_PROFILE_PHOTO + "?id=" + BaseId
+                    + "&account=" + EMClient.getInstance().getCurrentUser());
+            bitmap = BitmapFactory.decodeStream(inputStream);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null)
+                    inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 根据URL得到输入流
+     *
+     * @param urlStr
+     * @return
+     */
+    public InputStream getInputStreamFromURL(String urlStr) {
+
+        HttpURLConnection urlConn;
+        InputStream inputStream = null;
+        try {
+            URL url = new URL(urlStr);
+            urlConn = (HttpURLConnection) url.openConnection();
+            inputStream = urlConn.getInputStream();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return inputStream;
     }
 
     /**
@@ -134,6 +209,7 @@ public class ProfileEditPhotoActivity extends AppCompatActivity {
     }
 
     /**
+     * 本地方法,根据本地路径显示图片
      * 根据图片路径显示图片的方法
      * */
     private void displayImage(String imagePath) {
