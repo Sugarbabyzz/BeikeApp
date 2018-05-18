@@ -41,7 +41,9 @@
         tools:replace="android:name">
         //活动注册
         //启动页
-        <activity android:name=".StartPage.WelcomeActivity" />
+        <activity android:name=".StartPage.WelcomeActivity" >
+
+        </activity>
         //引导页
         <activity android:name=".StartPage.GuideActivity" />
         //登录页
@@ -62,8 +64,14 @@
         <activity android:name=".StudentRegister.StudentRegisterSuccess" />
         //学生主页
         <activity android:name=".StudentMain.StudentMain" />
-        <activity android:name=".StudentMain.Activity.SearchActivity" />    //搜题
-        <activity android:name=".StudentMain.Activity.DetailActivity" />    //搜题结果
+        <activity android:name=".StudentMain.Activity.SearchActivity" />
+        <activity android:name=".StudentMain.Activity.DetailActivity"  android:launchMode="singleInstance"/>
+        <activity android:name=".StudentMain.Activity.ExerciseMainActivity" />
+        <activity android:name=".StudentMain.Activity.QuestionActivity" />
+        <activity android:name=".StudentMain.Activity.CardActivity" />
+        <activity android:name=".StudentMain.Activity.ExamActivity" />
+        <activity android:name=".StudentMain.Activity.PracticeActivity" />
+        <activity android:name=".StudentMain.Activity.ResultActivity" />
         //老师注册
         <activity android:name=".TeacherRegister.TeacherRegister_FirstActivity" />
         <activity android:name=".TeacherRegister.TeacherRegister_SecondActivity" />

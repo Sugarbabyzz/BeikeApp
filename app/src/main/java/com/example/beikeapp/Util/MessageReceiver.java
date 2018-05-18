@@ -2,6 +2,7 @@ package com.example.beikeapp.Util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
