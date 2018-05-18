@@ -3,9 +3,7 @@ package com.example.beikeapp.Util.ProfileUtil;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,23 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.beikeapp.Constant.GlobalConstant;
-import com.example.beikeapp.Constant.ParentConstant;
-import com.example.beikeapp.Constant.StudentConstant;
-import com.example.beikeapp.Constant.TeacherConstant;
-import com.example.beikeapp.LoginPage.ForgetPswActivity;
-import com.example.beikeapp.LoginPage.LoginActivity;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
-import com.example.beikeapp.Util.ChatUtil.GroupDetailsActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
-import com.mob.commons.filesys.FileUploader;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -307,7 +296,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new UploadImageTask(path).execute();
+
+                                        new UploadFileTask(path,BaseId,EMClient.getInstance().getCurrentUser()).execute();
+
                                     }
                                 }).start();
 

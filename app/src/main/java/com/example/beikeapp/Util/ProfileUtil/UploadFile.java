@@ -23,14 +23,19 @@ import java.util.UUID;
  * Created by m1821 on 2018/5/16.
  */
 
-public class UploadImage {
+public class UploadFile {
     private static final String TAG = "UploadImageLog";
     private static final int TIME_OUT = 10 * 1000;   //超时时间
     private static final String CHARSET = "utf-8"; //设置编码
 
-    public static String uploadFile(String sourceFileUri) {
-
-        int serverResponseCode = 777;
+    /**
+     * 上传核心方法
+     * @param sourceFileUri
+     * @param id
+     * @param account
+     * @return
+     */
+    public static String upload(String sourceFileUri,String id,String account) {
 
         StringBuffer response = new StringBuffer();
 
@@ -69,8 +74,8 @@ public class UploadImage {
             try {
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL(GlobalConstant.URL_CHANGE_PROFILE_PHOTO +"?account=111");
 
+                URL url = new URL(GlobalConstant.URL_CHANGE_PROFILE_PHOTO + "?id=" + id + "&account=" + account);
                 // Open a HTTP  connection to  the URL
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoInput(true); // Allow Inputs

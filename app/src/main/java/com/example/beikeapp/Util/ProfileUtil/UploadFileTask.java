@@ -7,19 +7,25 @@ import android.util.Log;
  * Created by m1821 on 2018/5/17.
  */
 
-public class UploadImageTask extends AsyncTask<String,Void,String> {
+public class UploadFileTask extends AsyncTask<String,Void,String> {
 
     private static final String TAG = "UploadImageTaskLog";
 
     private String path;
 
-    public UploadImageTask(String path) {
+    private String id;
+
+    private String account;
+
+    public UploadFileTask(String path, String id,String account) {
         this.path = path;
+        this.id = id;
+        this.account = account;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        return UploadImage.uploadFile(path);
+        return UploadFile.upload(path,id,account);
     }
 
     @Override
