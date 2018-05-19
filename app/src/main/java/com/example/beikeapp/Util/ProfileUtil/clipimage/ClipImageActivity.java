@@ -69,7 +69,7 @@ public class ClipImageActivity extends Activity implements View.OnClickListener 
         setImageAndClipParams(); //大图裁剪
         //mClipImageView.setImageURI(Uri.fromFile(new File(mInput)));
         mDialog = new ProgressDialog(this);
-        mDialog.setMessage("no idea wat it does");
+        mDialog.setMessage("图像裁剪中");
     }
 
     private void setImageAndClipParams() {

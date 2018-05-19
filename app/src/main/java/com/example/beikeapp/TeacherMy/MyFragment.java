@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout rlSetting;
     private TextView tvName;
     private ImageView ivPhoto;
-    private Bitmap bitmap;
+    private Bitmap bitmap = null;
     private ProgressDialog progressDialog;
 
     public MyFragment() {
@@ -119,6 +120,9 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_main, null);
+
+
+
         initView(view);
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(getActivity());
@@ -139,12 +143,16 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //photo
-                        ivPhoto.setImageBitmap(bitmap);
-                        // save bitmap for further use
-                        new BitmapStore().setBitmap(bitmap);
                         //name
                         tvName.setText(name);
+                        //photo
+                        if (bitmap != null){
+                            ivPhoto.setImageBitmap(bitmap);
+                            // save bitmap for further use
+                            new BitmapStore().setBitmap(bitmap);
+                        } else {
+                            ivPhoto.setBackgroundResource(R.drawable.bg_border);
+                        }
                         //dismiss dialog
                         progressDialog.dismiss();
                     }

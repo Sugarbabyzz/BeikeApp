@@ -75,9 +75,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         pfName = getIntent().getStringExtra("name");
         pfGender = getIntent().getStringExtra("gender");
-        //从静态变量中获取无法用Intent传递的bitmap
-        Bitmap bitmap = BitmapStore.isSet ? BitmapStore.bitmap : null;
-        ivPhoto.setImageBitmap(bitmap);
+
+        if (BitmapStore.isSet){
+            //从静态变量中获取无法用Intent传递的bitmap
+            ivPhoto.setImageBitmap(BitmapStore.bitmap);
+        } else {
+            ivPhoto.setBackgroundResource(R.drawable.bg_border);
+        }
+
         tvProfileName.setText(pfName);
         tvProfileGender.setText(pfGender);
 
