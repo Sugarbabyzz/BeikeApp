@@ -167,6 +167,7 @@
         <activity android:name=".ParentMain.ParentMainActivity" />
         <activity android:name=".Util.ProfileUtil.SettingActivity" />
         <activity android:name=".Util.ProfileUtil.ProfileEditPhotoActivity"/>
+        <activity android:name=".Util.ProfileUtil.clipimage.ClipImageActivity"/>
     </application>
 
 </manifest>

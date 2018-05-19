@@ -1,33 +1,29 @@
 package com.example.beikeapp.Util.ProfileUtil;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.content.ContentUris;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewDebug;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.beikeapp.Constant.GlobalConstant;
-import com.example.beikeapp.Manifest;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.BaseActivity;
+import com.example.beikeapp.Util.ProfileUtil.clipimage.ClipImageActivity;
 import com.hyphenate.chat.EMClient;
 
 import java.io.File;
@@ -42,163 +38,124 @@ public class ProfileEditPhotoActivity extends BaseActivity {
 
     private final int REQUEST_CODE_TAKE_PHOTO = 2;
 
+    private final int getREQUEST_CODE_CUT_IMAGE = 3;
+
+    private boolean FLAG_CLIPED;
+
     private ImageView ivPhoto;
 
-    private String imagePath;
+    private ImageView ivPhotoPreview;
+
+    private String imagePath = "";
+
+    private String clippedPath = "";
+
+    private String mOutputPath;
 
     private Bitmap bitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_profile_edit_photo);
+        //图片是否经过裁剪的标志位
+        FLAG_CLIPED = false;
 
-        ivPhoto = findViewById(R.id.imageView_photo);
+        bitmap = BitmapStore.isSet ? BitmapStore.bitmap : null;
 
-        // 开启线程从服务器获取头像
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // 从服务器获取图片输入流并解析成bitmap
-                // 并set好bitmap
-                getImageFromServer();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ivPhoto.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        }).start();
-
+        ivPhoto = findViewById(R.id.iv_profile_photo);
+        ivPhotoPreview = findViewById(R.id.iv_profile_photo_preview);
+        ivPhoto.setImageBitmap(bitmap);
+        ivPhotoPreview.setImageBitmap(bitmap);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
-            actionBar.setTitle("                               获取头像");
+        if (actionBar != null) {
+            actionBar.setTitle("                               设置头像");
         }
-    }
-
-    /**
-     * 获取服务器图片输入流
-     */
-    private void getImageFromServer() {
-        InputStream inputStream = null;
-        try {
-            //得到io流
-            inputStream = getInputStreamFromURL(GlobalConstant.URL_GET_PROFILE_PHOTO + "?id=" + BaseId
-                    + "&account=" + EMClient.getInstance().getCurrentUser());
-            bitmap = BitmapFactory.decodeStream(inputStream);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (inputStream != null)
-                    inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * 根据URL得到输入流
-     *
-     * @param urlStr
-     * @return
-     */
-    public InputStream getInputStreamFromURL(String urlStr) {
-
-        HttpURLConnection urlConn;
-        InputStream inputStream = null;
-        try {
-            URL url = new URL(urlStr);
-            urlConn = (HttpURLConnection) url.openConnection();
-            inputStream = urlConn.getInputStream();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return inputStream;
     }
 
     /**
      * 从相册中获取图片
-     * */
+     */
     public void select_photo() {
-            openAlbum();
+        openAlbum();
     }
+
     /**
      * 打开相册的方法
-     * */
+     */
     private void openAlbum() {
         //Intent i = new Intent(Intent.ACTION_PICK);
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
         intent.setType("image/*");
-        startActivityForResult(intent,REQUEST_CODE_GET_IMAGE);
+        startActivityForResult(intent, REQUEST_CODE_GET_IMAGE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case REQUEST_CODE_GET_IMAGE:
                     //判断手机系统版本号
                     if (Build.VERSION.SDK_INT > 19) {
                         // > 4.4
                         handleImageOnKitKat(data);
-                    }else {
+                    } else {
                         // <= 4.4
                         handleImageBeforeKitKat(data);
                     }
-                break;
+                    break;
 
                 case REQUEST_CODE_TAKE_PHOTO:
-
+                    break;
+                case getREQUEST_CODE_CUT_IMAGE:
+                    clippedPath = ClipImageActivity.ClipOptions.createFromBundle(data).getOutputPath();
+                    if (clippedPath != null) {
+                        FLAG_CLIPED = true;
+                        Bitmap bitmap = BitmapFactory.decodeFile(clippedPath);
+                        ivPhoto.setImageBitmap(bitmap);
+                        ivPhotoPreview.setImageBitmap(bitmap);
+                        break;
+                    }
             }
         }
-
-
-
-
     }
 
     /**
      * 系统4.4之前,获取uri很简单
+     *
      * @param data
      */
     private void handleImageBeforeKitKat(Intent data) {
         Uri uri = data.getData();
-        String imagePath = getImagePath(uri,null);
+        String imagePath = getImagePath(uri, null);
         displayImage(imagePath);
     }
 
     /**
      * 4.4及以上系统处理图片的方法
-     * */
+     */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
-        if (DocumentsContract.isDocumentUri(this,uri)) {
+        if (DocumentsContract.isDocumentUri(this, uri)) {
             //如果是document类型的uri，则通过document id处理
             String docId = DocumentsContract.getDocumentId(uri);
             if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
                 //解析出数字格式的id
                 String id = docId.split(":")[1];
                 String selection = MediaStore.Images.Media._ID + "=" + id;
-                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,selection);
-            }else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),Long.valueOf(docId));
-                imagePath = getImagePath(contentUri,null);
-            }else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
                 //如果是content类型的uri，则使用普通方式处理
-                imagePath = getImagePath(uri,null);
-            }else if ("file".equalsIgnoreCase(uri.getScheme())) {
+                imagePath = getImagePath(uri, null);
+            } else if ("file".equalsIgnoreCase(uri.getScheme())) {
                 //如果是file类型的uri，直接获取图片路径即可
                 imagePath = uri.getPath();
 
@@ -211,25 +168,27 @@ public class ProfileEditPhotoActivity extends BaseActivity {
     /**
      * 本地方法,根据本地路径显示图片
      * 根据图片路径显示图片的方法
-     * */
+     */
     private void displayImage(String imagePath) {
+        FLAG_CLIPED = false;
+
         if (imagePath != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             ivPhoto.setImageBitmap(bitmap);
-
+            ivPhotoPreview.setImageBitmap(bitmap);
             this.imagePath = imagePath;
 
-        }else {
-            Toast.makeText(this,"fail!",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "fail to display image!", Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
      * 通过uri和selection来获取真实的图片路径
-     * */
-    private String getImagePath(Uri uri,String selection) {
+     */
+    private String getImagePath(Uri uri, String selection) {
         String path = null;
-        Cursor cursor = getContentResolver().query(uri,null,selection,null,null);
+        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
@@ -238,9 +197,11 @@ public class ProfileEditPhotoActivity extends BaseActivity {
         }
         return path;
     }
+
     /**
      * 在菜单栏构建按钮
      * 使用Menu包下的menu布局文件
+     *
      * @param menu
      * @return
      */
@@ -253,26 +214,48 @@ public class ProfileEditPhotoActivity extends BaseActivity {
 
     /**
      * menu下的按钮的点击事件
+     *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_use_gallery:
+            case R.id.menu_use_gallery://from gallery
                 select_photo();
-                Toast.makeText(this, "Gallery", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.menu_use_camera:
-                Toast.makeText(this, "Cam", Toast.LENGTH_SHORT).show();
+            case R.id.menu_use_camera: //from camera
+
+                return true;
+            case R.id.menu_use_clip:
+                if (imagePath.isEmpty()) {
+                    Toast.makeText(this, "请选择图片后再裁剪!", Toast.LENGTH_SHORT).show();
+                } else {
+                    mOutputPath = new File(getExternalCacheDir(), "output.jpg").getPath();
+
+                    ClipImageActivity.prepare()
+                            .aspectX(3).aspectY(2)
+                            .inputPath(imagePath).outputPath(mOutputPath)
+                            .startForResult(this, getREQUEST_CODE_CUT_IMAGE);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    /**
+     * upload photo to server
+     * do in ProfileActivity
+     *
+     * @param view
+     */
     public void upload(View view) {
-        setResult(RESULT_OK, new Intent().putExtra("data", imagePath));
+        if (imagePath.isEmpty()) {
+            Toast.makeText(this, "这已是您的头像!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        setResult(RESULT_OK, new Intent().putExtra("data", FLAG_CLIPED ? clippedPath : imagePath));
         finish();
     }
 }

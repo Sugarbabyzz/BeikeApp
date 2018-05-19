@@ -3,11 +3,14 @@ package com.example.beikeapp.Util.ProfileUtil;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private RelativeLayout rlProfileGender;
     private RelativeLayout rlProfileSchool;
     private RelativeLayout rlProfileClass;
+    private ImageView ivPhoto;
     private TextView tvProfileName;
     private TextView tvProfileGender;
     private TextView tvProfileSchool;
@@ -47,13 +51,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private ProgressDialog progressDialog;
 
-
     private static final int REQUEST_CODE_EDIT_PROFILE_NAME = 1;
     private static final int REQUEST_CODE_EDIT_PROFILE_PHOTO = 2;
     private static final int REQUEST_CODE_EDIT_PROFILE_GENDER = 3;
     private static final int REQUEST_CODE_EDIT_PROFILE_CLASS = 4;
     private static final int REQUEST_CODE_EDIT_PROFILE_SCHOOL = 5;
-
 
 
     @Override
@@ -62,7 +64,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         //hide action bar
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.hide();
         }
         setContentView(R.layout.my_profile_main);
@@ -70,20 +72,23 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         initView();
 
         id = BaseId;
+
         pfName = getIntent().getStringExtra("name");
         pfGender = getIntent().getStringExtra("gender");
-
+        //从静态变量中获取无法用Intent传递的bitmap
+        Bitmap bitmap = BitmapStore.isSet ? BitmapStore.bitmap : null;
+        ivPhoto.setImageBitmap(bitmap);
         tvProfileName.setText(pfName);
         tvProfileGender.setText(pfGender);
+
         //学生和老师的身份，还需要获取school,classes字段
-        if (id.equals(GlobalConstant.ID_TEACHER) || id.equals(GlobalConstant.ID_STUDENT)){
+        if (id.equals(GlobalConstant.ID_TEACHER) || id.equals(GlobalConstant.ID_STUDENT)) {
             llSchoolAndClass.setVisibility(View.VISIBLE); //学生和老师的身份，学校名和班级也可修改，改为可见
             pfSchool = getIntent().getStringExtra("school");
             pfClasses = getIntent().getStringExtra("classes");
             tvProfileSchool.setText(pfSchool);
             tvProfileClass.setText(pfClasses);
         }
-
 
 
     }
@@ -97,6 +102,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         llSchoolAndClass = findViewById(R.id.ll_school_and_class);
 
+        ivPhoto = findViewById(R.id.img_profile_photo);
         tvProfileName = findViewById(R.id.tv_profile_name);
         tvProfileGender = findViewById(R.id.tv_profile_gender);
         tvProfileSchool = findViewById(R.id.tv_profile_school);
@@ -113,31 +119,31 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.rl_profile_photo:
-                startActivityForResult(new Intent(ProfileActivity.this,ProfileEditPhotoActivity.class),
+                startActivityForResult(new Intent(ProfileActivity.this, ProfileEditPhotoActivity.class),
                         REQUEST_CODE_EDIT_PROFILE_PHOTO);
                 break;
             case R.id.rl_profile_name: // 更改姓名
-                startActivityForResult(new Intent(ProfileActivity.this,ProfileDetailsEditActivity.class)
-                                .putExtra("title","编辑姓名")
-                                .putExtra("data",pfName),
+                startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditActivity.class)
+                                .putExtra("title", "编辑姓名")
+                                .putExtra("data", pfName),
                         REQUEST_CODE_EDIT_PROFILE_NAME);
                 break;
             case R.id.rl_profile_school: // 更改学校名
-                startActivityForResult(new Intent(ProfileActivity.this,ProfileDetailsEditActivity.class)
-                                .putExtra("title","编辑学校名")
-                                .putExtra("data",pfSchool),
+                startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditActivity.class)
+                                .putExtra("title", "编辑学校名")
+                                .putExtra("data", pfSchool),
                         REQUEST_CODE_EDIT_PROFILE_SCHOOL);
                 break;
             case R.id.rl_profile_gender: //更改性别
-                startActivityForResult(new Intent(ProfileActivity.this,ProfileDetailsEditGenderActivity.class)
-                                .putExtra("data",pfGender),
+                startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditGenderActivity.class)
+                                .putExtra("data", pfGender),
                         REQUEST_CODE_EDIT_PROFILE_GENDER);
                 break;
             case R.id.rl_profile_class: //更改班级
-                startActivityForResult(new Intent(ProfileActivity.this,ProfileDetailsEditClassActivity.class)
-                                .putExtra("data",pfClasses),
+                startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditClassActivity.class)
+                                .putExtra("data", pfClasses),
                         REQUEST_CODE_EDIT_PROFILE_CLASS);
                 break;
         }
@@ -145,6 +151,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 点击编辑页面的保存按钮，调用该方法
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -156,20 +163,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if (resultCode == RESULT_OK) {
             if (progressDialog == null) {
                 progressDialog = new ProgressDialog(ProfileActivity.this);
-                progressDialog.setMessage("don't know what this string is for..");
+                progressDialog.setMessage("Something is happening...");
                 progressDialog.setCanceledOnTouchOutside(false);
             }
             switch (requestCode) {
                 case REQUEST_CODE_EDIT_PROFILE_NAME: //修改姓名
                     final String name = data.getStringExtra("data");
-                    if (!TextUtils.isEmpty(name)){
+                    if (!TextUtils.isEmpty(name)) {
                         progressDialog.setMessage("正在修改姓名...");
                         progressDialog.show();
                     }
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                ChangeInfoTask(ProfileActivity.this,BaseId,"Name",name);
+                                ChangeInfoTask(ProfileActivity.this, BaseId, "Name", name);
 
                                 runOnUiThread(new Runnable() {
                                     public void run() {
@@ -199,7 +206,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                ChangeInfoTask(ProfileActivity.this,BaseId,"School",schoolName);
+                                ChangeInfoTask(ProfileActivity.this, BaseId, "School", schoolName);
 
                                 runOnUiThread(new Runnable() {
                                     public void run() {
@@ -230,7 +237,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                ChangeInfoTask(ProfileActivity.this,BaseId,"Sex",gender);
+                                ChangeInfoTask(ProfileActivity.this, BaseId, "Sex", gender);
 
                                 runOnUiThread(new Runnable() {
                                     public void run() {
@@ -261,7 +268,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         public void run() {
                             try {
                                 String classes = StringUtils.join(classesList, ",");
-                                ChangeInfoTask(ProfileActivity.this,BaseId,"Class",classes);
+                                ChangeInfoTask(ProfileActivity.this, BaseId, "Class", classes);
 
                                 runOnUiThread(new Runnable() {
                                     public void run() {
@@ -282,41 +289,39 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }).start();
                     break;
 
-                case REQUEST_CODE_EDIT_PROFILE_PHOTO:
+                case REQUEST_CODE_EDIT_PROFILE_PHOTO: // change profile photo
                     final String path = data.getStringExtra("data");
-
-                    Log.d(TAG + "imgPath:",path);
 
                     if (!path.isEmpty()) {
                         progressDialog.setMessage("正在上传图片...");
                         progressDialog.show();
                     }
+                    try {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            try {
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
+                                new UploadFileTask(path, BaseId, EMClient.getInstance().getCurrentUser(), ProfileActivity.this).execute();
 
-                                        new UploadFileTask(path,BaseId,EMClient.getInstance().getCurrentUser()).execute();
-
-                                    }
-                                }).start();
-
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        progressDialog.dismiss();
-                                    }
-                                });
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), "fail to upload image!", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
                             }
+                        }).start();
+
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                progressDialog.dismiss();
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "fail to upload image!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
                     break;
 
             }
@@ -326,11 +331,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 更新数据库信息
+     *
      * @param context
      */
     private void ChangeInfoTask(Context context, String ida, final String columnName, final String data) {
 
-        String url = GlobalConstant.URL_CHANGE_PROFILE_INFO  + "?id=" + id
+        String url = GlobalConstant.URL_CHANGE_PROFILE_INFO + "?id=" + id
                 + "&account=" + EMClient.getInstance().getCurrentUser()
                 + "&columnName=" + columnName
                 + "&data=" + data;
@@ -342,7 +348,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                 //修改成功
                 if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)) {
-                    switch (columnName){
+                    switch (columnName) {
                         case "Name":
                             tvProfileName.setText(data);
                             break;
@@ -361,19 +367,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                     Toast.makeText(ProfileActivity.this,
                             "修改成功!", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG,"info changed!");
+                    Log.d(TAG, "info changed!");
                 }
                 //修改失败
                 else if (listData.get(0).equals(GlobalConstant.FLAG_FAILURE)) {
                     Toast.makeText(ProfileActivity.this,
                             "修改失败!", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG,"info failed to be changed!");
+                    Log.d(TAG, "info failed to be changed!");
                 }
                 //未知错误
                 else {
                     Toast.makeText(ProfileActivity.this,
                             "ERROR!", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG,"UNKNOWN ERROR!");
+                    Log.d(TAG, "UNKNOWN ERROR!");
                 }
             }
 
@@ -384,7 +390,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-    public void back(View view){
+    public void back(View view) {
         finish();
     }
 

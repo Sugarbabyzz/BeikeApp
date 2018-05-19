@@ -13,5 +13,8 @@
         android:id="@+id/menu_use_camera"
         android:title="使用相机"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/menu_use_clip"
+        android:title="裁剪"
+        app:showAsAction="ifRoom" />
 </menu>

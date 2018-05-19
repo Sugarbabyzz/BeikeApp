@@ -41,6 +41,9 @@ dependencies {
     //底栏
     compile 'com.hjm:BottomTabBar:1.2.0'
     implementation files('libs/MiPush_SDK_Client_3_6_2.jar')
+    //image clip
+    compile 'com.githang:clipimageview:0.1'
+
 }
 
 // 添加插件

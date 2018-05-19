@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
         <TextView
-            android:text="我"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:text="我"
             android:textColor="#ffffff"
             android:textSize="26sp" />
 
@@ -40,21 +40,24 @@
 
                 <ImageView
                     android:id="@+id/img_profile_photo"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/em_app_pref_bg"/>
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp" />
 
 
                 <TextView
                     android:id="@+id/tv_profile_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="110dip"
-                    android:text="Name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toEndOf="@id/img_profile_photo"
+                    android:layout_toRightOf="@id/img_profile_photo"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:typeface="serif" />
+                    android:typeface="serif"
+                    android:layout_marginStart="5dp" />
 
                 <TextView
                     android:layout_width="match_parent"
