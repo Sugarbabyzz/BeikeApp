@@ -1,16 +1,22 @@
 package com.example.beikeapp.Util.ProfileUtil;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,9 +40,12 @@ import java.net.URL;
 
 public class ProfileEditPhotoActivity extends BaseActivity {
 
-    private final int REQUEST_CODE_GET_IMAGE = 1;
+    private final String TAG = "ProfileEditPhotoErr";
 
-    private final int REQUEST_CODE_TAKE_PHOTO = 2;
+
+    private final int REQUEST_CODE_OPEN_GALLERY = 1;
+
+    private final int REQUEST_CODE_OPEN_CAMERA = 2;
 
     private final int getREQUEST_CODE_CUT_IMAGE = 3;
 
@@ -53,6 +62,8 @@ public class ProfileEditPhotoActivity extends BaseActivity {
     private String mOutputPath;
 
     private Bitmap bitmap;
+
+    private File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +99,7 @@ public class ProfileEditPhotoActivity extends BaseActivity {
         //Intent i = new Intent(Intent.ACTION_PICK);
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
         intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_CODE_GET_IMAGE);
+        startActivityForResult(intent, REQUEST_CODE_OPEN_GALLERY);
     }
 
     @Override
@@ -97,7 +108,7 @@ public class ProfileEditPhotoActivity extends BaseActivity {
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_CODE_GET_IMAGE:
+                case REQUEST_CODE_OPEN_GALLERY:
                     //判断手机系统版本号
                     if (Build.VERSION.SDK_INT > 19) {
                         // > 4.4
@@ -108,7 +119,17 @@ public class ProfileEditPhotoActivity extends BaseActivity {
                     }
                     break;
 
-                case REQUEST_CODE_TAKE_PHOTO:
+                case REQUEST_CODE_OPEN_CAMERA:
+                    imagePath = file.getAbsolutePath();
+                    Bitmap bm = BitmapFactory.decodeFile(imagePath);
+                    ivPhoto.setImageBitmap(bm);
+                    ivPhotoPreview.setImageBitmap(bm);
+
+                    //在手机相册中显示刚拍摄的图片
+                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    Uri contentUri = Uri.fromFile(file);
+                    mediaScanIntent.setData(contentUri);
+                    sendBroadcast(mediaScanIntent);
                     break;
                 case getREQUEST_CODE_CUT_IMAGE:
                     clippedPath = ClipImageActivity.ClipOptions.createFromBundle(data).getOutputPath();
@@ -225,7 +246,11 @@ public class ProfileEditPhotoActivity extends BaseActivity {
                 select_photo();
                 return true;
             case R.id.menu_use_camera: //from camera
-
+                try {
+                    askForPermission();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
             case R.id.menu_use_clip:
                 if (imagePath.isEmpty()) {
@@ -241,6 +266,63 @@ public class ProfileEditPhotoActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * open cam
+     */
+    private void openCam() throws IOException {
+
+
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                     + System.currentTimeMillis() + ".jpg");
+            file.createNewFile();
+            Uri uri;
+            if (Build.VERSION.SDK_INT >= 24) {
+                uri = FileProvider.getUriForFile(this, "com.example.beikeapp.fileprovider", file);
+            }else {
+                uri = Uri.fromFile(file);
+            }
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            //添加权限
+            //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            startActivityForResult(intent, REQUEST_CODE_OPEN_CAMERA);
+
+    }
+
+    public void askForPermission() throws IOException {
+
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            int check = ContextCompat.checkSelfPermission(this, permissions[0]);
+            // 权限是否已经 授权 GRANTED---授权  DENIED---拒绝
+            if (check == PackageManager.PERMISSION_GRANTED) {
+                //调用相机
+                openCam();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
+            }
+        } else {
+            openCam();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 4 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            try {
+                openCam();
+            } catch (IOException e) {
+                Log.d(TAG,e.getMessage());
+            }
+        } else {
+            // 没有获取 到权限，从新请求，或者关闭app
+            Toast.makeText(this, "需要存储权限", Toast.LENGTH_SHORT).show();
         }
     }
 
