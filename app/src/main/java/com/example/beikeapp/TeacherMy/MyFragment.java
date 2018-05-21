@@ -29,6 +29,7 @@ import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.example.beikeapp.Util.ProfileUtil.ProfileInfo;
 import com.example.beikeapp.Util.ProfileUtil.ProfileActivity;
+import com.example.beikeapp.Util.ProfileUtil.SettingActivity;
 import com.hyphenate.chat.EMClient;
 
 import java.io.IOException;
@@ -56,14 +57,13 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     private String id; // 用户身份
     private String name, gender, school, classes;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private RelativeLayout rlProfile;
     private RelativeLayout rlSetting;
     private TextView tvName;
     private ImageView ivPhoto;
     private Bitmap bitmap = null;
     private ProgressDialog progressDialog;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         }
 
         //get image
-        oneThread tt = new oneThread();
+        OneThread tt = new OneThread();
         tt.start();
         try {
             tt.join();
@@ -133,7 +133,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    public class oneThread extends Thread{
+    public class OneThread extends Thread{
 
         @Override
         public void run() {
@@ -256,11 +256,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         ivPhoto = view.findViewById(R.id.img_profile_photo);
         rlProfile.setOnClickListener(this);
         rlSetting.setOnClickListener(this);
+
         //下拉刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                oneThread tt = new oneThread();
+                OneThread tt = new OneThread();
                 tt.start();
                 try {
                     tt.join();
@@ -282,6 +283,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), ProfileActivity.class));
                 break;
             case R.id.rl_setting:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
         }
     }

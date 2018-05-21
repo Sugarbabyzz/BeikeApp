@@ -1,6 +1,7 @@
 package com.example.beikeapp.ParentMain;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.BaseActivity;
@@ -15,6 +16,12 @@ public class ParentMainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_main);
+
+        //hide action bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         //加载底部导航
         btmBar = findViewById(R.id.parent_bottom_tab_bar);

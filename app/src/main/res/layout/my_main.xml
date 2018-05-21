@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <!--标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:orientation="vertical">
-
+            <!--personal info-->
             <RelativeLayout
                 android:id="@+id/rl_profile"
                 android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:layout_marginRight="10dip"
                     android:background="#E6E6E6" />
             </RelativeLayout>
-
+            <!--setting-->
             <RelativeLayout
                 android:id="@+id/rl_setting"
                 android:layout_width="match_parent"

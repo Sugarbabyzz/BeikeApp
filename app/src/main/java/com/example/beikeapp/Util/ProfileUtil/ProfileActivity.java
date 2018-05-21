@@ -321,7 +321,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
      *
      * @param context
      */
-    private void ChangeInfoTask(Context context, String ida, final String columnName, final String data) {
+    private void ChangeInfoTask(Context context, String id, final String columnName, final String data) {
 
         String url = GlobalConstant.URL_CHANGE_PROFILE_INFO + "?id=" + id
                 + "&account=" + EMClient.getInstance().getCurrentUser()
