@@ -41,9 +41,11 @@ dependencies {
     //底栏
     compile 'com.hjm:BottomTabBar:1.2.0'
     implementation files('libs/MiPush_SDK_Client_3_6_2.jar')
+    //Material Design包导入
+    //注：使用ToolBar，需要将AppThmem设置为NoActionBar
+    implementation 'com.android.support:design:26.1.0'
     //image clip
     compile 'com.githang:clipimageview:0.1'
-
 }
 
 // 添加插件
