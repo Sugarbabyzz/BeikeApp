@@ -1,8 +1,11 @@
 package com.example.beikeapp.Util.ProfileUtil;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.beikeapp.Constant.GlobalConstant;
@@ -23,11 +26,14 @@ public class UploadFileTask extends AsyncTask<String,Void,String> {
 
     private Context context;
 
-    public UploadFileTask(String path, String id,String account,Context context) {
+    private ImageView iv;
+
+    public UploadFileTask(String path, String id,String account,Context context,ImageView iv) {
         this.path = path;
         this.id = id;
         this.account = account;
         this.context = context;
+        this.iv = iv;
     }
 
     @Override
@@ -40,6 +46,8 @@ public class UploadFileTask extends AsyncTask<String,Void,String> {
         super.onPostExecute(s);
         if (s.equals(GlobalConstant.FLAG_SUCCESS)){
             Toast.makeText(context,"上传成功!",Toast.LENGTH_SHORT).show();
+            ProfileInfo.bitmap = BitmapFactory.decodeFile(path);
+            iv.setImageBitmap(ProfileInfo.bitmap);
         }
         else if (s.equals(GlobalConstant.FLAG_FAILURE)){
             Toast.makeText(context,"上传失败!",Toast.LENGTH_SHORT).show();

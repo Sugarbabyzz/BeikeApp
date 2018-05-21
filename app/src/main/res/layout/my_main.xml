@@ -21,10 +21,10 @@
 
     </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f2f0eb">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout_my_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,12 +52,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_toEndOf="@id/img_profile_photo"
                     android:layout_toRightOf="@id/img_profile_photo"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:typeface="serif"
-                    android:layout_marginStart="5dp" />
+                    android:typeface="serif" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -123,6 +123,6 @@
             </RelativeLayout>
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

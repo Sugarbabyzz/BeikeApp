@@ -3,8 +3,6 @@ package com.example.beikeapp.Util.ProfileUtil;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,17 +33,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private RelativeLayout rlProfileGender;
     private RelativeLayout rlProfileSchool;
     private RelativeLayout rlProfileClass;
-    private ImageView ivPhoto;
+    private ImageView ivProfilePhoto;
     private TextView tvProfileName;
     private TextView tvProfileGender;
     private TextView tvProfileSchool;
     private TextView tvProfileClass;
     private LinearLayout llSchoolAndClass;
     private String id;
-    private String pfName;
-    private String pfGender;
-    private String pfSchool;
-    private String pfClasses;
 
     private static final String TAG = "ProfileActivity";
 
@@ -73,28 +67,26 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         id = BaseId;
 
-        pfName = getIntent().getStringExtra("name");
-        pfGender = getIntent().getStringExtra("gender");
+        if (ProfileInfo.isSet) {
+            tvProfileName.setText(ProfileInfo.name);
+            if (ProfileInfo.bitmap == null){
+                ivProfilePhoto.setBackgroundResource(R.drawable.bg_border);
+            }else {
+                ivProfilePhoto.setImageBitmap(ProfileInfo.bitmap);
+            }
+            tvProfileGender.setText(ProfileInfo.gender);
 
-        if (BitmapStore.isSet){
-            //从静态变量中获取无法用Intent传递的bitmap
-            ivPhoto.setImageBitmap(BitmapStore.bitmap);
+            //学生和老师的身份，还需要set school,classes字段
+            if (!id.equals(GlobalConstant.ID_PARENT)) {
+                llSchoolAndClass.setVisibility(View.VISIBLE);
+                //学生和老师的身份，学校名和班级也可修改，改为可见
+                tvProfileSchool.setText(ProfileInfo.school);
+                tvProfileClass.setText(ProfileInfo.classes);
+            }
         } else {
-            ivPhoto.setBackgroundResource(R.drawable.bg_border);
+            Toast.makeText(this,"UNKNOWN ERROR",Toast.LENGTH_SHORT).show();
+
         }
-
-        tvProfileName.setText(pfName);
-        tvProfileGender.setText(pfGender);
-
-        //学生和老师的身份，还需要获取school,classes字段
-        if (id.equals(GlobalConstant.ID_TEACHER) || id.equals(GlobalConstant.ID_STUDENT)) {
-            llSchoolAndClass.setVisibility(View.VISIBLE); //学生和老师的身份，学校名和班级也可修改，改为可见
-            pfSchool = getIntent().getStringExtra("school");
-            pfClasses = getIntent().getStringExtra("classes");
-            tvProfileSchool.setText(pfSchool);
-            tvProfileClass.setText(pfClasses);
-        }
-
 
     }
 
@@ -107,7 +99,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         llSchoolAndClass = findViewById(R.id.ll_school_and_class);
 
-        ivPhoto = findViewById(R.id.img_profile_photo);
+        ivProfilePhoto = findViewById(R.id.img_profile_photo);
         tvProfileName = findViewById(R.id.tv_profile_name);
         tvProfileGender = findViewById(R.id.tv_profile_gender);
         tvProfileSchool = findViewById(R.id.tv_profile_school);
@@ -132,23 +124,23 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.rl_profile_name: // 更改姓名
                 startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditActivity.class)
                                 .putExtra("title", "编辑姓名")
-                                .putExtra("data", pfName),
+                                .putExtra("data", ProfileInfo.name),
                         REQUEST_CODE_EDIT_PROFILE_NAME);
                 break;
             case R.id.rl_profile_school: // 更改学校名
                 startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditActivity.class)
                                 .putExtra("title", "编辑学校名")
-                                .putExtra("data", pfSchool),
+                                .putExtra("data", ProfileInfo.school),
                         REQUEST_CODE_EDIT_PROFILE_SCHOOL);
                 break;
             case R.id.rl_profile_gender: //更改性别
                 startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditGenderActivity.class)
-                                .putExtra("data", pfGender),
+                                .putExtra("data", ProfileInfo.gender),
                         REQUEST_CODE_EDIT_PROFILE_GENDER);
                 break;
             case R.id.rl_profile_class: //更改班级
                 startActivityForResult(new Intent(ProfileActivity.this, ProfileDetailsEditClassActivity.class)
-                                .putExtra("data", pfClasses),
+                                .putExtra("data", ProfileInfo.classes),
                         REQUEST_CODE_EDIT_PROFILE_CLASS);
                 break;
         }
@@ -294,7 +286,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }).start();
                     break;
 
-                case REQUEST_CODE_EDIT_PROFILE_PHOTO: // change profile photo
+                case REQUEST_CODE_EDIT_PROFILE_PHOTO: // 修改头像
                     final String path = data.getStringExtra("data");
 
                     if (!path.isEmpty()) {
@@ -302,20 +294,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         progressDialog.show();
                     }
                     try {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
+                        new UploadFileTask(path, BaseId, EMClient.getInstance().getCurrentUser(),
+                                ProfileActivity.this,ivProfilePhoto).execute();
 
-                                new UploadFileTask(path, BaseId, EMClient.getInstance().getCurrentUser(), ProfileActivity.this).execute();
-
-                            }
-                        }).start();
-
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                progressDialog.dismiss();
-                            }
-                        });
+                        progressDialog.dismiss();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -356,15 +338,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     switch (columnName) {
                         case "Name":
                             tvProfileName.setText(data);
+                            ProfileInfo.name = data;
                             break;
                         case "School":
                             tvProfileSchool.setText(data);
+                            ProfileInfo.school = data;
                             break;
                         case "Sex":
                             tvProfileGender.setText(data);
+                            ProfileInfo.gender = data;
                             break;
                         case "Class":
                             tvProfileClass.setText(data);
+                            ProfileInfo.classes = data;
                             break;
                         default:
                             break;

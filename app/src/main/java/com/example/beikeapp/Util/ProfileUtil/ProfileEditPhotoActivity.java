@@ -22,21 +22,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewDebug;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.ProfileUtil.clipimage.ClipImageActivity;
-import com.hyphenate.chat.EMClient;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class ProfileEditPhotoActivity extends BaseActivity {
 
@@ -72,7 +66,7 @@ public class ProfileEditPhotoActivity extends BaseActivity {
         //图片是否经过裁剪的标志位
         FLAG_CLIPED = false;
 
-        bitmap = BitmapStore.isSet ? BitmapStore.bitmap : null;
+        bitmap = ProfileInfo.isSet ? ProfileInfo.bitmap : null;
 
         ivPhoto = findViewById(R.id.iv_profile_photo);
         ivPhotoPreview = findViewById(R.id.iv_profile_photo_preview);
