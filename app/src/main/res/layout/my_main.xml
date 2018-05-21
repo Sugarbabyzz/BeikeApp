@@ -4,34 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <!--标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
         <TextView
-            android:text="我"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:text="我"
             android:textColor="#ffffff"
             android:textSize="26sp" />
 
     </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f2f0eb">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout_my_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:orientation="vertical">
-
+            <!--personal info-->
             <RelativeLayout
                 android:id="@+id/rl_profile"
                 android:layout_width="match_parent"
@@ -40,18 +40,21 @@
 
                 <ImageView
                     android:id="@+id/img_profile_photo"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/em_app_pref_bg"/>
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp" />
 
 
                 <TextView
                     android:id="@+id/tv_profile_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="110dip"
-                    android:text="Name"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/img_profile_photo"
+                    android:layout_toRightOf="@id/img_profile_photo"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:typeface="serif" />
@@ -64,7 +67,7 @@
                     android:layout_marginRight="10dip"
                     android:background="#E6E6E6" />
             </RelativeLayout>
-
+            <!--setting-->
             <RelativeLayout
                 android:id="@+id/rl_setting"
                 android:layout_width="match_parent"
@@ -91,7 +94,6 @@
                     android:background="#E6E6E6" />
             </RelativeLayout>
 
-
             <!--for student only-->
             <RelativeLayout
                 android:id="@+id/rl_correction_book"
@@ -101,7 +103,6 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/tv_correction_book"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -122,6 +123,6 @@
             </RelativeLayout>
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

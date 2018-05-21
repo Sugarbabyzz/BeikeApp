@@ -1,6 +1,7 @@
 package com.example.beikeapp.TeacherMain;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.BaseActivity;
@@ -16,6 +17,11 @@ public class TeacherMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_main);
 
+        //hide action bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         //set BottomTabBar
         btmBar = findViewById(R.id.bottom_tab_bar);
