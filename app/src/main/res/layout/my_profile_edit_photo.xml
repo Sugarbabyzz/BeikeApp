@@ -2,13 +2,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#f2f0eb"
     android:orientation="vertical">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_edit_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设置头像"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="25dp"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_pre"-->
+                    <!--android:layout_width="32dp"-->
+                    <!--android:layout_height="32dp"-->
+                    <!--android:layout_alignParentLeft="true"-->
+                    <!--android:src="@drawable/pre"-->
+                    <!--android:layout_alignParentStart="true" />-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_card"-->
+                    <!--android:layout_width="32dp"-->
+                    <!--android:layout_height="32dp"-->
+                    <!--android:layout_margin="8dp"-->
+                    <!--android:layout_toRightOf="@id/img_pre"-->
+                    <!--android:src="@drawable/quecard"/>-->
+
+                <!--<Chronometer-->
+                    <!--android:id="@+id/mytime"-->
+                    <!--android:layout_width="80dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_toRightOf="@id/img_card"-->
+                    <!--android:textColor="@color/white" />-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_collect"-->
+                    <!--android:layout_width="32dp"-->
+                    <!--android:layout_height="32dp"-->
+                    <!--android:layout_toRightOf="@id/mytime"-->
+                    <!--android:src="@drawable/star_uncollected"-->
+                    <!--android:layout_margin="8dp"/>-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_next"-->
+                    <!--android:layout_width="32dp"-->
+                    <!--android:layout_height="32dp"-->
+                    <!--android:layout_toRightOf="@id/img_collect"-->
+                    <!--android:src="@drawable/next"/>-->
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/app_bar"
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
-        android:layout_height="350dp">
+        android:layout_height="310dp">
 
         <ImageView
             android:id="@+id/iv_profile_photo"
