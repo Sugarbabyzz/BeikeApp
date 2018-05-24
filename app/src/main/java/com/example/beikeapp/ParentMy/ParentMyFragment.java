@@ -36,7 +36,7 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ParentMyFragment#newInstance} factory method to
+ * Use the ` factory method to
  * create an instance of this fragment.
  */
 public class ParentMyFragment extends Fragment implements View.OnClickListener{
@@ -51,8 +51,6 @@ public class ParentMyFragment extends Fragment implements View.OnClickListener{
 
     private String id; // 用户身份
     private String name, gender;
-    private String school = null;
-    private String classes = null;
     private RelativeLayout rlProfile;
     private RelativeLayout rlSetting;
     private TextView tvName;
@@ -155,7 +153,7 @@ public class ParentMyFragment extends Fragment implements View.OnClickListener{
                     name = resultArray[2];
                     gender = resultArray[3];
                     // save all the info into a class for further use
-                    new ProfileInfo().setInfoAsNonParent(name,gender,school,classes,bitmap);
+                    new ProfileInfo().setInfoAsParent(name,gender,bitmap);
 
                     setUpView();
                     progressDialog.dismiss();
