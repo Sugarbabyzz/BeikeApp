@@ -23,6 +23,7 @@ import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.util.List;
 
@@ -44,6 +45,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        MiPushClient.setUserAccount(LoginActivity.this,"45726929321985",null);
+        Log.d(TAG,"EXED!!!!");
         initView();
 
     }
@@ -240,9 +243,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 //根据身份登录
                 switch (BaseId){
                     case GlobalConstant.ID_TEACHER:
+
                         startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
                         break;
                     case GlobalConstant.ID_STUDENT:
+                        MiPushClient.setUserAccount(LoginActivity.this,"45726929321985",null);
                         startActivity(new Intent(LoginActivity.this, StudentMain.class));
                         break;
                     case GlobalConstant.ID_PARENT:

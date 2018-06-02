@@ -41,9 +41,7 @@
         tools:replace="android:name">
         //活动注册
         //启动页
-        <activity android:name=".StartPage.WelcomeActivity" >
-
-        </activity>
+        <activity android:name=".StartPage.WelcomeActivity"></activity>
         //引导页
         <activity android:name=".StartPage.GuideActivity" />
         //登录页
@@ -65,7 +63,9 @@
         //学生主页
         <activity android:name=".StudentMain.StudentMain" />
         <activity android:name=".StudentMain.Activity.SearchActivity" />
-        <activity android:name=".StudentMain.Activity.DetailActivity"  android:launchMode="singleInstance"/>
+        <activity
+            android:name=".StudentMain.Activity.DetailActivity"
+            android:launchMode="singleInstance" />
         <activity android:name=".StudentMain.Activity.ExerciseMainActivity" />
         <activity android:name=".StudentMain.Activity.QuestionActivity" />
         <activity android:name=".StudentMain.Activity.CardActivity" />
@@ -191,7 +191,8 @@
 
         <activity android:name=".Util.ProfileUtil.AboutUsActivity" />
         <activity android:name=".Util.ProfileUtil.ChangePswActivity" />
-        <activity android:name=".Util.ProfileUtil.CleanCacheActivity"></activity>
+        <activity android:name=".Util.ProfileUtil.CleanCacheActivity" />
+        <activity android:name=".TeacherMain.Notify.TeacherMainNotify"></activity>
     </application>
 
 </manifest>
