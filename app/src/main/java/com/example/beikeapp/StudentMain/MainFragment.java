@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentMain.Activity.ExerciseMainActivity;
 import com.example.beikeapp.StudentMain.Activity.SearchActivity;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +67,14 @@ public class MainFragment extends Fragment implements View.OnClickListener{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        //将学生所在班级群id作为小米推送UserAccount，进行注册
+        try {
+            MiPushClient.setUserAccount(getActivity(), EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId(), null);
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
