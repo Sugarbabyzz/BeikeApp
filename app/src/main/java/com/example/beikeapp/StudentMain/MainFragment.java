@@ -22,12 +22,12 @@ import com.xiaomi.mipush.sdk.MiPushClient;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements View.OnClickListener{
+public class MainFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String TAG = "StuMainFragment";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -69,11 +69,18 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         }
 
         //将学生所在班级群id作为小米推送UserAccount，进行注册
-        try {
-            MiPushClient.setUserAccount(getActivity(), EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId(), null);
-        } catch (HyphenateException e) {
-            e.printStackTrace();
-        }
+        //耗时程序,线程中运行
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MiPushClient.setUserAccount(getActivity(),
+                            EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId(), null);
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
     }
 
@@ -99,7 +106,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_do_homework:
                 Toast.makeText(getActivity(), "Do homework Clicked ", Toast.LENGTH_SHORT).show();
                 break;
