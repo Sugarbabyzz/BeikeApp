@@ -11,6 +11,7 @@ import com.example.beikeapp.StudentMain.StudentMain;
 import com.example.beikeapp.Util.BaseActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 public class StudentRegisterSuccess extends BaseActivity implements View.OnClickListener {
 
