@@ -45,10 +45,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        MiPushClient.setUserAccount(LoginActivity.this,"45726929321985",null);
-        Log.d(TAG,"EXED!!!!");
         initView();
-
     }
 
     /**

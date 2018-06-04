@@ -60,7 +60,6 @@ public class StudentRegisterSuccess extends BaseActivity implements View.OnClick
                     public void run() {
                         try {
                             EMClient.getInstance().groupManager().joinGroup(code);
-                            MiPushClient.setUserAccount(StudentRegisterSuccess.this,code,null);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
