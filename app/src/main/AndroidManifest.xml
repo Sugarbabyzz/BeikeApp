@@ -41,7 +41,7 @@
         tools:replace="android:name">
         //活动注册
         //启动页
-        <activity android:name=".StartPage.WelcomeActivity"></activity>
+        <activity android:name=".StartPage.WelcomeActivity" />
         //引导页
         <activity android:name=".StartPage.GuideActivity" />
         //登录页
@@ -192,7 +192,8 @@
         <activity android:name=".Util.ProfileUtil.AboutUsActivity" />
         <activity android:name=".Util.ProfileUtil.ChangePswActivity" />
         <activity android:name=".Util.ProfileUtil.CleanCacheActivity" />
-        <activity android:name=".TeacherMain.Notify.TeacherMainNotify"></activity>
+        <activity android:name=".TeacherMain.Notify.TeacherMainNotify" />
+        <activity android:name=".TeacherMain.Homework.AssignHomework"></activity>
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.beikeapp.R;
+import com.example.beikeapp.TeacherMain.Homework.AssignHomework;
 import com.example.beikeapp.TeacherMain.Notify.TeacherMainNotify;
 
 
@@ -34,8 +35,6 @@ public class TeacherMainFragment extends Fragment {
     private ListView lvFunctionList;
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +48,7 @@ public class TeacherMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_teacher_main,null);
+        View view = inflater.inflate(R.layout.fragment_teacher_main, null);
         initView(view);
 
         return view;
@@ -57,20 +56,20 @@ public class TeacherMainFragment extends Fragment {
 
     private void initView(View view) {
         lvFunctionList = view.findViewById(R.id.lv_shiShengFunctionList);
-        String[] functionList = new String[]{"发布通知","发布作业","发布评教","作业完成情况","师生群聊"};
+        String[] functionList = new String[]{"发布通知", "发布作业", "发布评教", "作业完成情况", "师生群聊"};
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_list_item_1,functionList);
+                android.R.layout.simple_list_item_1, functionList);
         lvFunctionList.setAdapter(mAdapter);
 
         lvFunctionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i){
+                switch (i) {
                     case 0:
-                        startActivity(new Intent(getActivity(),TeacherMainNotify.class));
-                         break;
+                        startActivity(new Intent(getActivity(), TeacherMainNotify.class));
+                        break;
                     case 1:
-                        Toast.makeText(getActivity(),"2",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), AssignHomework.class));
                         break;
                 }
             }
