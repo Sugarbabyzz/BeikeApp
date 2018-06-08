@@ -1,10 +1,15 @@
 package com.example.beikeapp.TeacherRegister;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.andreabaccega.widget.FormEditText;
@@ -26,6 +31,8 @@ import java.util.List;
 import mabbas007.tagsedittext.TagsEditText;
 
 public class TeacherRegister_SecondActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "TeacherRegister_Second";
     //上一活动传来的手机和密码
     private String account, password;
     //带错误校验的输入框
@@ -36,6 +43,7 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
 
     private Button registerBtn;
     private Button addClassBtn;
+    private Button btnRemoveClass;
     //滑动选择器，用于选择班级
     private OptionsPickerView pvNoLinkOptions;
     //添加的班级列表
@@ -57,8 +65,10 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
         rgGender = findViewById(R.id.rg_teacher_gender);
         registerBtn = findViewById(R.id.button_register);
         addClassBtn = findViewById(R.id.button_addClass);
+        btnRemoveClass = findViewById(R.id.button_remove_class);
         addClassBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
+        btnRemoveClass.setOnClickListener(this);
         mTagsEdit = findViewById(R.id.tagsEditText);
     }
 
@@ -66,10 +76,10 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_register:
+            case R.id.button_register: //注册
                 String name = etName.getText().toString();
                 String school = etSchool.getText().toString();
-                String gender = rgGender.getCheckedRadioButtonId() == R.id.rb_male?"男":"女";
+                String gender = rgGender.getCheckedRadioButtonId() == R.id.rb_male ? "男" : "女";
                 //从tagsList获取List并转换成String类型，用","隔开
                 List<String> tagsList = mTagsEdit.getTags();
                 String classes = StringUtils.join(tagsList, ",");
@@ -77,22 +87,47 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
                 //注册至环信后台
                 registerToHX(account, password);
                 //注册至我们自己的服务器
-                registerToUs(name, gender,school, classes);
+                registerToUs(name, gender, school, classes);
 
                 break;
-            case R.id.button_addClass:
+            case R.id.button_addClass: //添加班级
                 createPicker();
                 break;
+            case R.id.button_remove_class: //删除上一个添加的班级
+                removeClass();
             default:
                 break;
         }
     }
 
+    /**
+     * 删除已选择的上一个班级
+     */
+    private void removeClass() {
+        List<String> tagsList = mTagsEdit.getTags();
+        // 判断tagsList是否已经为空
+        if (tagsList.isEmpty()) {
+            Log.d(TAG, "removeClass: tagsList empty!");
+            return;
+        }
+        // 非空，remove掉上一个班级名
+        tagsList.remove(tagsList.size() - 1);
+        String[] tagsArray = new String[tagsList.size()];
+        tagsList.toArray(tagsArray);
+        mTagsEdit.setTags(tagsArray);
+    }
+
+    /**
+     * 创建滑动选择器
+     */
     private void createPicker() {
         initNoLinkOptionsPicker();
         pvNoLinkOptions.show();
     }
 
+    /**
+     * 初始化滑动选择器的数值
+     */
     private void initNoLinkOptionsPicker() {// 不联动的多级选项
         final ArrayList<String> grade = new ArrayList<>();
         final ArrayList<String> constant = new ArrayList<>();
@@ -141,6 +176,12 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
     }
 
 
+    /**
+     * 注册至环信服务器
+     *
+     * @param account
+     * @param password
+     */
     public void registerToHX(final String account, final String password) {
         new Thread(new Runnable() {
             @Override
@@ -155,7 +196,15 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
 
     }
 
-    public void registerToUs(String name, String gender,String school, String classes) {
+    /**
+     * 注册至我们的服务器
+     *
+     * @param name
+     * @param gender
+     * @param school
+     * @param classes
+     */
+    public void registerToUs(String name, String gender, String school, String classes) {
         String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_REGISTER
                 + "?account=" + account
                 + "&password=" + password
@@ -178,5 +227,6 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
         });
 
     }
+
 }
 

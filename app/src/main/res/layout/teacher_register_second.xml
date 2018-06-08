@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:TagsEditText="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:whatever="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:TagsEditText="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/ll_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="46dp">
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="姓名"
-        android:textSize="20dp" />
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="30dp">
 
-    <com.andreabaccega.widget.FormEditText
-        whatever:testType="nocheck"
-        android:id="@+id/et_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        whatever:emptyErrorString="姓名不能为空"
-        android:ems="10" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="姓名"
+            android:textSize="20dp" />
+
+        <com.andreabaccega.widget.FormEditText
+            android:id="@+id/et_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:ems="10"
+            whatever:emptyErrorString="姓名不能为空"
+            whatever:testType="nocheck" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,31 +36,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_name"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="46dp">
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="15dp">
+
         <TextView
-            android:text="性别"
-            android:textSize="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="性别"
+            android:textSize="20dp" />
+
         <RadioGroup
+            android:id="@+id/rg_teacher_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:id="@+id/rg_teacher_gender"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:orientation="horizontal">
+
             <RadioButton
+                android:id="@+id/rb_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Male"
                 android:checked="true"
-                android:id="@+id/rb_male"/>
+                android:text="男" />
+
             <RadioButton
+                android:id="@+id/rb_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Female"
-                android:id="@+id/rb_female"/>
+                android:text="女" />
         </RadioGroup>
     </LinearLayout>
 
@@ -68,8 +73,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_gender"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="46dp">
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/textView6"
@@ -77,54 +82,67 @@
             android:layout_height="wrap_content"
             android:text="学校"
             android:textSize="20dp" />
+
         <com.andreabaccega.widget.FormEditText
-            whatever:testType="nocheck"
             android:id="@+id/et_school"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginStart="15dp"
+            android:ems="10"
             whatever:emptyErrorString="学校名不能为空"
-            android:ems="10" />
+            whatever:testType="nocheck" />
 
     </LinearLayout>
 
 
-
-
-<LinearLayout
-    android:id="@+id/ll_class"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/ll_school"
-    android:layout_marginTop="15dp"
-    android:layout_marginLeft="46dp">
-    <TextView
-        android:id="@+id/textView7"
+    <LinearLayout
+        android:id="@+id/ll_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="班级"
-        android:textSize="20dp" />
+        android:layout_below="@id/ll_school"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="15dp">
 
-    <mabbas007.tagsedittext.TagsEditText
-        android:id="@+id/tagsEditText"
-        android:layout_width="216dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        TagsEditText:allowSpaceInTag="true"
-        TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
-        TagsEditText:tagsCloseImageRight="@drawable/tag_close"
-        TagsEditText:tagsTextColor="@color/colorAccent"
-        TagsEditText:tagsTextSize="@dimen/defaultTagsTextSize" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="班级"
+            android:textSize="20dp" />
+
+        <mabbas007.tagsedittext.TagsEditText
+            android:id="@+id/tagsEditText"
+            android:layout_width="216dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            TagsEditText:allowSpaceInTag="true"
+            android:enabled="false"
+            TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
+            TagsEditText:tagsCloseImageRight="@drawable/tag_close"
+            TagsEditText:tagsTextColor="@color/colorAccent"
+            TagsEditText:tagsTextSize="@dimen/defaultTagsTextSize" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/button_addClass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_class"
-        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/ll_class"
+        android:layout_alignStart="@+id/ll_class"
+        android:layout_below="@+id/ll_class"
         android:text="添加"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/button_remove_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ll_school"
+        android:layout_alignRight="@+id/ll_school"
+        android:layout_below="@+id/ll_class"
+        android:text="删除"
         android:textSize="20dp" />
 
 
@@ -132,12 +150,10 @@
         android:id="@+id/button_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/button_addClass"
-        android:layout_marginTop="47dp"
         android:text="完成注册" />
-
 
 
 </RelativeLayout>
