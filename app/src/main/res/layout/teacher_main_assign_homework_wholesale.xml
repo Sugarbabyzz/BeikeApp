@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.beikeapp.TeacherMain.Homework.AssignHomework">
+    tools:context="com.example.beikeapp.TeacherMain.Homework.AssignHomeworkWholesale">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:background="@drawable/bg_border"
             android:ems="10"
             android:gravity="start"
-            android:hint="作业"
+            android:hint="作业题"
             android:inputType="textMultiLine"
             android:maxLines="10"
             android:minLines="5"

@@ -19,7 +19,7 @@ public class AssignResult extends AppCompatActivity {
 
         initView();
 
-        homeworkAdapter = new HomeworkAdapter(this,1,Homework.homeworkList);
+        homeworkAdapter = new HomeworkAdapter(AssignResult.this,1,Homework.homeworkList);
         lvHomework.setAdapter(homeworkAdapter);
     }
 
