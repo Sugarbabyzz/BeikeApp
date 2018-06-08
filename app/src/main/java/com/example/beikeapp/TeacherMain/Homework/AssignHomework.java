@@ -1,8 +1,8 @@
 package com.example.beikeapp.TeacherMain.Homework;
 
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,8 +11,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.bumptech.glide.util.LogTime;
-import com.contrarywind.listener.OnItemSelectedListener;
 import com.example.beikeapp.R;
 
 public class AssignHomework extends AppCompatActivity implements View.OnClickListener {
@@ -101,36 +99,76 @@ public class AssignHomework extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_back_to_previous:
                 if (CURSOR == 0) {
                     Toast.makeText(this, "已是第一页!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "cursor:" + CURSOR);
+                    Log.d(TAG, "latest:" + LATEST_PAGE);
                 } else {
+                    if (CURSOR == LATEST_PAGE){
+                        subject = etSubject.getText().toString().trim();
+                        optionA = etOptionA.getText().toString().trim();
+                        optionB = etOptionB.getText().toString().trim();
+                        optionC = etOptionC.getText().toString().trim();
+                        optionD = etOptionD.getText().toString().trim();
+                        key = spinner.getSelectedItemPosition();
+
+                        saveCurrentHomework();
+                    }
                     CURSOR--;
+
                     setupUI();
+
+                    Log.d(TAG, "cursor:" + CURSOR);
+                    Log.d(TAG, "latest:" + LATEST_PAGE);
                 }
                 break;
             case R.id.btn_next:
-                /*CURSOR ++;
-                if (CURSOR <= LATEST_PAGE){
-                    setupUI();
-                }*/
-
-                subject = etSubject.getText().toString().trim();
-                optionA = etOptionA.getText().toString().trim();
-                optionB = etOptionB.getText().toString().trim();
-                optionC = etOptionC.getText().toString().trim();
-                optionD = etOptionD.getText().toString().trim();
-                key = spinner.getSelectedItemPosition();
-
-                if (testValidity()) {
-                    Homework hw = new Homework(subject, optionA, optionB, optionC, optionD, key);
-                    Homework.homeworkList.add(hw);
-                    CURSOR++;
-                    resetUI();
+                if (LATEST_PAGE == 0) {
+                    createNewPage();
+                    Log.d(TAG, "cursor:" + CURSOR);
+                    Log.d(TAG, "latest:" + LATEST_PAGE);
+                } else {
+                    if (CURSOR < LATEST_PAGE) {
+                        CURSOR++;
+                        setupUI();
+                        Log.d(TAG, "cursor:" + CURSOR);
+                        Log.d(TAG, "latest:" + LATEST_PAGE);
+                    } else {
+                        createNewPage();
+                        Log.d(TAG, "cursor:" + CURSOR);
+                        Log.d(TAG, "latest:" + LATEST_PAGE);
+                    }
+                }
+                break;
+            case R.id.btn_complete:
+                if (testValidity()){
+                    startActivity(new Intent(this,AssignResult.class));
                 } else {
                     Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.btn_complete:
-                break;
 
+        }
+    }
+
+    private void saveCurrentHomework() {
+        Homework hw = new Homework(subject, optionA, optionB, optionC, optionD, key);
+        Homework.homeworkList.add(hw);
+    }
+
+    /**
+     * 点击布置下一题,创建新的页面
+     */
+    private void createNewPage() {
+        
+        key = spinner.getSelectedItemPosition();
+
+        if (testValidity()) {
+            Homework hw = new Homework(subject, optionA, optionB, optionC, optionD, key);
+            Homework.homeworkList.add(hw);
+            CURSOR++;
+            LATEST_PAGE++;
+            resetUI();
+        } else {
+            Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -165,6 +203,13 @@ public class AssignHomework extends AppCompatActivity implements View.OnClickLis
      * @return
      */
     private boolean testValidity() {
+        
+        subject = etSubject.getText().toString().trim();
+        optionA = etOptionA.getText().toString().trim();
+        optionB = etOptionB.getText().toString().trim();
+        optionC = etOptionC.getText().toString().trim();
+        optionD = etOptionD.getText().toString().trim();
+        
         return !(subject.equals("") || optionA.equals("")
                 || optionB.equals("") || optionC.equals("")
                 || optionD.equals(""));

@@ -193,7 +193,8 @@
         <activity android:name=".Util.ProfileUtil.ChangePswActivity" />
         <activity android:name=".Util.ProfileUtil.CleanCacheActivity" />
         <activity android:name=".TeacherMain.Notify.TeacherMainNotify" />
-        <activity android:name=".TeacherMain.Homework.AssignHomework"></activity>
+        <activity android:name=".TeacherMain.Homework.AssignHomework" />
+        <activity android:name=".TeacherMain.Homework.AssignResult"></activity>
     </application>
 
 </manifest>
