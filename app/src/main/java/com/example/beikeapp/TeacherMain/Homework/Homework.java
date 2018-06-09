@@ -36,7 +36,7 @@ public class Homework {
     /**
      * 构造方法
      */
-    public Homework(String subject, String optionA, String optionB, String optionC, String optionD, int key) {
+    Homework(String subject, String optionA, String optionB, String optionC, String optionD, int key) {
         this.subject = subject;
         this.optionA = optionA;
         this.optionB = optionB;
