@@ -36,15 +36,6 @@ public class HomeworkAdapter extends ArrayAdapter<Homework> {
     private LayoutInflater inflater;
 
     private Context context;
-    /**
-     * Edit button
-     */
-    private Button btnEdit;
-
-    /**
-     * Delete button
-     */
-    private Button btnDelete;
 
     public HomeworkAdapter(@NonNull Context context, int resource, @NonNull List<Homework> homeworkList) {
         super(context, resource, homeworkList);
@@ -71,10 +62,10 @@ public class HomeworkAdapter extends ArrayAdapter<Homework> {
         ((TextView) convertView.findViewById(R.id.option_c)).setText(getItem(position).getOptionC());
         ((TextView) convertView.findViewById(R.id.option_d)).setText(getItem(position).getOptionD());
 
-        //key
-        ((TextView) convertView.findViewById(R.id.key)).setText(getItem(position).getKey() + "");
-
-
+        // key 中的0-3 对应key[]中的A-D
+        String[] key = {"A","B","C","D"};
+        ((TextView) convertView.findViewById(R.id.key)).setText(key[getItem(position).getKey()]);
+        // edit button
         convertView.findViewById(R.id.btn_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,8 +73,13 @@ public class HomeworkAdapter extends ArrayAdapter<Homework> {
                         AssignHomeworkRetail.class).putExtra("position",position));
             }
         });
-
-
+        convertView.findViewById(R.id.btn_delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Homework.homeworkList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 

@@ -87,7 +87,7 @@ public class AssignHomeworkRetail extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         if (view.getId() == R.id.btn_complete) {
                 if (testValidity()){
-                    setHomeworkList(); //修改列表中Homework记录
+                    setHomeworkList(); //修改对应HomeworkList中记录
                     startActivity(new Intent(this,AssignResult.class));
                 } else {
                     Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();

@@ -99,8 +99,6 @@ public class AssignHomeworkWholesale extends AppCompatActivity implements View.O
             case R.id.btn_back_to_previous:
                 if (CURSOR == 0) {
                     Toast.makeText(this, "已是第一页!", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "cursor:" + CURSOR);
-                    Log.d(TAG, "latest:" + LATEST_PAGE);
                 } else {
                     if (CURSOR == LATEST_PAGE) {
                         subject = etSubject.getText().toString().trim();
@@ -113,28 +111,18 @@ public class AssignHomeworkWholesale extends AppCompatActivity implements View.O
                         saveCurrentHomework();
                     }
                     CURSOR--;
-
                     setupUI();
-
-                    Log.d(TAG, "cursor:" + CURSOR);
-                    Log.d(TAG, "latest:" + LATEST_PAGE);
                 }
                 break;
             case R.id.btn_next:
                 if (LATEST_PAGE == 0) {
                     createNewPage();
-                    Log.d(TAG, "cursor:" + CURSOR);
-                    Log.d(TAG, "latest:" + LATEST_PAGE);
                 } else {
                     if (CURSOR < LATEST_PAGE) {
                         CURSOR++;
                         setupUI();
-                        Log.d(TAG, "cursor:" + CURSOR);
-                        Log.d(TAG, "latest:" + LATEST_PAGE);
                     } else {
                         createNewPage();
-                        Log.d(TAG, "cursor:" + CURSOR);
-                        Log.d(TAG, "latest:" + LATEST_PAGE);
                     }
                 }
                 break;
@@ -145,6 +133,7 @@ public class AssignHomeworkWholesale extends AppCompatActivity implements View.O
                     if (testValidity()) {
                         saveCurrentHomework();
                         startActivity(new Intent(this, AssignResult.class));
+                        finish();
                     } else {
                         Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
                     }
