@@ -118,7 +118,7 @@ public class AssignHomeworkRetail extends AppCompatActivity implements View.OnCl
         etOptionB.setText(hw.getOptionB());
         etOptionC.setText(hw.getOptionC());
         etOptionD.setText(hw.getOptionD());
-        spinner.setSelection(hw.getKey());
+        spinner.setSelection(hw.getKeyPosition());
     }
 
     /**

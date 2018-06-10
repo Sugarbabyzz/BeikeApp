@@ -179,7 +179,7 @@ public class AssignHomeworkWholesale extends AppCompatActivity implements View.O
         etOptionB.setText(hw.getOptionB());
         etOptionC.setText(hw.getOptionC());
         etOptionD.setText(hw.getOptionD());
-        spinner.setSelection(hw.getKey());
+        spinner.setSelection(hw.getKeyPosition());
     }
 
     /**

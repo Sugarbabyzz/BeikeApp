@@ -31,18 +31,20 @@ public class Homework {
      * 2---C
      * 3---D
      */
-    private int key;
+    private int keyPosition;
+    // key 中的0-3 对应key[]中的A-D
+    private String[] keyArr = {"A", "B", "C", "D"};
 
     /**
      * 构造方法
      */
-    Homework(String subject, String optionA, String optionB, String optionC, String optionD, int key) {
+    Homework(String subject, String optionA, String optionB, String optionC, String optionD, int keyPosition) {
         this.subject = subject;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
-        this.key = key;
+        this.keyPosition = keyPosition;
     }
 
     public void setSubject(String subject) {
@@ -65,10 +67,9 @@ public class Homework {
         this.optionD = optionD;
     }
 
-    public void setKey(int key) {
-        this.key = key;
+    public void setKey(int keyPosition) {
+        this.keyPosition = keyPosition;
     }
-
 
 
     public String getSubject() {
@@ -91,7 +92,22 @@ public class Homework {
         return optionD;
     }
 
-    public int getKey() {
-        return key;
+    public int getKeyPosition() {
+        return keyPosition;
+    }
+
+    public String getKey() {
+        return keyArr[keyPosition];
+    }
+
+    public String getHomeworkItemForUrl() {
+        return "subject=" + subject
+                + "&optionA=" + optionA
+                + "&optionB=" + optionB
+                + "&optionC=" + optionC
+                + "&optionD=" + optionD
+                + "&key=" + getKey();
+
+
     }
 }
