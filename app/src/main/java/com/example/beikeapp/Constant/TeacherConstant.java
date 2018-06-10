@@ -19,4 +19,7 @@ public class TeacherConstant {
     public static final String URL_GET_CLASS_LIST = "GetClassListServlet";
 
     public static final String URL_SEND_NOTIFICATION = "SendNotification";
+
+    public static final String URL_SEND_HOMEWORK = "SendHomework";
+
 }

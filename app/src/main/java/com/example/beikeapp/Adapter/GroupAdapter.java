@@ -32,8 +32,8 @@ public class GroupAdapter extends ArrayAdapter<EMGroup> {
     public GroupAdapter(Context context, int res, List<EMGroup> groups) {
         super(context, res, groups);
         this.inflater = LayoutInflater.from(context);
-        newGroup = "建群";
-        addPublicGroup = "加群";
+        newGroup = "建班级群";
+        addPublicGroup = "加班级群";
     }
 
     @Override

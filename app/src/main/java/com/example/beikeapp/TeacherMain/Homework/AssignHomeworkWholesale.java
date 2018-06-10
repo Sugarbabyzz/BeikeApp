@@ -1,8 +1,8 @@
 package com.example.beikeapp.TeacherMain.Homework;
 
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,13 +11,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.bumptech.glide.util.LogTime;
-import com.contrarywind.listener.OnItemSelectedListener;
 import com.example.beikeapp.R;
 
-public class AssignHomework extends AppCompatActivity implements View.OnClickListener {
+public class AssignHomeworkWholesale extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "AssignHomework";
+    private static final String TAG = "AssignHomeworkWholesale";
 
     private static int CURSOR = 0;
 
@@ -63,7 +61,7 @@ public class AssignHomework extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.teacher_main_assign_homework);
+        setContentView(R.layout.teacher_main_assign_homework_wholesale);
         initView();
     }
 
@@ -102,35 +100,72 @@ public class AssignHomework extends AppCompatActivity implements View.OnClickLis
                 if (CURSOR == 0) {
                     Toast.makeText(this, "已是第一页!", Toast.LENGTH_SHORT).show();
                 } else {
+                    if (CURSOR == LATEST_PAGE) {
+                        subject = etSubject.getText().toString().trim();
+                        optionA = etOptionA.getText().toString().trim();
+                        optionB = etOptionB.getText().toString().trim();
+                        optionC = etOptionC.getText().toString().trim();
+                        optionD = etOptionD.getText().toString().trim();
+                        key = spinner.getSelectedItemPosition();
+
+                        saveCurrentHomework();
+                    }
                     CURSOR--;
                     setupUI();
                 }
                 break;
             case R.id.btn_next:
-                /*CURSOR ++;
-                if (CURSOR <= LATEST_PAGE){
-                    setupUI();
-                }*/
-
-                subject = etSubject.getText().toString().trim();
-                optionA = etOptionA.getText().toString().trim();
-                optionB = etOptionB.getText().toString().trim();
-                optionC = etOptionC.getText().toString().trim();
-                optionD = etOptionD.getText().toString().trim();
-                key = spinner.getSelectedItemPosition();
-
-                if (testValidity()) {
-                    Homework hw = new Homework(subject, optionA, optionB, optionC, optionD, key);
-                    Homework.homeworkList.add(hw);
-                    CURSOR++;
-                    resetUI();
+                if (LATEST_PAGE == 0) {
+                    createNewPage();
                 } else {
-                    Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
+                    if (CURSOR < LATEST_PAGE) {
+                        CURSOR++;
+                        setupUI();
+                    } else {
+                        createNewPage();
+                    }
                 }
                 break;
             case R.id.btn_complete:
+                if (CURSOR < LATEST_PAGE) {
+                    startActivity(new Intent(this, AssignResult.class));
+                } else {
+                    if (testValidity()) {
+                        saveCurrentHomework();
+                        startActivity(new Intent(this, AssignResult.class));
+                        finish();
+                    } else {
+                        Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
 
+        }
+    }
+
+    /**
+     * 点击返回上一题时，保存一下当前正在编辑的页面状态
+     */
+    private void saveCurrentHomework() {
+        Homework hw = new Homework(subject, optionA, optionB, optionC, optionD, key);
+        Homework.homeworkList.add(hw);
+    }
+
+    /**
+     * 点击布置下一题,创建新的页面
+     */
+    private void createNewPage() {
+
+        key = spinner.getSelectedItemPosition();
+
+        if (testValidity()) {
+            Homework hw = new Homework(subject, optionA, optionB, optionC, optionD, key);
+            Homework.homeworkList.add(hw);
+            CURSOR++;
+            LATEST_PAGE++;
+            resetUI();
+        } else {
+            Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -144,7 +179,7 @@ public class AssignHomework extends AppCompatActivity implements View.OnClickLis
         etOptionB.setText(hw.getOptionB());
         etOptionC.setText(hw.getOptionC());
         etOptionD.setText(hw.getOptionD());
-        spinner.setSelection(hw.getKey());
+        spinner.setSelection(hw.getKeyPosition());
     }
 
     /**
@@ -165,6 +200,13 @@ public class AssignHomework extends AppCompatActivity implements View.OnClickLis
      * @return
      */
     private boolean testValidity() {
+
+        subject = etSubject.getText().toString().trim();
+        optionA = etOptionA.getText().toString().trim();
+        optionB = etOptionB.getText().toString().trim();
+        optionC = etOptionC.getText().toString().trim();
+        optionD = etOptionD.getText().toString().trim();
+
         return !(subject.equals("") || optionA.equals("")
                 || optionB.equals("") || optionC.equals("")
                 || optionD.equals(""));

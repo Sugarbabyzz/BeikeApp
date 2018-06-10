@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherMain.Homework.AssignHomework;
+import com.example.beikeapp.TeacherMain.Homework.AssignHomeworkWholesale;
 import com.example.beikeapp.TeacherMain.Notify.TeacherMainNotify;
 
 
@@ -69,7 +68,7 @@ public class TeacherMainFragment extends Fragment {
                         startActivity(new Intent(getActivity(), TeacherMainNotify.class));
                         break;
                     case 1:
-                        startActivity(new Intent(getActivity(), AssignHomework.class));
+                        startActivity(new Intent(getActivity(), AssignHomeworkWholesale.class));
                         break;
                 }
             }
