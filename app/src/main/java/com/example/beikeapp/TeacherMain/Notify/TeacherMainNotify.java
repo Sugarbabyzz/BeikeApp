@@ -153,7 +153,8 @@ public class TeacherMainNotify extends AppCompatActivity {
             Toast.makeText(TeacherMainNotify.this,"都不能为空",Toast.LENGTH_SHORT).show();
         } else {
             String url = TeacherConstant.URL_BASIC + TeacherConstant.URL_SEND_NOTIFICATION
-                    + "?title=" + etTitle.getText().toString()
+                    + "?account=" + EMClient.getInstance().getCurrentUser()
+                    + "&title=" + etTitle.getText().toString()
                     + "&content=" + etContent.getText().toString()
                     + "&to=" + groupIdStr;
             MyAsyncTask a = new MyAsyncTask(this);
