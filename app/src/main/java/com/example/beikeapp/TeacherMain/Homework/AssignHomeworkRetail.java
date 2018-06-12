@@ -3,7 +3,6 @@ package com.example.beikeapp.TeacherMain.Homework;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -88,7 +87,7 @@ public class AssignHomeworkRetail extends AppCompatActivity implements View.OnCl
         if (view.getId() == R.id.btn_complete) {
                 if (testValidity()){
                     setHomeworkList(); //修改对应HomeworkList中记录
-                    startActivity(new Intent(this,AssignResult.class));
+                    startActivity(new Intent(this,AssignPreview.class));
                 } else {
                     Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
                 }

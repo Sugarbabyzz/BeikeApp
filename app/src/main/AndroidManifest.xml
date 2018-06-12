@@ -194,8 +194,9 @@
         <activity android:name=".Util.ProfileUtil.CleanCacheActivity" />
         <activity android:name=".TeacherMain.Notify.TeacherMainNotify" />
         <activity android:name=".TeacherMain.Homework.AssignHomeworkWholesale" />
-        <activity android:name=".TeacherMain.Homework.AssignHomeworkRetail"/>
-        <activity android:name=".TeacherMain.Homework.AssignResult"/>
+        <activity android:name=".TeacherMain.Homework.AssignHomeworkRetail" />
+        <activity android:name=".TeacherMain.Homework.AssignPreview" />
+        <activity android:name=".TeacherMain.Homework.AssignActivity"></activity>
     </application>
 
 </manifest>
