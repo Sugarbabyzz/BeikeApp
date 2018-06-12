@@ -28,8 +28,9 @@ public class StudentNotify extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
-        btnSubmit = findViewById(R.id.btn_submit);
+        btnSubmit = findViewById(R.id.btn_notify_submit);
         tvContent = findViewById(R.id.tv_notify_content);
+        btnSubmit.setOnClickListener(this);
     }
 
 
@@ -37,7 +38,7 @@ public class StudentNotify extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_notify_submit:
-                startActivity(new Intent(StudentNotify.this, StudentMain.class));
+                finish();
         }
     }
 }

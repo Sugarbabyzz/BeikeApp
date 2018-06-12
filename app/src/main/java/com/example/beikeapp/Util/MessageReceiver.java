@@ -1,9 +1,11 @@
 package com.example.beikeapp.Util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
@@ -11,6 +13,7 @@ import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * PushMesssageReceiver广播接收器
@@ -73,6 +76,8 @@ public class MessageReceiver extends PushMessageReceiver {
         System.out.println("用户点击了通知消息");
         System.out.println("通知消息是" + message.toString());
         System.out.println("点击后,会进入应用" );
+
+
 
     }
 
