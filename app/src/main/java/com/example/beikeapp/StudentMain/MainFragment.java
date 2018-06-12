@@ -78,19 +78,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 try {
                     MiPushClient.setUserAccount(getActivity(),
                             EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId(), null);
+                    Log.d(TAG, "StudentUserAccount = " + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId());
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-
-        //打印
-        try {
-            Log.d(TAG, "StudentUserAccount = " + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId());
-            System.out.println("StudentUserAccount = " + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId());
-        } catch (HyphenateException e) {
-            e.printStackTrace();
-        }
 
 
     }
