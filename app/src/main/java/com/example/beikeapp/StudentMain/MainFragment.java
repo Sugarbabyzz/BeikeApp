@@ -4,6 +4,7 @@ package com.example.beikeapp.StudentMain;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.xiaomi.mipush.sdk.MiPushClient;
  * create an instance of this fragment.
  */
 public class MainFragment extends Fragment implements View.OnClickListener {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -81,6 +83,15 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }).start();
+
+        //打印
+        try {
+            Log.d(TAG, "StudentUserAccount = " + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId());
+            System.out.println("StudentUserAccount = " + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId());
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

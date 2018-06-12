@@ -7,11 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
+import com.example.beikeapp.TeacherMain.Homework.AssignHomeworkWholesale;
+import com.example.beikeapp.TeacherMain.Notify.TeacherMainNotify;
 import com.example.beikeapp.Util.ChatUtil.ChatActivity;
 
 /**
@@ -78,6 +82,20 @@ public class NotifyFragment extends Fragment {
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1,functionList);
         lvNotifyList.setAdapter(mAdapter);
+
+        lvNotifyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        startActivity(new Intent(getActivity(), StudentNotify.class));
+                        break;
+                    case 1:
+//                        startActivity(new Intent(getActivity(), AssignHomeworkWholesale.class));
+                        break;
+                }
+            }
+        });
     }
 
 }
