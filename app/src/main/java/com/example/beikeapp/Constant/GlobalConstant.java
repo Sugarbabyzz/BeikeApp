@@ -5,7 +5,7 @@ package com.example.beikeapp.Constant;
  */
 
 public class GlobalConstant {
-    // http请求返回值, 与servlet中对应
+    // 约定的http请求返回值, 与servlet中相同
     public static final String FLAG_FAILURE = "300";
     public static final String FLAG_SUCCESS = "200";
     public static final String FLAG_YES = "100";
@@ -15,13 +15,18 @@ public class GlobalConstant {
     public static final String ID_STUDENT = "student";
     public static final String ID_PARENT = "parent";
 
-    //所有servlet均在BeikeServer下
-    private static final String URL_BASIC = "http://47.94.253.65:8080/BeikeServer";
+    /**
+     * 根路径
+     * 所有servlet均在BeikeServer下
+     */
+    public static final String URL_BASIC = "http://47.94.253.65:8080/BeikeServer";
 
-    private static final String URL_PROFILE_BASIC = "http://47.94.253.65:8080/ProfileServlet";
 
 
-
+    /**
+     * 注册部分
+     * 三个身份统一
+     */
     public static final String URL_REGISTER_BASIC = URL_BASIC + "/Register";
 
     // 查重
@@ -30,18 +35,32 @@ public class GlobalConstant {
     // 验证学生邀请码
     public static final String URL_CHECK_CODE = URL_REGISTER_BASIC + "/CheckCode";
 
+
+    /**
+     * 登陆部分
+     * 三个身份统一
+     */
     public static final String URL_LOGIN = URL_BASIC + "/Login";
 
 
+    /**
+     * Profile 部分
+     */
+    private static final String URL_PROFILE_BASIC = URL_BASIC + "/Profile";
+
+    // 获取个人信息(除头像外)
+    public static final String URL_GET_GENERAL_INFO = URL_PROFILE_BASIC + "/GetInfo";
+
+    // 获取个人头像
+    public static final String URL_GET_PROFILE_PHOTO = URL_PROFILE_BASIC + "/GetPhoto";
+
+    // 更改个人信息(除头像外)
+    public static final String URL_CHANGE_PROFILE_INFO = URL_PROFILE_BASIC + "/ChangeInfo";
+
+    // 更改个人头像
+    public static final String URL_CHANGE_PROFILE_PHOTO = URL_PROFILE_BASIC + "/UploadPhoto";
 
 
-    public static final String URL_GET_GENERAL_INFO = URL_PROFILE_BASIC + "/GetGeneralInfoServlet";
-
-    public static final String URL_CHANGE_PROFILE_INFO = URL_PROFILE_BASIC + "/ChangeInfoServlet";
-
-    public static final String URL_CHANGE_PROFILE_PHOTO = URL_PROFILE_BASIC + "/UploadImageServlet";
-
-    public static final String URL_GET_PROFILE_PHOTO = URL_PROFILE_BASIC + "/GetImageServlet";
 
 
 

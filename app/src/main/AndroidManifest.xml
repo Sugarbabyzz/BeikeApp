@@ -55,7 +55,6 @@
         <activity android:name=".LoginPage.RegisterGuideActivity" />
         <activity android:name=".LoginPage.ForgetPswActivity" />
         //学生注册
-        <activity android:name=".StudentRegister.StudentLogin" />
         <activity android:name=".StudentRegister.StudentCheckCode" />
         <activity android:name=".StudentRegister.StudentRegisterAccount" />
         <activity android:name=".StudentRegister.StudentRegisterInfo" />

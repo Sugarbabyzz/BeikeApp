@@ -44,16 +44,19 @@ public class UploadFileTask extends AsyncTask<String,Void,String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if (s.equals(GlobalConstant.FLAG_SUCCESS)){
-            Toast.makeText(context,"上传成功!",Toast.LENGTH_SHORT).show();
-            ProfileInfo.bitmap = BitmapFactory.decodeFile(path);
-            iv.setImageBitmap(ProfileInfo.bitmap);
-        }
-        else if (s.equals(GlobalConstant.FLAG_FAILURE)){
-            Toast.makeText(context,"上传失败!",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(context,"未知错误!",Toast.LENGTH_SHORT).show();
+        switch (s) {
+            case GlobalConstant.FLAG_SUCCESS:
+                Toast.makeText(context, "上传成功!", Toast.LENGTH_SHORT).show();
+                ProfileInfo.bitmap = BitmapFactory.decodeFile(path);
+                iv.setImageBitmap(ProfileInfo.bitmap);
+                break;
+            case GlobalConstant.FLAG_FAILURE:
+                Toast.makeText(context, "上传失败!", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(context, "未知错误!", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onPostExecute: " + s);
+                break;
         }
         Log.d(TAG,s);
     }

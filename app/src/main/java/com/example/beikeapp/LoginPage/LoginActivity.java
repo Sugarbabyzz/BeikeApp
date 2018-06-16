@@ -217,10 +217,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         startActivity(new Intent(LoginActivity.this, TeacherMainActivity.class));
                         break;
                     case GlobalConstant.ID_STUDENT:
-                        MiPushClient.setUserAccount(LoginActivity.this,"45726929321985",null);
+
                         startActivity(new Intent(LoginActivity.this, StudentMain.class));
                         break;
                     case GlobalConstant.ID_PARENT:
+
                         startActivity(new Intent(LoginActivity.this, ParentMainActivity.class));
                         break;
                 }

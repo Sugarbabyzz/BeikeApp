@@ -19,6 +19,7 @@ import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-public class ForgetPswActivity extends AppCompatActivity implements View.OnClickListener {
+public class ForgetPswActivity extends BaseActivity implements View.OnClickListener {
 
     private FormEditText etForgetPhone;
     private FormEditText etForgetPsw;
@@ -116,15 +117,15 @@ public class ForgetPswActivity extends AppCompatActivity implements View.OnClick
                         int flagId = rgFIdentity.getCheckedRadioButtonId();
                         switch (flagId){
                             case R.id.rb_fTeacher:
-                                FLAG_CHOSEN = 1;
+                                BaseId = GlobalConstant.ID_TEACHER;
                                 SMSSDK.submitVerificationCode("86", phoneNumber, etForgetCode.getText().toString().trim());
                                 break;
                             case R.id.rb_fStudent:
-                                FLAG_CHOSEN = 2;
+                                BaseId = GlobalConstant.ID_STUDENT;
                                 SMSSDK.submitVerificationCode("86", phoneNumber, etForgetCode.getText().toString().trim());
                                 break;
                             case R.id.rb_fParent:
-                                FLAG_CHOSEN = 3;
+                                BaseId = GlobalConstant.ID_PARENT;
                                 SMSSDK.submitVerificationCode("86", phoneNumber, etForgetCode.getText().toString().trim());
                                 break;
                             default:
@@ -157,22 +158,10 @@ public class ForgetPswActivity extends AppCompatActivity implements View.OnClick
                 Log.e("event", "event=" + event);
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 验证成功
-                        switch (FLAG_CHOSEN){
-                            case 1:
-                                changePswAsTeacher(etForgetPhone.getText().toString().trim(),
-                                        etForgetPsw.getText().toString().trim());
-                                break;
-                            case 2:
-                                changePswAsStudent(etForgetPhone.getText().toString().trim(),
-                                        etForgetPsw.getText().toString().trim());
-                                break;
-                            case 3:
-                                changePswAsParent(etForgetPhone.getText().toString().trim(),
-                                        etForgetPsw.getText().toString().trim());
-                                break;
-                            default:
-                                break;
-                        }
+
+                        //短信验证成功，修改密码
+                        changePsw(etForgetPhone.getText().toString().trim(),
+                                etForgetPsw.getText().toString().trim());
 
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "验证码已发送",
@@ -198,41 +187,22 @@ public class ForgetPswActivity extends AppCompatActivity implements View.OnClick
         }
         return allValid;
     }
+
+
     /**
      * 家长身份修改密码
      * @param phoneNumber 账号
      * @param password 密码
      */
-    private void changePswAsParent(String phoneNumber, String password) {
-        String urlString = ParentConstant.URL + ParentConstant.URL_Login_Forget_Password
-                + "?account=" + phoneNumber
-                + "&password=" + password;
+    private void changePsw(String phoneNumber, String password) {
+        String urlString = GlobalConstant.URL_CHANGE_PROFILE_INFO
+                + "?id=" + BaseId
+                + "&columnName=" + "Password"
+                + "&account=" + phoneNumber
+                + "&data=" + password;
         ChangePswTask(ForgetPswActivity.this, urlString);
     }
 
-    /**
-     * 学生身份修改密码
-     *
-     * @param phoneNumber 账号
-     * @param password    密码
-     */
-    private void changePswAsStudent(String phoneNumber, String password) {
-        String urlString = "waitin~~";
-        ChangePswTask(ForgetPswActivity.this, urlString);
-    }
-
-    /**
-     * 老师身份修改密码
-     *
-     * @param phoneNumber 账号
-     * @param password    密码
-     */
-    private void changePswAsTeacher(String phoneNumber, String password) {
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_CHANGE_PSW
-                + "?account=" + phoneNumber
-                + "&password=" + password;
-        ChangePswTask(ForgetPswActivity.this, urlString);
-    }
 
     /**
      * 修改密码的http请求
@@ -247,21 +217,26 @@ public class ForgetPswActivity extends AppCompatActivity implements View.OnClick
             public void onDataReceivedSuccess(List<String> listData) {
 
                 //修改成功
-                if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)) {
-                    Toast.makeText(ForgetPswActivity.this,
-                            "修改成功!", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG","suc");
-                }
-                //修改失败
-                else if (listData.get(0).equals(GlobalConstant.FLAG_FAILURE)) {
-                    Toast.makeText(ForgetPswActivity.this,
-                            "修改失败!", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG","fail");
-                }
-                //未知错误
-                else {
-                    Toast.makeText(ForgetPswActivity.this,
-                            "ERROR!", Toast.LENGTH_SHORT).show();
+                switch (listData.get(0)) {
+                    case GlobalConstant.FLAG_SUCCESS:
+                        Toast.makeText(ForgetPswActivity.this,
+                                "修改成功!", Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "suc");
+                        finish();
+                        break;
+                    //修改失败
+                    case GlobalConstant.FLAG_FAILURE:
+                        Toast.makeText(ForgetPswActivity.this,
+                                "修改失败!", Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "fail");
+                        finish();
+                        break;
+                    //未知错误
+                    default:
+                        Toast.makeText(ForgetPswActivity.this,
+                                "ERROR!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
                 }
             }
 

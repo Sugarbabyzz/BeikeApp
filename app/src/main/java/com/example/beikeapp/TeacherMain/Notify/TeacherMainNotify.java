@@ -152,7 +152,7 @@ public class TeacherMainNotify extends AppCompatActivity {
         if (etTitle.getText().toString().equals("") || etContent.getText().toString().equals("") || groupIdStr.equals("")){
             Toast.makeText(TeacherMainNotify.this,"都不能为空",Toast.LENGTH_SHORT).show();
         } else {
-            String url = TeacherConstant.URL_BASIC + TeacherConstant.URL_SEND_NOTIFICATION
+            String url = TeacherConstant.URL_SEND_NOTIFICATION
                     + "?account=" + EMClient.getInstance().getCurrentUser()
                     + "&title=" + etTitle.getText().toString()
                     + "&content=" + etContent.getText().toString()

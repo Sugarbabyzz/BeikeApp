@@ -122,7 +122,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
      */
     private void ChangePswTask(Context context, String data) {
 
-        String url = GlobalConstant.URL_CHANGE_PROFILE_INFO + "?id=" + BaseId
+        String url = GlobalConstant.URL_CHANGE_PROFILE_INFO
+                + "?id=" + BaseId
                 + "&account=" + EMClient.getInstance().getCurrentUser()
                 + "&columnName=" + "Password"
                 + "&data=" + data;

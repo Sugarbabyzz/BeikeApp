@@ -6,14 +6,8 @@ package com.example.beikeapp.Constant;
 
 public class TeacherConstant {
     //url
-    public static final String URL_BASIC = "http://47.94.253.65:8080/TeacherServlet/";
+    public static final String URL_SEND_NOTIFICATION = GlobalConstant.URL_BASIC + "/Teacher/SendNotification";
 
-    public static final String URL_CHANGE_PSW = "ChangePswServlet";
-
-    public static final String URL_GET_CLASS_LIST = "GetClassListServlet";
-
-    public static final String URL_SEND_NOTIFICATION = "SendNotification";
-
-    public static final String URL_SEND_HOMEWORK = "SendHomework";
+    public static final String URL_SEND_HOMEWORK = GlobalConstant.URL_BASIC + "/Teacher/SendHomework";
 
 }

@@ -197,7 +197,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         InputStream inputStream = null;
         try {
             //得到io流
-            inputStream = getInputStreamFromURL(GlobalConstant.URL_GET_PROFILE_PHOTO + "?id=" + id
+            inputStream = getInputStreamFromURL(GlobalConstant.URL_GET_PROFILE_PHOTO
+                    + "?id=" + id
                     + "&account=" + EMClient.getInstance().getCurrentUser());
             bitmap = BitmapFactory.decodeStream(inputStream);
 

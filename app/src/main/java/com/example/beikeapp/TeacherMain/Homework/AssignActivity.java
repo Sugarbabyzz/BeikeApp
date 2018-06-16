@@ -120,7 +120,7 @@ public class AssignActivity extends AppCompatActivity implements View.OnClickLis
         for (Homework hw : Homework.homeworkList) {
             arr[i++] = hw.getHomeworkItemForUrl();
         }
-        return TeacherConstant.URL_BASIC + TeacherConstant.URL_SEND_HOMEWORK
+        return TeacherConstant.URL_SEND_HOMEWORK
                 + "?account=" + EMClient.getInstance().getCurrentUser()
                 + "&to=" + groupIdStr
                 + "&size=" + size
