@@ -75,7 +75,7 @@ public class UploadFile {
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
 
-                URL url = new URL(GlobalConstant.URL_CHANGE_PROFILE_PHOTO + "?id=" + id + "&account=" + account);
+                URL url = new URL(GlobalConstant.URL_CHANGE_PHOTO + "?id=" + id + "&account=" + account);
                 // Open a HTTP  connection to  the URL
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoInput(true); // Allow Inputs

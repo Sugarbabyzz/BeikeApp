@@ -141,7 +141,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
      */
     private void getInfoFromServer() {
 
-        String url = GlobalConstant.URL_GET_GENERAL_INFO
+        String url = GlobalConstant.URL_GET_INFO
                 + "?id=" + id
                 + "&account=" + EMClient.getInstance().getCurrentUser();
 
@@ -191,7 +191,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
         InputStream inputStream = null;
         try {
             //得到io流
-            inputStream = getInputStreamFromURL(GlobalConstant.URL_GET_PROFILE_PHOTO + "?id=" + id
+            inputStream = getInputStreamFromURL(GlobalConstant.URL_GET_PHOTO + "?id=" + id
                     + "&account=" + EMClient.getInstance().getCurrentUser());
             bitmap = BitmapFactory.decodeStream(inputStream);
 

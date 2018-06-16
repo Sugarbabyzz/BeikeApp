@@ -195,7 +195,7 @@ public class ForgetPswActivity extends BaseActivity implements View.OnClickListe
      * @param password 密码
      */
     private void changePsw(String phoneNumber, String password) {
-        String urlString = GlobalConstant.URL_CHANGE_PROFILE_INFO
+        String urlString = GlobalConstant.URL_CHANGE_INFO
                 + "?id=" + BaseId
                 + "&columnName=" + "Password"
                 + "&account=" + phoneNumber

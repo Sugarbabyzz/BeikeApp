@@ -49,19 +49,15 @@ public class GlobalConstant {
     private static final String URL_PROFILE_BASIC = URL_BASIC + "/Profile";
 
     // 获取个人信息(除头像外)
-    public static final String URL_GET_GENERAL_INFO = URL_PROFILE_BASIC + "/GetInfo";
+    public static final String URL_GET_INFO = URL_PROFILE_BASIC + "/GetInfo";
 
     // 获取个人头像
-    public static final String URL_GET_PROFILE_PHOTO = URL_PROFILE_BASIC + "/GetPhoto";
+    public static final String URL_GET_PHOTO = URL_PROFILE_BASIC + "/GetPhoto";
 
     // 更改个人信息(除头像外)
-    public static final String URL_CHANGE_PROFILE_INFO = URL_PROFILE_BASIC + "/ChangeInfo";
+    public static final String URL_CHANGE_INFO = URL_PROFILE_BASIC + "/ChangeInfo";
 
     // 更改个人头像
-    public static final String URL_CHANGE_PROFILE_PHOTO = URL_PROFILE_BASIC + "/UploadPhoto";
-
-
-
-
+    public static final String URL_CHANGE_PHOTO = URL_PROFILE_BASIC + "/UploadPhoto";
 
 }
