@@ -1,5 +1,6 @@
 package com.example.beikeapp.StudentRegister;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -146,6 +147,7 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
     /**
      *
      */
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == -9) {
@@ -162,7 +164,10 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，进入StudentRegister_Activity,然后提示
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
-                        registerAccount(stuPhoneNumber.getText().toString(), stuSetPassword.getText().toString());
+
+                        //账号查重
+                        testAccount(stuPhoneNumber.getText().toString());
+
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "正在获取验证码",
                                 Toast.LENGTH_SHORT).show();
@@ -199,7 +204,7 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
         if (str.isEmpty()) {
             return false;
         } else {
-            return str.length() == length ? true : false;
+            return str.length() == length;
         }
     }
 
@@ -233,11 +238,13 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
         layout.addView(mProBar);
     }
 
-    /*
-        账号注册
+    /**
+     *  账号查重
      */
-    private void registerAccount(final String phoneNumber, String password){
-        String registerAccountUrlStr = StudentConstant.URL_RegisterAccount +"?account=" + phoneNumber + "&password=" + password;
+    private void testAccount(final String phoneNumber){
+        String registerAccountUrlStr = GlobalConstant.URL_TEST_EXISTENCE
+                + "?id=" + BaseId
+                + "&account=" + phoneNumber;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(registerAccountUrlStr);
@@ -245,17 +252,21 @@ public class StudentRegisterAccount extends BaseActivity implements View.OnClick
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
 
-                if (listData.get(0).equals(GlobalConstant.FLAG_YES)){
-                    Toast.makeText(StudentRegisterAccount.this, "账号已被注册！", Toast.LENGTH_SHORT).show();
-                }else if (listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
-                    Intent intent = new Intent(StudentRegisterAccount.this, StudentRegisterInfo.class);
-                    //将账号与密码参数传入下一Actiivity
-                    intent.putExtra("account",stuPhoneNumber.getText().toString().trim());
-                    intent.putExtra("password",stuSetPassword.getText().toString().trim());
-                    intent.putExtra("code", code);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(StudentRegisterAccount.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                switch (listData.get(0)) {
+                    case GlobalConstant.FLAG_YES:
+                        Toast.makeText(StudentRegisterAccount.this, "账号已被注册！", Toast.LENGTH_SHORT).show();
+                        break;
+                    case GlobalConstant.FLAG_NO:  // 数据库中不存在该账号，可以注册
+                        Intent intent = new Intent(StudentRegisterAccount.this, StudentRegisterInfo.class);
+                        //将账号与密码参数传入下一Activity
+                        intent.putExtra("account", stuPhoneNumber.getText().toString().trim());
+                        intent.putExtra("password", stuSetPassword.getText().toString().trim());
+                        intent.putExtra("code", code);
+                        startActivity(intent);
+                        break;
+                    default:
+                        Toast.makeText(StudentRegisterAccount.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
             @Override

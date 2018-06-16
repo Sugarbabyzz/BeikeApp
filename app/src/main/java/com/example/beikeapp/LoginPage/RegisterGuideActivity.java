@@ -6,13 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.ParentRegister.parent_1_register_select_student;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentRegister.StudentCheckCode;
 import com.example.beikeapp.TeacherRegister.TeacherRegister_FirstActivity;
+import com.example.beikeapp.Util.BaseActivity;
 
 
-public class RegisterGuideActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterGuideActivity extends BaseActivity implements View.OnClickListener {
 
     private Button btnAsStudent;
     private Button btnAsTeacher;
@@ -39,14 +41,19 @@ public class RegisterGuideActivity extends AppCompatActivity implements View.OnC
             case R.id.btn_asStudent:
                 startActivity(new Intent(RegisterGuideActivity.this,
                         StudentCheckCode.class));
+                BaseId = GlobalConstant.ID_STUDENT;
                 break;
             case R.id.btn_asTeacher:
                 startActivity(new Intent(RegisterGuideActivity.this,
                         TeacherRegister_FirstActivity.class));
+                BaseId = GlobalConstant.ID_TEACHER;
+
                 break;
             case R.id.btn_asParent:
                 startActivity(new Intent(RegisterGuideActivity.this,
                         parent_1_register_select_student.class));
+                BaseId = GlobalConstant.ID_PARENT;
+
                 break;
         }
     }

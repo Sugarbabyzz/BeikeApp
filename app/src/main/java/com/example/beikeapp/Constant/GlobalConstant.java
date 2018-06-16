@@ -15,14 +15,34 @@ public class GlobalConstant {
     public static final String ID_STUDENT = "student";
     public static final String ID_PARENT = "parent";
 
-    public static final String URL_PROFILE_BASIC = "http://47.94.253.65:8080/ProfileServlet/";
+    //所有servlet均在BeikeServer下
+    private static final String URL_BASIC = "http://47.94.253.65:8080/BeikeServer";
 
-    public static final String URL_GET_GENERAL_INFO = URL_PROFILE_BASIC + "GetGeneralInfoServlet";
+    private static final String URL_PROFILE_BASIC = "http://47.94.253.65:8080/ProfileServlet";
 
-    public static final String URL_CHANGE_PROFILE_INFO = URL_PROFILE_BASIC + "ChangeInfoServlet";
 
-    public static final String URL_CHANGE_PROFILE_PHOTO = URL_PROFILE_BASIC + "UploadImageServlet";
 
-    public static final String URL_GET_PROFILE_PHOTO = URL_PROFILE_BASIC + "GetImageServlet";
+    public static final String URL_REGISTER_BASIC = URL_BASIC + "/Register";
+
+    // 查重
+    public static final String URL_TEST_EXISTENCE = URL_REGISTER_BASIC + "/TestExistence";
+
+    // 验证学生邀请码
+    public static final String URL_CHECK_CODE = URL_REGISTER_BASIC + "/CheckCode";
+
+    public static final String URL_LOGIN = URL_BASIC + "/Login";
+
+
+
+
+    public static final String URL_GET_GENERAL_INFO = URL_PROFILE_BASIC + "/GetGeneralInfoServlet";
+
+    public static final String URL_CHANGE_PROFILE_INFO = URL_PROFILE_BASIC + "/ChangeInfoServlet";
+
+    public static final String URL_CHANGE_PROFILE_PHOTO = URL_PROFILE_BASIC + "/UploadImageServlet";
+
+    public static final String URL_GET_PROFILE_PHOTO = URL_PROFILE_BASIC + "/GetImageServlet";
+
+
 
 }

@@ -10,8 +10,9 @@ import android.widget.TextView;
 import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.TeacherMain.TeacherMainActivity;
+import com.example.beikeapp.Util.BaseActivity;
 
-public class TeacherRegister_ThirdActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherRegister_ThirdActivity extends BaseActivity implements View.OnClickListener {
 
     private int flag;
     private Button btnEvent;
@@ -34,17 +35,17 @@ public class TeacherRegister_ThirdActivity extends AppCompatActivity implements 
         tvResult = findViewById(R.id.textView_result);
         btnEvent = findViewById(R.id.button_event);
 
-        //注册成功，返回班级号
+        //注册成功
         if (resultArray[0].equals(GlobalConstant.FLAG_SUCCESS)) {
             btnEvent.setText("自动登录");
             flag = 0;
-            tvResult.setText("REGISTER SUCCESS" + "\n" + resultArray[1]);
+            tvResult.setText("注册成功");
         }
         //注册失败，返回提示信息
         else if (resultArray[0].equals(GlobalConstant.FLAG_FAILURE)) {
             btnEvent.setText("重新注册");
             flag = 1;
-            tvResult.setText("REGISTER FAIL");
+            tvResult.setText("注册失败");
         }
         btnEvent.setOnClickListener(this);
     }

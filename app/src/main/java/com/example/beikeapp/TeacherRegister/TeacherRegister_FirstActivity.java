@@ -18,6 +18,7 @@ import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.List;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-public class TeacherRegister_FirstActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherRegister_FirstActivity extends BaseActivity implements View.OnClickListener {
 
     private FormEditText etPhone;
     private FormEditText etPsw;
@@ -142,7 +143,7 @@ public class TeacherRegister_FirstActivity extends AppCompatActivity implements 
                     // 短信验证成功，数据库查重
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
 
-                        isExisted(phoneNumber);
+                        testAccount(phoneNumber);
 
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getApplicationContext(), "验证码已发送",
@@ -210,9 +211,15 @@ public class TeacherRegister_FirstActivity extends AppCompatActivity implements 
 
     }
 
-    //查数据库判断是否存在
-    public void isExisted(final String account) {
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_IS_EXISTED + "?account=" + account;
+    /**
+     * 账号查重
+     * @param account
+     */
+    public void testAccount(final String account) {
+        String urlString = GlobalConstant.URL_TEST_EXISTENCE
+                + "?id=" + BaseId
+                + "&account=" + account;
+
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(urlString);
         a.setOnAsyncResponse(new AsyncResponse() {

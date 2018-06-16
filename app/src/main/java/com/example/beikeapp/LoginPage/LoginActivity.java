@@ -96,25 +96,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                            //在基类里存储身份
                            BaseId = GlobalConstant.ID_TEACHER;
 
-                           loginAsTeacher();
-
                            break;
                        case R.id.rb_student:
                            //在基类里存储身份
                            BaseId = GlobalConstant.ID_STUDENT;
 
-                           loginAsStudent();
                            break;
                        case R.id.rb_parent:
                            //在基类里存储身份
                            BaseId = GlobalConstant.ID_PARENT;
 
-                           loginAsParent();
                            break;
                        default: //未选择身份
                            Toast.makeText(LoginActivity.this,"请选择一种身份登录",Toast.LENGTH_SHORT).show();
                            break;
                    }
+
+                   // 登陆
+                    login();
                 }
                 //字段有空值,formEditText会自动错误提示
                 else {
@@ -143,46 +142,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-
     /**
-     * 老师身份登录
-     *
+     * 登陆模块
      */
-    private void loginAsTeacher() {
+    private void login() {
         //组装url
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_LOGIN
-                + "?account=" + account
+        String urlString = GlobalConstant.URL_LOGIN
+                + "?id=" + BaseId
+                + "&account=" + account
                 + "&password=" + password;
 
         loginTask(urlString);
     }
 
-    /**
-     * 学生身份登录
-     *
-     */
-    private void loginAsStudent() {
 
-        //组装url
-        String urlString = StudentConstant.URL_Login
-                + "?account=" + account
-                + "&password=" + password;
-
-        loginTask(urlString);
-    }
-
-    /**
-     * 家长身份登录
-     *
-     */
-    private void loginAsParent() {
-        //组装url
-        String urlString = ParentConstant.URL_Login
-                + "?account=" + account
-                + "&password=" + password;
-
-        loginTask(urlString);
-    }
 
     /**
      * 向我们登录

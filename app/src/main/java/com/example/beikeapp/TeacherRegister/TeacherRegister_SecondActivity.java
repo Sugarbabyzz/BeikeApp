@@ -1,24 +1,21 @@
 package com.example.beikeapp.TeacherRegister;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.andreabaccega.widget.FormEditText;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.TeacherConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -30,7 +27,7 @@ import java.util.List;
 
 import mabbas007.tagsedittext.TagsEditText;
 
-public class TeacherRegister_SecondActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherRegister_SecondActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "TeacherRegister_Second";
     //上一活动传来的手机和密码
@@ -205,8 +202,9 @@ public class TeacherRegister_SecondActivity extends AppCompatActivity implements
      * @param classes
      */
     public void registerToUs(String name, String gender, String school, String classes) {
-        String urlString = TeacherConstant.URL_BASIC + TeacherConstant.URL_REGISTER
-                + "?account=" + account
+        String urlString = GlobalConstant.URL_REGISTER_BASIC
+                + "?id=" + BaseId
+                + "&account=" + account
                 + "&password=" + password
                 + "&name=" + name
                 + "&gender=" + gender

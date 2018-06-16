@@ -58,9 +58,9 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
                 String sex = "male";
                 //单选判断
                 if(stuSex.getCheckedRadioButtonId() == R.id.male_rb){
-                    sex = "male";
+                    sex = "男";
                 }else if(stuSex.getCheckedRadioButtonId() == R.id.famale_rb){
-                    sex = "female";
+                    sex = "女";
                 }
 
                 if (!stuName.getText().toString().equals("")) {
@@ -75,8 +75,12 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
     }
 
     private void registerInfo(String name, String sex) {
-        String registerUrlStr = StudentConstant.URL_RegisterInfo + "?name=" + name + "&sex=" + sex
-                                                                  +"&account=" + account + "&password=" + password;
+        String registerUrlStr = GlobalConstant.URL_REGISTER_BASIC
+                + "?id=" + BaseId
+                + "&account=" + account
+                + "&password=" + password
+                + "&name=" + name
+                + "&gender=" + sex;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(registerUrlStr);
