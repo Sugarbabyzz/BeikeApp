@@ -2,6 +2,7 @@ package com.example.beikeapp.StudentNotify.Assess;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.beikeapp.R;
 
@@ -15,5 +16,10 @@ public class StudentAllAssess extends AppCompatActivity {
         /**
          * 待写
          */
+    }
+
+
+    public void back(View view) {
+        finish();
     }
 }
