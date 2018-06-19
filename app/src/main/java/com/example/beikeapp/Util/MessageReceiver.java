@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
+import com.example.beikeapp.StudentNotify.Notify.Notify;
 import com.example.beikeapp.StudentNotify.Notify.StudentAllNotify;
 import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
 import com.xiaomi.mipush.sdk.ErrorCode;
@@ -14,6 +15,7 @@ import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,7 +42,7 @@ public class MessageReceiver extends PushMessageReceiver {
 
     private Pattern pattern;
     private Matcher matcher;
-    private NotifyInter notifyInter;
+
 
     /**
      * onReceivePassThroughMessage用来接收服务器发送的透传消息，
@@ -167,7 +169,6 @@ public class MessageReceiver extends PushMessageReceiver {
                 matcher = pattern.matcher(message.toString());
                 if (matcher.matches()){
                     content = matcher.group(3);
-//                    notifyInter.setContent(content);
                 }
 
                 /*
@@ -181,11 +182,21 @@ public class MessageReceiver extends PushMessageReceiver {
 
                 System.out.println("解析通知消息：  title:" + title + "  name:" + name + "  content:" + content + "  time:" + time);
 
+                //加入通知list
+                Notify notify = new Notify(title, content, name, time);
+                Notify.notifyList.add(notify);
+
+
+                for (Notify n : Notify.notifyList) {
+                    System.out.print("\n通知list内容为：" + n.getTitle() + " ; " + n.getContent() + " ; " + n.getName() + " ; " + n.getTime());
+                }
+
             } else if (category.equals("homework")){
                 //处理作业 待写
             } else if (category.equals("assess")){
                 //处理评教 待写
             }
+
         }
 
 
@@ -285,18 +296,6 @@ public class MessageReceiver extends PushMessageReceiver {
             System.out.println("其他情况"+message.getReason());
         }
 
-    }
-
-
-    /**
-     * 通知 接口
-     */
-    public interface NotifyInter{
-        public void setContent(String content);
-    }
-
-    public void setNotifyInterListener(NotifyInter notifyInter){
-        this.notifyInter = notifyInter;
     }
 
 }
