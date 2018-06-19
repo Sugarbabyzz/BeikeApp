@@ -1,16 +1,24 @@
 package com.example.beikeapp.Util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
+
+import com.example.beikeapp.StudentNotify.Notify.Notify;
+import com.example.beikeapp.StudentNotify.Notify.StudentAllNotify;
+import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * PushMesssageReceiver广播接收器
@@ -31,6 +39,10 @@ public class MessageReceiver extends PushMessageReceiver {
     private String mUserAccount;
     private String mStartTime;
     private String mEndTime;
+
+    private Pattern pattern;
+    private Matcher matcher;
+
 
     /**
      * onReceivePassThroughMessage用来接收服务器发送的透传消息，
@@ -69,6 +81,36 @@ public class MessageReceiver extends PushMessageReceiver {
             mUserAccount=message.getUserAccount();
         }
 
+
+
+        pattern = Pattern.compile("(.*)(<category>)(.*?)(</category>)(.*)");
+        matcher = pattern.matcher(message.toString());
+        if (matcher.matches()){
+            String category = matcher.group(3);
+
+            if (category.equals("notify")){
+                //start 跳转通知活动
+                Intent intent = new Intent(context, StudentAllNotify.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+            } else if (category.equals("homework")){
+                //start 跳转作业活动
+//                Intent intent = new Intent(context, StudentNotify.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+
+            } else if (category.equals("assess")){
+                //start 跳转评教活动
+//                Intent intent = new Intent(context, StudentNotify.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+            }
+        }
+
+
+
+
         //打印消息方便测试
         System.out.println("用户点击了通知消息");
         System.out.println("通知消息是" + message.toString());
@@ -91,6 +133,75 @@ public class MessageReceiver extends PushMessageReceiver {
         } else if(!TextUtils.isEmpty(message.getUserAccount())) {
             mUserAccount=message.getUserAccount();
         }
+
+        String category = null, title = null ,name = null ,content = null, time = null;
+
+
+        pattern = Pattern.compile("(.*)(<category>)(.*?)(</category>)(.*)");
+        matcher = pattern.matcher(message.toString());
+        if (matcher.matches()){
+            category = matcher.group(3);
+
+            if (category.equals("notify")){
+
+                /*
+                 * 接收通知 title
+                 */
+                pattern = Pattern.compile("(.*)(<title>)(.*?)(</title>)(.*)");
+                matcher = pattern.matcher(message.toString());
+                if (matcher.matches()){
+                    title = matcher.group(3);
+                }
+
+                /*
+                 * 接收通知 name
+                 */
+                pattern = pattern.compile("(.*)(<name>)(.*?)(</name>)(.*)");
+                matcher = pattern.matcher(message.toString());
+                if (matcher.matches()){
+                    name = matcher.group(3);
+                }
+
+                /*
+                 * 接收通知 content
+                 */
+                pattern = pattern.compile("(.*)(<content>)(.*?)(</content>)(.*)");
+                matcher = pattern.matcher(message.toString());
+                if (matcher.matches()){
+                    content = matcher.group(3);
+                }
+
+                /*
+                 * 接收通知 time
+                 */
+                pattern = pattern.compile("(.*)(<time>)(.*?)(</time>)(.*)");
+                matcher = pattern.matcher(message.toString());
+                if (matcher.matches()){
+                    time = matcher.group(3);
+                }
+
+                System.out.println("解析通知消息：  title:" + title + "  name:" + name + "  content:" + content + "  time:" + time);
+
+                //加入通知list
+                Notify notify = new Notify(title, content, name, time);
+                Notify.notifyList.add(notify);
+
+
+                for (Notify n : Notify.notifyList) {
+                    System.out.print("\n通知list内容为：" + n.getTitle() + " ; " + n.getContent() + " ; " + n.getName() + " ; " + n.getTime());
+                }
+
+            } else if (category.equals("homework")){
+                //处理作业 待写
+            } else if (category.equals("assess")){
+                //处理评教 待写
+            }
+
+        }
+
+
+
+
 
         //打印消息方便测试
         System.out.println("通知消息到达了");
@@ -186,4 +297,5 @@ public class MessageReceiver extends PushMessageReceiver {
         }
 
     }
+
 }

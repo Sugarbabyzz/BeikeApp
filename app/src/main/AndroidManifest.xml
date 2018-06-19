@@ -195,7 +195,10 @@
         <activity android:name=".TeacherMain.Homework.AssignHomeworkWholesale" />
         <activity android:name=".TeacherMain.Homework.AssignHomeworkRetail" />
         <activity android:name=".TeacherMain.Homework.AssignPreview" />
-        <activity android:name=".TeacherMain.Homework.AssignActivity"></activity>
+        <activity android:name=".TeacherMain.Homework.AssignActivity" />
+        <activity android:name=".StudentNotify.Notify.StudentNotify" />
+        <activity android:name=".StudentNotify.Notify.StudentAllNotify" />
+        <activity android:name=".StudentNotify.Assess.StudentAllAssess" />
     </application>
 
 </manifest>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tv_notify_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:text="通知题目"
+        android:textSize="33dp" />
+
+
+    <TextView
+        android:id="@+id/tv_notify_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="133dp"
+        android:layout_marginLeft="50dp"
+        android:text="通知内容" />
+
+    <TextView
+        android:id="@+id/tv_notify_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_notify_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="220dp"
+        android:text="通知老师名字" />
+
+    <TextView
+        android:id="@+id/tv_notify_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_notify_name"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="220dp"
+        android:text="通知时间"/>
+
+
+
+    <Button
+        android:id="@+id/btn_notify_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:text="确认" />
+
+</RelativeLayout>
