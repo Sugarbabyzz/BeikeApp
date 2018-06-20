@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
+import com.example.beikeapp.StudentMain.Homework.StudentAllHomework;
+import com.example.beikeapp.StudentMain.Homework.StudentHomework;
+import com.example.beikeapp.StudentNotify.Assess.StudentAllAssess;
 import com.example.beikeapp.StudentNotify.Notify.Notify;
 import com.example.beikeapp.StudentNotify.Notify.StudentAllNotify;
 import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
@@ -97,15 +100,15 @@ public class MessageReceiver extends PushMessageReceiver {
 
             } else if (category.equals("homework")){
                 //start 跳转作业活动
-//                Intent intent = new Intent(context, StudentNotify.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, StudentAllHomework.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
 
             } else if (category.equals("assess")){
                 //start 跳转评教活动
-//                Intent intent = new Intent(context, StudentNotify.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, StudentAllAssess.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         }
 
@@ -303,6 +306,16 @@ public class MessageReceiver extends PushMessageReceiver {
                                     "  optionC:" + h.getOptionC() + "  optionD:" + h.getOptionD() + "  key:" + h.getStringKey());
                 }
 
+
+                //整合此次作业推送，加入学生作业list
+                StudentHomework stuHw = new StudentHomework(title, name, time, size, Homework.homeworkList);
+                StudentHomework.studentHomeworkList.add(stuHw);
+
+
+
+                for (StudentHomework s : StudentHomework.studentHomeworkList){
+                    System.out.println("\n学生作业列表内容为：" + s.getTitle() + " ; " + s.getName() + " : " + s.getSize() + " : " + s.getTime() + " : " + s.getHomeworkList());
+                }
 
             }
             /**

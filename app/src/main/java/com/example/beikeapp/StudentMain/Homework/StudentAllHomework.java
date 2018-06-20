@@ -1,4 +1,4 @@
-package com.example.beikeapp.StudentNotify.Notify;
+package com.example.beikeapp.StudentMain.Homework;
 
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,17 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.beikeapp.Adapter.HomeworkAdapter;
 import com.example.beikeapp.Adapter.NotifyAdapter;
+import com.example.beikeapp.Adapter.StudentHomeworkAdapter;
 import com.example.beikeapp.R;
-import com.example.beikeapp.TeacherMain.Homework.Homework;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
+import com.example.beikeapp.StudentNotify.Notify.Notify;
+import com.example.beikeapp.StudentNotify.Notify.StudentAllNotify;
+import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class StudentAllNotify extends AppCompatActivity {
+public class StudentAllHomework extends AppCompatActivity {
 
     private ListView lvNotifyList;
 
@@ -27,13 +24,13 @@ public class StudentAllNotify extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_all_notify);
-        lvNotifyList = findViewById(R.id.notify_list);
+        setContentView(R.layout.activity_student_all_homework);
+        lvNotifyList = findViewById(R.id.stuhomework_list);
 
-        //加载一次通知列表
+        //加载一次作业列表
         initView();
 
-        swipeRefreshLayout = findViewById(R.id.notify_swipe_layout);
+        swipeRefreshLayout = findViewById(R.id.stuhomework_swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
                 R.color.holo_orange_light, R.color.holo_red_light);
 
@@ -59,15 +56,15 @@ public class StudentAllNotify extends AppCompatActivity {
 
     private void initView() {
 
-        NotifyAdapter notifyAdapter = new NotifyAdapter(this, 1, Notify.notifyList);
-        lvNotifyList.setAdapter(notifyAdapter);
+        StudentHomeworkAdapter studentHomeworkAdapter = new StudentHomeworkAdapter(this, 1, StudentHomework.studentHomeworkList);
+        lvNotifyList.setAdapter(studentHomeworkAdapter);
 
         lvNotifyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(StudentAllNotify.this, StudentNotify.class);
+                Intent intent = new Intent(StudentAllHomework.this, StudentDoHomework.class);
                 intent.putExtra("i", String.valueOf(i+1));
-                System.out.println("查看第i条通知 ： " + i+1);
+                System.out.println("查看第i条作业 ： " + i+1);
 
                 startActivity(intent);
             }
@@ -77,4 +74,5 @@ public class StudentAllNotify extends AppCompatActivity {
     public void back(View view) {
         finish();
     }
+
 }
