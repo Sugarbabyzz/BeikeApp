@@ -4,21 +4,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 
+import com.example.beikeapp.Constant.GlobalConstant;
+import com.example.beikeapp.Constant.StudentConstant;
+import com.example.beikeapp.InitApp.MyApplication;
 import com.example.beikeapp.StudentMain.Homework.StudentAllHomework;
 import com.example.beikeapp.StudentMain.Homework.StudentHomework;
 import com.example.beikeapp.StudentNotify.Assess.StudentAllAssess;
 import com.example.beikeapp.StudentNotify.Notify.Notify;
 import com.example.beikeapp.StudentNotify.Notify.StudentAllNotify;
 import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
+import com.example.beikeapp.StudentRegister.StudentRegisterInfo;
+import com.example.beikeapp.StudentRegister.StudentRegisterSuccess;
 import com.example.beikeapp.TeacherMain.Homework.Homework;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -98,13 +107,15 @@ public class MessageReceiver extends PushMessageReceiver {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
-            } else if (category.equals("homework")){
+            }
+            else if (category.equals("homework")){
                 //start 跳转作业活动
                 Intent intent = new Intent(context, StudentAllHomework.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
-            } else if (category.equals("assess")){
+            }
+            else if (category.equals("assess")){
                 //start 跳转评教活动
                 Intent intent = new Intent(context, StudentAllAssess.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -116,9 +127,9 @@ public class MessageReceiver extends PushMessageReceiver {
 
 
         //打印消息方便测试
-        System.out.println("用户点击了通知消息");
-        System.out.println("通知消息是" + message.toString());
-        System.out.println("点击后,会进入应用" );
+        System.out.println("\n用户点击了通知消息");
+        System.out.println("\n通知消息是" + message.toString());
+        System.out.println("\n点击后,会进入应用" );
 
     }
 
@@ -192,15 +203,13 @@ public class MessageReceiver extends PushMessageReceiver {
                     time = matcher.group(3);
                 }
 
-                System.out.println("解析通知消息：  title:" + title + "  name:" + name + "  content:" + content + "  time:" + time);
+                System.out.println("\n解析通知消息：  title:" + title + "  name:" + name + "  content:" + content + "  time:" + time);
 
-                //加入通知list
-                Notify notify = new Notify(title, content, name, time);
-                Notify.notifyList.add(notify);
-
-
-                for (Notify n : Notify.notifyList) {
-                    System.out.print("\n通知list内容为：" + n.getTitle() + " ; " + n.getContent() + " ; " + n.getName() + " ; " + n.getTime());
+                //通知入库
+                try {
+                    addNotify(title, name, content, time);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -209,6 +218,9 @@ public class MessageReceiver extends PushMessageReceiver {
              */
             else if (category.equals("homework")){
                 //处理作业   title name time size subject optionA optionB optionC optionD key
+
+                //生成作业id
+                int hwId = (int)(Math.random() * 1000000);
 
                 /*
                  * 接收作业 title
@@ -251,10 +263,10 @@ public class MessageReceiver extends PushMessageReceiver {
                  * 接收作业 内容
                  */
                 String hw;
-                pattern = Pattern.compile("(.*)(<hw>)(.*?)(</hw>)(.*)");
+                pattern = Pattern.compile("<hw>.*?</hw>");
                 matcher = pattern.matcher(message.toString());
                 while (matcher.find()){
-                    hw = matcher.group(3);
+                    hw = matcher.group();
 
                     Pattern p = Pattern.compile("(.*)(<subject>)(.*?)(</subject>)(.*)");
                     Matcher m = p.matcher(hw);
@@ -292,29 +304,23 @@ public class MessageReceiver extends PushMessageReceiver {
                         key = m.group(3);
                     }
 
-                    //加入作业list
-                    Homework hwes = new Homework(subject, optionA, optionB, optionC, optionD, key);
-                    Homework.homeworkList.add(hwes);
+                    //作业细节入库
+                    try {
+                        addHomeworkDetail(hwId, subject, optionA, optionB, optionC, optionD, key);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
 
                 }
-
 
                 System.out.println("\n解析作业消息：  title:" + title + "  name:" + name + "  time:" + time + "  size:" + size);
 
-                for (Homework h : Homework.homeworkList){
-                    System.out.println("\n解析作业内容：" + "  subject:" + h.getSubject() + "  optionA:" + h.getOptionA() + "  optionB:" + h.getOptionB() +
-                                    "  optionC:" + h.getOptionC() + "  optionD:" + h.getOptionD() + "  key:" + h.getStringKey());
-                }
-
-
-                //整合此次作业推送，加入学生作业list
-                StudentHomework stuHw = new StudentHomework(title, name, time, size, Homework.homeworkList);
-                StudentHomework.studentHomeworkList.add(stuHw);
-
-
-
-                for (StudentHomework s : StudentHomework.studentHomeworkList){
-                    System.out.println("\n学生作业列表内容为：" + s.getTitle() + " ; " + s.getName() + " : " + s.getSize() + " : " + s.getTime() + " : " + s.getHomeworkList());
+                //作业入库
+                try {
+                    addHomework(title, name, time, size, hwId);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -332,8 +338,8 @@ public class MessageReceiver extends PushMessageReceiver {
 
 
         //打印消息方便测试
-        System.out.println("通知消息到达了");
-        System.out.println("通知消息是"+message.toString());
+        System.out.println("\n通知消息到达了");
+        System.out.println("\n通知消息是"+message.toString());
 
     }
 
@@ -424,6 +430,137 @@ public class MessageReceiver extends PushMessageReceiver {
             System.out.println("其他情况"+message.getReason());
         }
 
+    }
+
+
+    /**
+     * 通知入库
+     *
+     * @param title
+     * @param name
+     * @param content
+     * @param time
+     */
+
+    private void addNotify(String title, String name, String content, String time) throws UnsupportedEncodingException {
+
+        String addNotify = StudentConstant.addNotifyURL
+                + "?stuId=" + EMClient.getInstance().getCurrentUser()
+                + "&title=" + java.net.URLEncoder.encode(title, "utf-8")
+                + "&name=" + java.net.URLEncoder.encode(name, "utf-8")
+                + "&content=" + java.net.URLEncoder.encode(content, "utf-8")
+                + "&time=" + time;
+
+        MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
+        a.execute(addNotify);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+
+                if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
+                    //添加通知成功
+                    System.out.println("通知入库成功");
+
+                }else {
+                    //添加通知失败
+                    System.out.println("通知入库失败");
+
+                }
+            }
+            @Override
+            public void onDataReceivedFailed() {
+            }
+        });
+    }
+
+    /**
+     * 作业细节入库
+     *
+     * @param hwId
+     * @param subject
+     * @param optionA
+     * @param optionB
+     * @param optionC
+     * @param optionD
+     * @param key
+     * @throws UnsupportedEncodingException
+     */
+    private void addHomeworkDetail(int hwId, String subject, String optionA, String optionB, String optionC, String optionD, String key)
+                                    throws UnsupportedEncodingException {
+        //URL待修改
+        String addNotify = StudentConstant.addHomeworkDetailURL
+                + "?hwID=" + hwId
+                + "&subject=" + java.net.URLEncoder.encode(subject, "utf-8")
+                + "&optionA=" + java.net.URLEncoder.encode(optionA, "utf-8")
+                + "&optionB=" + java.net.URLEncoder.encode(optionB, "utf-8")
+                + "&optionC=" + java.net.URLEncoder.encode(optionC, "utf-8")
+                + "&optionD=" + java.net.URLEncoder.encode(optionD, "utf-8")
+                + "&key=" + java.net.URLEncoder.encode(key, "utf-8");
+
+        MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
+        a.execute(addNotify);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+
+                if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
+                    //添加作业细节成功
+                    System.out.println("作业细节入库成功");
+
+                }else {
+                    //添加作业细节失败
+                    System.out.println("作业细节入库失败");
+
+                }
+            }
+            @Override
+            public void onDataReceivedFailed() {
+            }
+        });
+    }
+
+
+    /**
+     * 作业入库
+     *
+     * @param title
+     * @param name
+     * @param time
+     * @param size
+     * @param hwId
+     * @throws UnsupportedEncodingException
+     */
+    private void addHomework(String title, String name, String time, String size, int hwId)
+                                    throws UnsupportedEncodingException {
+        //URL待修改
+        String addNotify = StudentConstant.addHomeworkURL
+                + "?stuId=" + EMClient.getInstance().getCurrentUser()
+                + "&title=" + java.net.URLEncoder.encode(title, "utf-8")
+                + "&name=" + java.net.URLEncoder.encode(name, "utf-8")
+                + "&time=" + java.net.URLEncoder.encode(time, "utf-8")
+                + "&size=" + java.net.URLEncoder.encode(size, "utf-8")
+                + "&hwId=" + hwId;
+
+        MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
+        a.execute(addNotify);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+
+                if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
+                    //添加通知成功
+                    System.out.println("作业入库成功");
+
+                }else {
+                    //添加通知失败
+                    System.out.println("作业入库失败");
+
+                }
+            }
+            @Override
+            public void onDataReceivedFailed() {
+            }
+        });
     }
 
 }

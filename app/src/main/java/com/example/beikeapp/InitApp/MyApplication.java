@@ -26,10 +26,14 @@ public class MyApplication extends Application {
     public static final String XMPushAPP_KEY = "5401777562040";
     public static final String TAG = "XiaomiPush********!!!!";
 
+    private static Context context;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        context = getApplicationContext();
 
         //mob初始化
         MobSDK.init(this);
@@ -137,5 +141,10 @@ public class MyApplication extends Application {
             }
         }
         return processName;
+    }
+
+
+    public static Context getContext(){
+        return context;
     }
 }

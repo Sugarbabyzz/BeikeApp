@@ -10,8 +10,13 @@ import android.widget.ListView;
 
 import com.example.beikeapp.Adapter.HomeworkAdapter;
 import com.example.beikeapp.Adapter.NotifyAdapter;
+import com.example.beikeapp.Constant.GlobalConstant;
+import com.example.beikeapp.Constant.StudentConstant;
+import com.example.beikeapp.InitApp.MyApplication;
 import com.example.beikeapp.R;
 import com.example.beikeapp.TeacherMain.Homework.Homework;
+import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
@@ -73,6 +78,33 @@ public class StudentAllNotify extends AppCompatActivity {
             }
         });
     }
+
+
+    private void getNotify() {
+        //URL待修改
+        String addNotify = StudentConstant.getNotifyURL
+                + "?stuId=" + EMClient.getInstance().getCurrentUser();
+
+        MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
+        a.execute(addNotify);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+
+                if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
+                    //添加通知成功
+                }else {
+                    //添加通知失败
+                }
+            }
+            @Override
+            public void onDataReceivedFailed() {
+            }
+        });
+    }
+
+
+
 
     public void back(View view) {
         finish();
