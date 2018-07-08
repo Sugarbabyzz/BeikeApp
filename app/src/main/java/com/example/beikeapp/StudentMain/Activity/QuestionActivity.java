@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -327,6 +328,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         int c = ToolHelper.loadDB(this, "select _id from collection where qid=" + qid).getCount();
         if (c > 0) return true;
         else return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.que, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
