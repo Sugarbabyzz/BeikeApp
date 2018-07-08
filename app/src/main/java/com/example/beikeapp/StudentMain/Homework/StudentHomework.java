@@ -14,15 +14,17 @@ public class StudentHomework {
     private String name;
     private String time;
     private String size;
-    private List<Homework> homeworkList;
+    private String hwId;
 
-    public StudentHomework(String title, String name, String time, String size, List<Homework> homeworkList){
+
+    public StudentHomework(String title, String name, String time, String size, String hwId) {
 
         this.title = title;
         this.name = name;
         this.time = time;
         this.size = size;
-        this.homeworkList = homeworkList;
+        this.hwId = hwId;
+
     }
 
 
@@ -42,8 +44,8 @@ public class StudentHomework {
         this.size = size;
     }
 
-    public void setHomeworkList(List<Homework> homeworkList) {
-        this.homeworkList = homeworkList;
+    public void setHwId(String hwId) {
+        this.hwId = hwId;
     }
 
     public String getTitle() {
@@ -62,7 +64,7 @@ public class StudentHomework {
         return size;
     }
 
-    public List<Homework> getHomeworkList() {
-        return homeworkList;
+    public String getHwId() {
+        return hwId;
     }
 }

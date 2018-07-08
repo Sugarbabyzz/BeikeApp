@@ -86,6 +86,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         }).start();
 
+        //初始化通知列表
+        StudentAllNotify.getNotify();
+        //初始化作业列表
+        StudentAllHomework.getHomework();
+        //初始化评教列表
+        //待写
+
     }
 
     /**
