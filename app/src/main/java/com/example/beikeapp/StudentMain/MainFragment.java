@@ -4,6 +4,7 @@ package com.example.beikeapp.StudentMain;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentMain.Activity.ExerciseMainActivity;
 import com.example.beikeapp.StudentMain.Activity.SearchActivity;
+import com.example.beikeapp.StudentMain.Homework.StudentAllHomework;
+import com.example.beikeapp.StudentNotify.Notify.StudentAllNotify;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -76,11 +79,19 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 try {
                     MiPushClient.setUserAccount(getActivity(),
                             EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId(), null);
+                    Log.d(TAG, "学生 UserAccount:" + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId());
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
+        //初始化通知列表
+        StudentAllNotify.getNotify();
+        //初始化作业列表
+        StudentAllHomework.getHomework();
+        //初始化评教列表
+        //待写
 
     }
 
@@ -108,7 +119,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.btn_do_homework:
-                Toast.makeText(getActivity(), "Do homework Clicked ", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), StudentAllHomework.class));
                 break;
             case R.id.btn_search_exercise:
                 startActivity(new Intent(getActivity(), SearchActivity.class));

@@ -199,6 +199,8 @@
         <activity android:name=".StudentNotify.Notify.StudentNotify" />
         <activity android:name=".StudentNotify.Notify.StudentAllNotify" />
         <activity android:name=".StudentNotify.Assess.StudentAllAssess" />
+        <activity android:name=".StudentMain.Homework.StudentAllHomework" />
+        <activity android:name=".StudentMain.Homework.StudentDoHomework" />
     </application>
 
 </manifest>
