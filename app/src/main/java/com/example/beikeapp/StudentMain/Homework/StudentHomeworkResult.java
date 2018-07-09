@@ -45,7 +45,7 @@ public class StudentHomeworkResult extends AppCompatActivity {
         tvScore.append(score);
         tvDate.append(date);
         tvTime.append(time);
-        setTitle("作业完成结果");
+        setTitle("作业提交成功！");
         bt=findViewById(R.id.bt_record);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
