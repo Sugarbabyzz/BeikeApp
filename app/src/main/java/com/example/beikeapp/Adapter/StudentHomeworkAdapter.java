@@ -40,6 +40,8 @@ public class StudentHomeworkAdapter extends ArrayAdapter<StudentHomework> {
 
         ((TextView) convertView.findViewById(R.id.student_homework_item)).setText(getItem(position).getTitle());
 
+//        ((TextView) convertView.findViewById(R.id.student_homework_time_item)).setText(getItem(position).getTime());
+
 
         return convertView;
     }

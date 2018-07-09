@@ -32,6 +32,8 @@ public class StudentAllHomework extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private static String hwId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +79,21 @@ public class StudentAllHomework extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(StudentAllHomework.this, StudentDoHomework.class);
+
+                //获取点击的作业id
+                hwId = StudentHomework.studentHomeworkList.get(i).getHwId();
+
+                intent.putExtra("hwId", hwId);
                 intent.putExtra("i", String.valueOf(i + 1));
-                System.out.println("查看第i条作业 ： " + i + 1);
+                System.out.println("查看第i条作业 ： " + i + 1 + "\t\t当前hwId：" + hwId);
+
+                //初始化作业细节
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getHomeworkDetail();
+                    }
+                }).start();
 
                 startActivity(intent);
             }
@@ -189,11 +204,113 @@ public class StudentAllHomework extends AppCompatActivity {
                 hwId = matcher.group(3);
             }
 
-            Log.d(TAG, "解析作业消息：  title:" + title + "  name:" + name + "  time:" + time + "  size:" + size + "  hwId" + hwId);
+            Log.d(TAG, "解析作业消息：  title:" + title + "  name:" + name + "  time:" + time + "  size:" + size + "  hwId:" + hwId);
 
             //作业加入 List
             StudentHomework studentHomework = new StudentHomework(title, name, time, size, hwId);
             StudentHomework.studentHomeworkList.add(studentHomework);
+        }
+
+    }
+
+    /**
+     * 从数据库获取作业细节
+     */
+    public static void getHomeworkDetail() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String getHomeworkDetail = null;
+
+                getHomeworkDetail = StudentConstant.getHomeworkDetailURL
+                        + "?hwId=" + hwId;
+
+                MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
+                a.execute(getHomeworkDetail);
+                a.setOnAsyncResponse(new AsyncResponse() {
+                    @Override
+                    public void onDataReceivedSuccess(List<String> listData) {
+
+                        //解析作业
+                        getHomeworkDetailList(listData.get(0));
+                        Log.d(TAG, "需要解析的作业细节：" + listData.get(0));
+                    }
+
+                    @Override
+                    public void onDataReceivedFailed() {
+                    }
+                });
+            }
+        }).start();
+
+    }
+
+
+    /**
+     * 解析作业列表
+     *
+     * @param message
+     */
+    public static void getHomeworkDetailList(String message) {
+
+        //获取前对List进行清空
+        Homework.homeworkList.clear();
+
+        //处理作业   subject option key
+
+        /*
+         * 接收作业 内容
+         */
+        String subject = "", optionA = "", optionB = "", optionC = "", optionD = "", key = "";
+        String hw;
+
+        Pattern p = Pattern.compile("<hw>.*?</hw>");
+        Matcher m = p.matcher(message);
+        while (m.find()) {
+            hw = m.group();
+
+            Pattern pattern = Pattern.compile("(.*)(<hw_subject>)(.*?)(</hw_subject>)(.*)");
+            Matcher matcher = pattern.matcher(hw);
+            if (matcher.matches()) {
+                subject = matcher.group(3);
+            }
+
+            pattern = Pattern.compile("(.*)(<optionA>)(.*?)(</optionA>)(.*)");
+            matcher = pattern.matcher(hw);
+            if (matcher.matches()) {
+                optionA = matcher.group(3);
+            }
+
+            pattern = Pattern.compile("(.*)(<optionB>)(.*?)(</optionB>)(.*)");
+            matcher = pattern.matcher(hw);
+            if (matcher.matches()) {
+                optionB = matcher.group(3);
+            }
+
+            pattern = Pattern.compile("(.*)(<optionC>)(.*?)(</optionC>)(.*)");
+            matcher = pattern.matcher(hw);
+            if (matcher.matches()) {
+                optionC = matcher.group(3);
+            }
+
+            pattern = Pattern.compile("(.*)(<optionD>)(.*?)(</optionD>)(.*)");
+            matcher = pattern.matcher(hw);
+            if (matcher.matches()) {
+                optionD = matcher.group(3);
+            }
+
+            pattern = Pattern.compile("(.*)(<hw_key>)(.*?)(</hw_key>)(.*)");
+            matcher = pattern.matcher(hw);
+            if (matcher.matches()) {
+                key = matcher.group(3);
+            }
+
+            Log.d(TAG, "解析作业细节：  hw_subject:" + subject + " optionA:" + optionA + " optionB:" + optionB + " optionC:" + optionC + " optionD:" + optionD + " hw_key:" + key);
+
+            //作业细节加入 List
+            Homework homework = new Homework(subject, optionA, optionB, optionC, optionD, key);
+            Homework.homeworkList.add(homework);
         }
 
     }
