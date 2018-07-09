@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.StudentConstant;
 import com.example.beikeapp.InitApp.MyApplication;
 import com.example.beikeapp.R;
@@ -65,8 +66,10 @@ public class StudentDoHomework extends AppCompatActivity implements View.OnClick
     private TextView tvTitle, tvScore;
     private TextView tvQue, tvDetail, tvAns, tvYou;
     private CheckBox cb1, cb2, cb3, cb4;
-    private boolean isCollect = false, isFirst = false;
-    private String qid, type, que, A, B, C, D, answer, detail;
+    private boolean isFirst = false;
+    private String que, A, B, C, D, answer;
+
+    private StringBuffer errList = new StringBuffer();   //保存错题序号
 
 
 
@@ -254,8 +257,17 @@ public class StudentDoHomework extends AppCompatActivity implements View.OnClick
             if (you.equals(answer)) {
                 moveCorrect();
             } else {
+
+                //将错题加入errList
+                if (tvAns.getVisibility() == View.GONE){
+                    Log.d(TAG, "isAnswerTrue: 当前pos为:" + (pos+1));
+                    errList.append((pos+1) + ",");
+                    Log.d(TAG, "isAnswerTrue: 错题序号为：" + errList);
+                }
+
                 //错误则保存错题，显示答案
                 disableChecked(pos);
+
             }
         } else {
             Toast.makeText(StudentDoHomework.this, "请选择答案", Toast.LENGTH_SHORT).show();
@@ -338,8 +350,18 @@ public class StudentDoHomework extends AppCompatActivity implements View.OnClick
         return super.onOptionsItemSelected(item);
     }
 
-    //保存考试记录
+    //保存考试记录，并提交结果
     private void saveExam() {
+
+        //将作业结果提交到服务器
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                addHomeworkResult();
+            }
+        }).start();
+
+
         chronometer.stop();
         Date date = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -396,5 +418,34 @@ public class StudentDoHomework extends AppCompatActivity implements View.OnClick
                     vf.showPrevious();
             }
         }
+    }
+
+    /**
+     *  提交作业结果到服务器
+     */
+    private void addHomeworkResult() {
+        //URL待修改
+        String addHomeworkResult = StudentConstant.addHomeworkResultURL
+                + "?hwId=" + hwId
+                + "&err=" + errList.toString();
+
+        MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
+        a.execute(addHomeworkResult);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+
+                if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
+                    //提交作业结果成功
+                    Log.d(TAG, "onDataReceivedSuccess: 提交作业结果成功！");
+                }else {
+                    //提交作业结果失败
+                    Log.d(TAG, "onDataReceivedSuccess: 提交作业结果失败！");
+                }
+            }
+            @Override
+            public void onDataReceivedFailed() {
+            }
+        });
     }
 }
