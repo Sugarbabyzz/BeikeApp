@@ -53,7 +53,7 @@ public class StudentCheckCode extends BaseActivity implements View.OnClickListen
     }
 
     private void checkCode(String code){
-        String checkCodeUrlStr = GlobalConstant.URL_CHECK_CODE + "?code=" + code;
+        String checkCodeUrlStr = GlobalConstant.URL_CHECK_CODE_STUDENT + "?code=" + code;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(checkCodeUrlStr);

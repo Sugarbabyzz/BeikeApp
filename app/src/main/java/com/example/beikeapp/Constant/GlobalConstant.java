@@ -33,7 +33,10 @@ public class GlobalConstant {
     public static final String URL_TEST_EXISTENCE = URL_REGISTER_BASIC + "/TestExistence";
 
     // 验证学生邀请码
-    public static final String URL_CHECK_CODE = URL_REGISTER_BASIC + "/CheckCode";
+    public static final String URL_CHECK_CODE_STUDENT = URL_REGISTER_BASIC + "/Student/CheckCode";
+
+    // 验证老师邀请码
+    public static final String URL_CHECK_CODE_PARENT = URL_REGISTER_BASIC +"/Parent/CheckCode";
 
 
     /**

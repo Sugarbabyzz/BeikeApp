@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -56,7 +57,7 @@ public class parent_1_register_select_student extends BaseActivity implements Vi
     }
 
     private void checkCode(String stuId){
-        String checkCodeUrlStr = ParentConstant.URL_Register_Select_Student+ "?stuID=" + stuId ;
+        String checkCodeUrlStr = GlobalConstant.URL_CHECK_CODE_PARENT+ "?stuID=" + stuId ;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(checkCodeUrlStr);

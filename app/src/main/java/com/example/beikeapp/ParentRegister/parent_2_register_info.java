@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.R;
 import com.example.beikeapp.Util.AsyncResponse;
@@ -205,7 +206,7 @@ public class parent_2_register_info extends BaseActivity implements View.OnClick
     }
 
     private void registerAccount(String phoneNumber, String password){
-        String registerAccountUrlStr = ParentConstant.URL_Register_Info +"?phoneNumber=" + phoneNumber + "&password=" + password;
+        String registerAccountUrlStr = GlobalConstant.URL_CHECK_CODE_PARENT +"?phoneNumber=" + phoneNumber + "&password=" + password;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(registerAccountUrlStr);

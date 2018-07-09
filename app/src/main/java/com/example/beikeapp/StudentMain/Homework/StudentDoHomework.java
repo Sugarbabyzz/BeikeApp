@@ -13,6 +13,7 @@ import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.xiaomi.mipush.sdk.HWPushHelper;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,6 +25,8 @@ public class StudentDoHomework extends AppCompatActivity {
 
     private int i;
     private String temp;
+
+    public static String hwId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +62,8 @@ public class StudentDoHomework extends AppCompatActivity {
                 String getHomeworkDetail = null;
                 try {
                     getHomeworkDetail = StudentConstant.getHomeworkDetailURL
-                            + "?classId=" + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId();
-                            //hwId
+                            + "?classId=" + EMClient.getInstance().groupManager().getJoinedGroupsFromServer().get(0).getGroupId()
+                            + "&hwId=" + hwId;
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
