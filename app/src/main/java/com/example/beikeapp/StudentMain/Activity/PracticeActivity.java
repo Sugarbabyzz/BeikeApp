@@ -38,12 +38,12 @@ import java.util.List;
 
 public class PracticeActivity extends AppCompatActivity implements View.OnClickListener {
     private int tab;
-    private String table,content,from;
+    private String table, content, from;
     private TextView tvTitle;
     private Cursor cursor;
-    private boolean isCollect=false;
+    private boolean isCollect = false;
     private int num;
-    private int index=0,index1;
+    private int index = 0, index1;
     public static List<String> anList;
     private String source;
     private String qid, type, que, A, B, C, D, answer, detail;
@@ -54,7 +54,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
     private View root;
     private TextView tvQue, tvDetail, tvAns;
     private CheckBox cb1, cb2, cb3, cb4;
-    private ImageView imgCollect,imgCard;
+    private ImageView imgCollect, imgCard;
     private SharedPreferences sp;
 
     @Override
@@ -66,9 +66,9 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        sp=getPreferences(Context.MODE_PRIVATE);
-        Intent intent=getIntent();
-        tab=intent.getIntExtra("tab",1);
+        sp = getPreferences(Context.MODE_PRIVATE);
+        Intent intent = getIntent();
+        tab = intent.getIntExtra("tab", 1);
         initTable();
         initView();
 
@@ -78,40 +78,40 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         switch (tab) {
             case MyTag.QUE://题库
                 table = "que";
-                content="题库";
-                from="que";
+                content = "题库";
+                from = "que";
                 break;
             case MyTag.COLLECT://收藏
                 table = "collection ,que where collection.qid=que._id ";
-                content="收藏";
-                from="collect";
+                content = "收藏";
+                from = "collect";
                 break;
             case MyTag.WRONG://错题
                 table = "wrong,que where wrong.qid=que._id ";
-                content="错题";
-                from="wrong";
+                content = "错题";
+                from = "wrong";
                 break;
         }
         getProgress(from);
     }
 
     private void getProgress(String t) {
-        index1=sp.getInt(t+"index",0);
+        index1 = sp.getInt(t + "index", 0);
     }
 
     private void saveProgess(String t) {
-        SharedPreferences.Editor editor=sp.edit();
-        editor.putInt(t+"index",index);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(t + "index", index);
         editor.commit();
     }
 
     @SuppressLint("SetTextI18n")
     private void initView() {
         //初始化收藏按钮
-        imgCollect =findViewById(R.id.img_collect);
+        imgCollect = findViewById(R.id.img_collect);
         imgCollect.setOnClickListener(this);
         //初始化答题卡按钮
-        imgCard=findViewById(R.id.img_card);
+        imgCard = findViewById(R.id.img_card);
         imgCard.setOnClickListener(this);
 
         findViewById(R.id.mytime).setVisibility(View.GONE);
@@ -124,12 +124,12 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         tvTitle = findViewById(R.id.tv_title);
         tvTitle.setText(source);
         //获取SQLite数据库中题库数据
-        if(tab==MyTag.QUE)
+        if (tab == MyTag.QUE)
             cursor = ToolHelper.loadDB(this,
-                    "select que.* from "+table+" where " + field + "='" + value + "' order by type");
+                    "select que.* from " + table + " where " + field + "='" + value + "' order by type");
         else
             cursor = ToolHelper.loadDB(this,
-                    "select que.* from "+table+" and " + field + "='" + value + "' order by type");
+                    "select que.* from " + table + " and " + field + "='" + value + "' order by type");
         num = cursor.getCount();
         //答案List初始化
         anList = new ArrayList<>();
@@ -139,7 +139,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
         //设置进度条
         pb = findViewById(R.id.pb);
-        pb.setMax(num-1);
+        pb.setMax(num - 1);
         pb.setProgress(0);
         //前后按钮
         imgPre = findViewById(R.id.img_pre);
@@ -147,8 +147,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         imgPre.setOnClickListener(this);
         imgNext.setOnClickListener(this);
         //设置ViewFlipper
-        vf=findViewById(R.id.vf);
-        adapter=new BaseAdapter() {
+        vf = findViewById(R.id.vf);
+        adapter = new BaseAdapter() {
             @Override
             public int getCount() {
                 return num;
@@ -166,7 +166,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                index=position;
+                index = position;
                 createView(position);
                 return root;
             }
@@ -174,6 +174,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         vf.setAdapter(adapter);
         moveToItem(index1);
     }
+
     //答题卡设置
     private void createView(int pos) {
         root = LayoutInflater.from(PracticeActivity.this).inflate(R.layout.question_item, null);
@@ -189,10 +190,10 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         cursor.moveToPosition(pos);
         type = cursor.getString(cursor.getColumnIndex("type"));
         que = cursor.getString(cursor.getColumnIndex("que"));
-        A = "A."+cursor.getString(cursor.getColumnIndex("choiceA"));
-        B =  "B."+cursor.getString(cursor.getColumnIndex("choiceB"));
-        C =  "C."+cursor.getString(cursor.getColumnIndex("choiceC"));
-        D =  "D."+cursor.getString(cursor.getColumnIndex("choiceD"));
+        A = "A." + cursor.getString(cursor.getColumnIndex("choiceA"));
+        B = "B." + cursor.getString(cursor.getColumnIndex("choiceB"));
+        C = "C." + cursor.getString(cursor.getColumnIndex("choiceC"));
+        D = "D." + cursor.getString(cursor.getColumnIndex("choiceD"));
         answer = cursor.getString(cursor.getColumnIndex("answer"));
         detail = cursor.getString(cursor.getColumnIndex("detail"));
         qid = cursor.getString(cursor.getColumnIndex("_id"));
@@ -226,28 +227,28 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         //设置当前进度
         pb.setProgress(pos);
         //设置是否被收藏
-        if(queCollect()){
-            isCollect=true;
+        if (queCollect()) {
+            isCollect = true;
             imgCollect.setImageResource(R.drawable.star_collected);
-        }else {
-            isCollect=false;
+        } else {
+            isCollect = false;
             imgCollect.setImageResource(R.drawable.star_uncollected);
         }
         //滑动切换
         root.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                float startX=v.getWidth()/2,endX=v.getWidth()/2,min=100;
-                switch (event.getAction()){
+                float startX = v.getWidth() / 2, endX = v.getWidth() / 2, min = 100;
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        startX=event.getX();
+                        startX = event.getX();
                     case MotionEvent.ACTION_UP:
-                        endX=event.getX();
+                        endX = event.getX();
                         break;
                 }
                 if (startX - endX > min) {
                     vf.showNext();
-                }else if (endX - startX > min) {
+                } else if (endX - startX > min) {
                     vf.showPrevious();
                 }
                 return true;
@@ -276,17 +277,18 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 saveWrong(sb.toString());
                 disableChecked(pos);
             }
-        }else {
+        } else {
             Toast.makeText(PracticeActivity.this, "请选择答案", Toast.LENGTH_SHORT).show();
         }
     }
+
     //移除正确题目
     @SuppressLint("SetTextI18n")
     private void moveCorrect() {
         vf.showNext();
-        int c=ToolHelper.loadDB(this,"select _id from wrong where qid="+qid).getCount();
-        if(c>0)
-            ToolHelper.excuteDB(this, "delete from wrong where qid=" +qid);
+        int c = ToolHelper.loadDB(this, "select _id from wrong where qid=" + qid).getCount();
+        if (c > 0)
+            ToolHelper.excuteDB(this, "delete from wrong where qid=" + qid);
     }
 
     //已做题不可再做
@@ -302,8 +304,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     //保存错题
     private void saveWrong(String ans) {
-        int c=ToolHelper.loadDB(this,"select _id from wrong where qid="+qid).getCount();
-        if(c==0) {
+        int c = ToolHelper.loadDB(this, "select _id from wrong where qid=" + qid).getCount();
+        if (c == 0) {
             Date date = new Date();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             String mydate = ft.format(date);
@@ -314,21 +316,23 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     //判断当前题目是否被收藏
     private boolean queCollect() {
-        int c=ToolHelper.loadDB(this,"select _id from collection where qid="+qid).getCount();
-        if(c>0) return true;
+        int c = ToolHelper.loadDB(this, "select _id from collection where qid=" + qid).getCount();
+        if (c > 0) return true;
         else return false;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.que, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.que_ok://提交答案
-                    isAnswerTrue(index);
+                isAnswerTrue(index);
                 break;
             case android.R.id.home://返回
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -353,7 +357,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_next:
                 vf.showNext();
                 break;
@@ -361,31 +365,31 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 vf.showPrevious();
                 break;
             case R.id.img_collect://收藏
-                if(!isCollect){
+                if (!isCollect) {
                     imgCollect.setImageResource(R.drawable.star_collected);
-                    ToolHelper.excuteDB(this,"insert into collection (_id,qid) values ("+String.valueOf(Math.random()*10000)+","+qid+")");
-                    Toast.makeText(this,"成功收藏",Toast.LENGTH_SHORT).show();
-                    isCollect=true;
-                }else {
+                    ToolHelper.excuteDB(this, "insert into collection (_id,qid) values (" + String.valueOf(Math.random() * 10000) + "," + qid + ")");
+                    Toast.makeText(this, "成功收藏", Toast.LENGTH_SHORT).show();
+                    isCollect = true;
+                } else {
                     imgCollect.setImageResource(R.drawable.star_uncollected);
-                    ToolHelper.excuteDB(this,"delete from collection where qid="+qid);
-                    Toast.makeText(this,"取消收藏",Toast.LENGTH_SHORT).show();
-                    isCollect=false;
+                    ToolHelper.excuteDB(this, "delete from collection where qid=" + qid);
+                    Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    isCollect = false;
                 }
                 break;
             case R.id.img_card:
-                Intent intent=new Intent(this,CardActivity.class);
-                intent.putExtra("num",num);
-                intent.putExtra("from",2);
-                startActivityForResult(intent,MyTag.CARD);
+                Intent intent = new Intent(this, CardActivity.class);
+                intent.putExtra("num", num);
+                intent.putExtra("from", 2);
+                startActivityForResult(intent, MyTag.CARD);
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==MyTag.CARD&&resultCode==MyTag.CARD){
-            int select=data.getIntExtra("card",0);
+        if (requestCode == MyTag.CARD && resultCode == MyTag.CARD) {
+            int select = data.getIntExtra("card", 0);
             moveToItem(select);
 
         }
@@ -394,12 +398,12 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     private void moveToItem(int t) {
         if (t != index) {
-            if(t>index) {
-                int d= t-index;
+            if (t > index) {
+                int d = t - index;
                 for (int i = 0; i < d; i++)
                     vf.showNext();
-            }else if(t<index){
-                int p=index-t;
+            } else if (t < index) {
+                int p = index - t;
                 for (int i = 0; i < p; i++)
                     vf.showPrevious();
             }
