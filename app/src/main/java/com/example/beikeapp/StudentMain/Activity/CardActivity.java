@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.beikeapp.R;
 import com.example.beikeapp.StudentMain.DBHelper.MyTag;
+import com.example.beikeapp.StudentMain.Homework.StudentDoHomework;
 
 public class CardActivity extends AppCompatActivity {
     private GridView gv;
@@ -74,6 +75,12 @@ public class CardActivity extends AppCompatActivity {
                     }else {
                         tv.setTextColor(getResources().getColor(R.color.gray));
 
+                    }
+                }else if (from==3){
+                    if (!StudentDoHomework.anList.get(position).equals("")){
+                        tv.setTextColor(getResources().getColor(R.color.colorAccent));
+                    }else {
+                        tv.setTextColor(getResources().getColor(R.color.gray));
                     }
                 }
                 return view;

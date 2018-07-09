@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.smssdk.gui.layout.TitleLayout;
+
 public class StudentAllHomework extends AppCompatActivity {
 
 
@@ -33,6 +35,8 @@ public class StudentAllHomework extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private static String hwId;
+    private static String size;
+    private static String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +82,16 @@ public class StudentAllHomework extends AppCompatActivity {
         lvHomeworkList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(StudentAllHomework.this, StudentDoHomework.class);
+                Intent intent = new Intent(StudentAllHomework.this, StudentBeforeDoHw.class);
 
                 //获取点击的作业id
                 hwId = StudentHomework.studentHomeworkList.get(i).getHwId();
+                size = StudentHomework.studentHomeworkList.get(i).getSize();
+                title = StudentHomework.studentHomeworkList.get(i).getTitle();
 
                 intent.putExtra("hwId", hwId);
+                intent.putExtra("size",size);
+                intent.putExtra("title", title);
                 intent.putExtra("i", String.valueOf(i + 1));
                 System.out.println("查看第i条作业 ： " + i + 1 + "\t\t当前hwId：" + hwId);
 
@@ -94,6 +102,7 @@ public class StudentAllHomework extends AppCompatActivity {
                         getHomeworkDetail();
                     }
                 }).start();
+
 
                 startActivity(intent);
             }
