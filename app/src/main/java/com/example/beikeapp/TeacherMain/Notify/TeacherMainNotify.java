@@ -77,7 +77,7 @@ public class TeacherMainNotify extends AppCompatActivity {
          //   itemId[i] = groupList.get(i).getGroupId();
         }
         // checkboxes before names
-        // false by default
+        // false by defaultx
         final boolean[] checkedItems = new boolean[groupList.size()];
         // setup multiple items
         builder.setMultiChoiceItems(itemName,

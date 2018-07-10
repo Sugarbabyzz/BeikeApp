@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class AssignActivity extends AppCompatActivity implements View.OnClickLis
 
     private TextView tvClass;
 
+    private EditText etTitle;
+
     private Button btnChooseClass;
 
     private Button btnSendHomework;
@@ -53,6 +56,7 @@ public class AssignActivity extends AppCompatActivity implements View.OnClickLis
         tvClass = findViewById(R.id.tv_classes);
         btnChooseClass = findViewById(R.id.btn_choose_class);
         btnSendHomework = findViewById(R.id.btn_send_homework);
+        etTitle = findViewById(R.id.et_title);
         btnChooseClass.setOnClickListener(this);
         btnSendHomework.setOnClickListener(this);
     }
@@ -87,6 +91,7 @@ public class AssignActivity extends AppCompatActivity implements View.OnClickLis
                 switch (listData.get(0)) {
                     case GlobalConstant.FLAG_SUCCESS:
                         Log.d(TAG, "作业发送成功");
+
                         Toast.makeText(AssignActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
 
                         break;
@@ -99,6 +104,8 @@ public class AssignActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText(AssignActivity.this, "网络错误,请检查网络链接", Toast.LENGTH_SHORT).show();
                         break;
                 }
+                // 清楚作业暂存列表
+                Homework.homeworkList.clear();
             }
 
             @Override
@@ -123,6 +130,7 @@ public class AssignActivity extends AppCompatActivity implements View.OnClickLis
         return TeacherConstant.URL_SEND_HOMEWORK
                 + "?account=" + EMClient.getInstance().getCurrentUser()
                 + "&to=" + groupIdStr
+                + "&title=" + etTitle.getText().toString().trim()
                 + "&size=" + size
                 + "&" + StringUtils.join(arr, "&");
     }
@@ -217,8 +225,8 @@ public class AssignActivity extends AppCompatActivity implements View.OnClickLis
                 createClassDialog();
                 break;
             case R.id.btn_send_homework:
-                if (groupIdStr.isEmpty()){
-                    Toast.makeText(this, "班级不能为空！", Toast.LENGTH_SHORT).show();
+                if (groupIdStr.isEmpty() || "".equals(etTitle.getText().toString().trim())) {
+                    Toast.makeText(this, "班级或标题不能为空！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 sendHomework();

@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.example.beikeapp.R;
 import com.example.beikeapp.TeacherMain.Homework.AssignHomeworkWholesale;
+import com.example.beikeapp.TeacherMain.HomeworkComplete.HomeworkOutlineActivity;
 import com.example.beikeapp.TeacherMain.Notify.TeacherMainNotify;
 
 
@@ -64,12 +65,19 @@ public class TeacherMainFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
-                    case 0:
+                    case 0: // 发送通知
                         startActivity(new Intent(getActivity(), TeacherMainNotify.class));
                         break;
-                    case 1:
+                    case 1: // 布置作业
                         startActivity(new Intent(getActivity(), AssignHomeworkWholesale.class));
                         break;
+                    case 2: // 发布评教
+//                        startActivity(new Intent(getActivity(), AssignHomeworkWholesale.class));
+                        break;
+                    case 3: // 查看作业完成情况
+                        startActivity(new Intent(getActivity(), HomeworkOutlineActivity.class));
+                        break;
+
                 }
             }
         });

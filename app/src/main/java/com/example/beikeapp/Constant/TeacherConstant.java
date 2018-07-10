@@ -10,4 +10,5 @@ public class TeacherConstant {
 
     public static final String URL_SEND_HOMEWORK = GlobalConstant.URL_BASIC + "/Teacher/SendHomework";
 
+    public static final String URL_GET_HOMEWORK_STATUS = GlobalConstant.URL_BASIC + "/Teacher/GetHomeworkStatus";
 }
