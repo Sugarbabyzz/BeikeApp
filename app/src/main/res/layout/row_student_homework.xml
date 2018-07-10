@@ -6,7 +6,7 @@
     android:gravity="center_vertical" >
 
     <ImageView
-        android:id="@+id/yuan"
+        android:id="@+id/yuan2"
         android:layout_width="30dp"
         android:layout_height="55dp"
         android:layout_alignParentLeft="true"
@@ -15,12 +15,22 @@
         android:src="@drawable/checked" />
 
     <TextView
-        android:id="@+id/notify_item"
+        android:id="@+id/student_homework_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="7dp"
-        android:layout_toRightOf="@id/yuan"
+        android:layout_toRightOf="@id/yuan2"
+        android:textColor="#8C8C8C"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/student_homework_time_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="7dp"
+        android:layout_toRightOf="@id/student_homework_item"
         android:textColor="#8C8C8C"
         android:textSize="16sp" />
 

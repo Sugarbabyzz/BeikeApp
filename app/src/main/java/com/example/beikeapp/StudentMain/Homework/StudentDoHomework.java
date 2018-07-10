@@ -1,15 +1,14 @@
-package com.example.beikeapp.StudentMain.Activity;
+package com.example.beikeapp.StudentMain.Homework;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,76 +24,86 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.beikeapp.Constant.GlobalConstant;
+import com.example.beikeapp.Constant.StudentConstant;
+import com.example.beikeapp.InitApp.MyApplication;
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentMain.Activity.CardActivity;
+import com.example.beikeapp.StudentMain.Activity.QuestionActivity;
+import com.example.beikeapp.StudentMain.Activity.ResultActivity;
 import com.example.beikeapp.StudentMain.DBHelper.MyTag;
 import com.example.beikeapp.StudentMain.DBHelper.ToolHelper;
-import com.example.beikeapp.StudentMain.Fragment.QuestionFragment;
+import com.example.beikeapp.TeacherMain.Homework.Homework;
+import com.example.beikeapp.Util.AsyncResponse;
+import com.example.beikeapp.Util.MyAsyncTask;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
+import com.xiaomi.mipush.sdk.HWPushHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+public class StudentDoHomework extends AppCompatActivity implements View.OnClickListener {
 
-public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
-    private int tab;
-    private String table, content;
-    private TextView tvTitle, tvScore;
+    private static final String TAG = "StudentDoHomework";
+
+    private int i;
+    private String temp;
+    private String hwId, size, title;
+    private ImageView imgCollect, imgCard;
     private Chronometer chronometer;
-    private Cursor cursor;
-    private boolean isCollect = false, isFirst = false;
-    private int num;
-    private int score = 0, index = 0;
-    public static List<String> anList;
-    private String source;
-    private String qid, type, que, A, B, C, D, answer, detail;
     private ImageView imgPre, imgNext;
     private AdapterViewFlipper vf;
     private BaseAdapter adapter;
     private ProgressBar pb;
     private View root;
+    public static List<String> anList;
+    private int score = 0, index = 0;
+    private TextView tvTitle, tvScore;
     private TextView tvQue, tvDetail, tvAns, tvYou;
     private CheckBox cb1, cb2, cb3, cb4;
-    private ImageView imgCollect, imgCard;
+    private boolean isFirst = false;
+    private String que, A, B, C, D, answer;
+
+    private StringBuffer errList = new StringBuffer();   //保存错题序号
+
+
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_question);
         //ActionBar工具栏设置
         Toolbar toolbar = findViewById(R.id.toolbar_que);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Intent intent = getIntent();
-        tab = intent.getIntExtra("tab", 1);
-        initTable();
+
+        hwId = getIntent().getStringExtra("hwId");
+        size = getIntent().getStringExtra("size");
+        title = getIntent().getStringExtra("title");
+        temp = getIntent().getStringExtra("i");
+        i = Integer.valueOf(temp);
+        System.out.println("查看第i条作业：" + i + "\t\t当前hwId：" + hwId + "\t\t作业数目：" + size);
+
+
+        //初始化界面
         initView();
 
+
     }
 
-    private void initTable() {
-        switch (tab) {
-            case MyTag.QUE://题库
-                table = "que";
-                content = "题库";
-                break;
-            case MyTag.COLLECT://收藏
-                table = "collection ,que where collection.qid=que._id ";
-                content = "收藏";
-                break;
-            case MyTag.WRONG://错题
-                table = "wrong,que where wrong.qid=que._id ";
-                content = "错题";
-                break;
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
     private void initView() {
+
         //初始化收藏按钮
         imgCollect = findViewById(R.id.img_collect);
         imgCollect.setOnClickListener(this);
+        imgCollect.setVisibility(View.GONE);
         //初始化答题卡按钮
         imgCard = findViewById(R.id.img_card);
         imgCard.setOnClickListener(this);
@@ -105,36 +114,23 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                if (SystemClock.elapsedRealtime() - chronometer.getBase() == 1.5 * 360 * 1000) {
-                    Toast.makeText(QuestionActivity.this, "考试时间到", Toast.LENGTH_LONG).show();
-                    saveExam();
+                if (SystemClock.elapsedRealtime() - chronometer.getBase() == 3600) {
+                    Toast.makeText(StudentDoHomework.this, "已过1小时。", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        //获取题目集关键字
-        String field = QuestionFragment.field;
-        String value = QuestionFragment.value;
-        source = value;
+
         //设置标题
         tvTitle = findViewById(R.id.tv_title);
-        tvTitle.setText(source);
-        //获取SQLite数据库中题库数据
-        if (tab == MyTag.QUE)
-            cursor = ToolHelper.loadDB(this,
-                    "select que.* from " + table + " where " + field + "='" + value + "' order by type");
-        else
-            cursor = ToolHelper.loadDB(this,
-                    "select que.* from " + table + " and " + field + "='" + value + "' order by type");
-        num = cursor.getCount();
-        //答案List初始化
+        tvTitle.setText(title);
+        //学生给出的答案List初始化
         anList = new ArrayList<>();
-        for (int i = 0; i < num; i++) {
+        for (int i = 0; i < Integer.parseInt(size); i++) {
             anList.add("");
         }
-
         //设置进度条
         pb = findViewById(R.id.pb);
-        pb.setMax(num - 1);
+        pb.setMax(Integer.parseInt(size)-1);
         pb.setProgress(0);
         //前后按钮
         imgPre = findViewById(R.id.img_pre);
@@ -143,13 +139,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         imgNext.setOnClickListener(this);
         //设置初始分数
         tvScore = findViewById(R.id.tv_num);
-        tvScore.setText("得分：" + String.valueOf(score) + "/" + String.valueOf(num));
+        tvScore.setText("得分：" + String.valueOf(score) + "/" + String.valueOf(size));
+        tvScore.setVisibility(View.GONE);
         //设置ViewFlipper
         vf = findViewById(R.id.vf);
         adapter = new BaseAdapter() {
             @Override
             public int getCount() {
-                return num;
+                return Integer.parseInt(size);
             }
 
             @Override
@@ -174,7 +171,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     //答题卡设置
     private void createView(int pos) {
-        root = LayoutInflater.from(QuestionActivity.this).inflate(R.layout.question_item, null);
+
+        root = LayoutInflater.from(StudentDoHomework.this).inflate(R.layout.question_item, null);
         tvQue = root.findViewById(R.id.tv_que1);
         cb1 = root.findViewById(R.id.cb_choice1);
         cb2 = root.findViewById(R.id.cb_choice2);
@@ -185,18 +183,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         tvYou = root.findViewById(R.id.tv_you);
 
         //获取数据
-        cursor.moveToPosition(pos);
-        type = cursor.getString(cursor.getColumnIndex("type"));
-        que = cursor.getString(cursor.getColumnIndex("que"));
-        A = "A." + cursor.getString(cursor.getColumnIndex("choiceA"));
-        B = "B." + cursor.getString(cursor.getColumnIndex("choiceB"));
-        C = "C." + cursor.getString(cursor.getColumnIndex("choiceC"));
-        D = "D." + cursor.getString(cursor.getColumnIndex("choiceD"));
-        answer = cursor.getString(cursor.getColumnIndex("answer"));
-        detail = cursor.getString(cursor.getColumnIndex("detail"));
-        qid = cursor.getString(cursor.getColumnIndex("_id"));
+        que = Homework.homeworkList.get(pos).getSubject();
+        A = "A." + Homework.homeworkList.get(pos).getOptionA();
+        B = "B." + Homework.homeworkList.get(pos).getOptionB();
+        C = "C." + Homework.homeworkList.get(pos).getOptionC();
+        D = "D." + Homework.homeworkList.get(pos).getOptionD();
+        answer = Homework.homeworkList.get(pos).getStringKey();
         //加载内容
-        tvQue.setText((pos + 1) + ".(" + type + ")" + que);
+        tvQue.setText((pos + 1) + ".( 单选 )" + que);
         cb1.setText(A);
         cb2.setText(B);
         cb3.setText(C);
@@ -214,7 +208,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         cb3.setChecked(false);
         cb4.setChecked(false);
         tvAns.setText("【正确答案】" + answer);
-        tvDetail.setText("【解析】" + detail);
         if (anList.get(pos).equals("")) {
             tvAns.setVisibility(View.GONE);
             tvYou.setVisibility(View.GONE);
@@ -225,14 +218,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         }
         //设置当前进度
         pb.setProgress(pos);
-        //设置是否被收藏
-        if (queCollect()) {
-            isCollect = true;
-            imgCollect.setImageResource(R.drawable.star_collected);
-        } else {
-            isCollect = false;
-            imgCollect.setImageResource(R.drawable.star_uncollected);
-        }
         //滑动切换
         root.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -272,12 +257,20 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             if (you.equals(answer)) {
                 moveCorrect();
             } else {
+
+                //将错题加入errList
+                if (tvAns.getVisibility() == View.GONE){
+                    Log.d(TAG, "isAnswerTrue: 当前pos为:" + (pos+1));
+                    errList.append((pos+1) + ",");
+                    Log.d(TAG, "isAnswerTrue: 错题序号为：" + errList);
+                }
+
                 //错误则保存错题，显示答案
-                saveWrong(sb.toString());
                 disableChecked(pos);
+
             }
         } else {
-            Toast.makeText(QuestionActivity.this, "请选择答案", Toast.LENGTH_SHORT).show();
+            Toast.makeText(StudentDoHomework.this, "请选择答案", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -285,18 +278,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     @SuppressLint("SetTextI18n")
     private void moveCorrect() {
         score++;
-        tvScore.setText("得分：" + String.valueOf(score) + "/" + String.valueOf(num));
+        tvScore.setText("得分：" + String.valueOf(score) + "/" + String.valueOf(size));
         vf.showNext();
-        int c = ToolHelper.loadDB(this, "select _id from wrong where qid=" + qid).getCount();
-        if (c > 0)
-            ToolHelper.excuteDB(this, "delete from wrong where qid=" + qid);
+
     }
 
     //已做题不可再做
     private void disableChecked(int pos) {
         tvYou.setText("【你的答案】" + anList.get(pos));
         tvAns.setVisibility(View.VISIBLE);
-        tvDetail.setVisibility(View.VISIBLE);
         tvYou.setVisibility(View.VISIBLE);
         if (answer.contains("A")) cb1.setButtonDrawable(R.drawable.cb_right);
         if (answer.contains("B")) cb2.setButtonDrawable(R.drawable.cb_right);
@@ -307,27 +297,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         cb2.setEnabled(false);
         cb3.setEnabled(false);
         cb4.setEnabled(false);
-    }
-
-    //保存错题
-    private void saveWrong(String ans) {
-        int c = ToolHelper.loadDB(this, "select _id from wrong where qid=" + qid).getCount();
-        if (c == 0) {
-            Date date = new Date();
-            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            String mydate = ft.format(date);
-            ToolHelper.excuteDB(this,
-                    "insert into wrong (_id,qid,answer,anTime) values (" + String.valueOf(Math.random() * 10000) + "," + qid + ",'" + ans + "','" + mydate + "')");
-        }
-    }
-
-
-
-    //判断当前题目是否被收藏
-    private boolean queCollect() {
-        int c = ToolHelper.loadDB(this, "select _id from collection where qid=" + qid).getCount();
-        if (c > 0) return true;
-        else return false;
     }
 
     @Override
@@ -341,13 +310,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.que_ok://提交答案
-                if (index >= num - 1) {
+                if (index >= Integer.parseInt(size) - 1) {
                     if (!isFirst) {
                         isAnswerTrue(index);
                         isFirst = true;
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("是否结束测试？");
+                        builder.setMessage("是否提交作业？");
                         builder.setNegativeButton("取消", null);
                         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
@@ -363,7 +332,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case android.R.id.home://返回
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("是否取消测试？");
+                builder.setTitle("是否取消正在做的作业？");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -372,7 +341,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        QuestionActivity.this.finish();
+                        StudentDoHomework.this.finish();
                     }
                 });
                 builder.show();
@@ -381,18 +350,26 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         return super.onOptionsItemSelected(item);
     }
 
-    //保存考试记录
+    //保存考试记录，并提交结果
     private void saveExam() {
+
+        //将作业结果提交到服务器
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                addHomeworkResult();
+            }
+        }).start();
+
+
         chronometer.stop();
         Date date = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String mytime = chronometer.getText().toString();
         String mydate = ft.format(date);
-        String title = source + "\n" + "(" + content + ")";
-        ToolHelper.excuteDB(this, "insert into exam (_id,title,examTime,score,examDate) values (" + String.valueOf(Math.random() * 10000)
-                + ",'" + title + "','" + mytime + "'," + score + ",'" + mydate + "')");
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("score", score + "/" + num);
+        String title = "本次作业";
+        Intent intent = new Intent(this, StudentHomeworkResult.class);
+        intent.putExtra("score", score + "/" + size);
         intent.putExtra("time", mytime);
         intent.putExtra("date", mydate);
         intent.putExtra("title", title);
@@ -400,32 +377,21 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
+
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View view) {
+
+        switch (view.getId()) {
             case R.id.img_next:
                 vf.showNext();
                 break;
             case R.id.img_pre:
                 vf.showPrevious();
                 break;
-            case R.id.img_collect://收藏
-                if (!isCollect) {
-                    imgCollect.setImageResource(R.drawable.star_collected);
-                    ToolHelper.excuteDB(this, "insert into collection (_id,qid) values (" + String.valueOf(Math.random() * 10000) + "," + qid + ")");
-                    Toast.makeText(this, "成功收藏", Toast.LENGTH_SHORT).show();
-                    isCollect = true;
-                } else {
-                    imgCollect.setImageResource(R.drawable.star_uncollected);
-                    ToolHelper.excuteDB(this, "delete from collection where qid=" + qid);
-                    Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
-                    isCollect = false;
-                }
-                break;
             case R.id.img_card:
                 Intent intent = new Intent(this, CardActivity.class);
-                intent.putExtra("num", num);
-                intent.putExtra("from", 1);
+                intent.putExtra("num", Integer.parseInt(size));
+                intent.putExtra("from", 3);
                 startActivityForResult(intent, MyTag.CARD);
                 break;
         }
@@ -444,14 +410,42 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         if (t != index) {
             if (t > index) {
                 int d = t - index;
-                for (int i = 0; i < d + 1; i++)
+                for (int i = 0; i < d ; i++)
                     vf.showNext();
             } else if (t < index) {
                 int p = index - t;
-                for (int i = 0; i < p + 1; i++)
+                for (int i = 0; i < p ; i++)
                     vf.showPrevious();
             }
         }
     }
-}
 
+    /**
+     *  提交作业结果到服务器
+     */
+    private void addHomeworkResult() {
+        //URL待修改
+        String addHomeworkResult = StudentConstant.addHomeworkResultURL
+                + "?hwId=" + hwId
+                + "&err=" + errList.toString();
+
+        MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
+        a.execute(addHomeworkResult);
+        a.setOnAsyncResponse(new AsyncResponse() {
+            @Override
+            public void onDataReceivedSuccess(List<String> listData) {
+
+                if(listData.get(0).equals(GlobalConstant.FLAG_SUCCESS)){
+                    //提交作业结果成功
+                    Log.d(TAG, "onDataReceivedSuccess: 提交作业结果成功！");
+                }else {
+                    //提交作业结果失败
+                    Log.d(TAG, "onDataReceivedSuccess: 提交作业结果失败！");
+                }
+            }
+            @Override
+            public void onDataReceivedFailed() {
+            }
+        });
+    }
+}

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentMain.Activity.ExerciseMainActivity;
 import com.example.beikeapp.StudentMain.StudentMain;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
@@ -282,7 +283,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.rl_correction_book:
-                Toast.makeText(getActivity(),"NOT DONE YET!",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), ExerciseMainActivity.class);
+                intent.putExtra("from", "true");
+                startActivity(intent);
                 break;
         }
     }

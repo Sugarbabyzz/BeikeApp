@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentMain.Homework.StudentAllHomework;
 import com.example.beikeapp.StudentNotify.Assess.StudentAllAssess;
 import com.example.beikeapp.StudentNotify.Notify.StudentAllNotify;
 import com.example.beikeapp.StudentNotify.Notify.StudentNotify;
@@ -91,7 +92,7 @@ public class NotifyFragment extends Fragment {
                         startActivity(new Intent(getActivity(), StudentAllNotify.class));
                         break;
                     case 1:
-//                        startActivity(new Intent(getActivity(), AssignHomeworkWholesale.class));
+                        startActivity(new Intent(getActivity(), StudentAllHomework.class));
                         break;
                     case 2:
                         startActivity(new Intent(getActivity(), StudentAllAssess.class));
