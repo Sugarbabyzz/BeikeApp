@@ -200,7 +200,11 @@
         <activity android:name=".StudentNotify.Notify.StudentAllNotify" />
         <activity android:name=".StudentNotify.Assess.StudentAllAssess" />
         <activity android:name=".TeacherMain.HomeworkComplete.HomeworkOutlineActivity" />
-        <activity android:name=".TeacherMain.HomeworkComplete.HomeworkStatusDetailActivity"></activity>
+        <activity android:name=".TeacherMain.HomeworkComplete.HomeworkStatusDetailActivity"/>
+        <activity android:name=".StudentMain.Homework.StudentAllHomework"/>
+        <activity android:name=".StudentMain.Homework.StudentBeforeDoHw"/>
+        <activity android:name=".StudentMain.Homework.StudentDoHomework"/>
+        <activity android:name=".StudentMain.Homework.StudentHomeworkResult"/>
     </application>
 
 </manifest>
