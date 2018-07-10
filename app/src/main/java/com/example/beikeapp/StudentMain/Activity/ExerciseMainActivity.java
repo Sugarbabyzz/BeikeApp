@@ -3,15 +3,9 @@ package com.example.beikeapp.StudentMain.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -24,11 +18,16 @@ public class ExerciseMainActivity extends AppCompatActivity implements View.OnCl
     private Fragment fragment;
     private final int QUE = 1, COLLECT = 2, WRONG = 3;
 
+    //是否从setting错题本进入
+    private String isFromSetting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
         initView();
+
+        isFromSetting = getIntent().getStringExtra("from");
 
         tv1 = findViewById(R.id.tv_quest);
         tv1.setOnClickListener(this);
@@ -61,13 +60,23 @@ public class ExerciseMainActivity extends AppCompatActivity implements View.OnCl
     private void setDefaultFragment() {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        QuestionFragment questionFragment = new QuestionFragment(QUE);
-        transaction.replace(R.id.content, questionFragment);
-        transaction.commit();
-        tv1.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tv2.setTextColor(getResources().getColor(R.color.gray));
-        tv3.setTextColor(getResources().getColor(R.color.gray));
-        setTitle("题库");
+
+        if (isFromSetting.equals("true")){
+            QuestionFragment questionFragment2 = new QuestionFragment(WRONG);
+            transaction.hide(fragment).replace(R.id.content, questionFragment2);
+            tv1.setTextColor(getResources().getColor(R.color.gray));
+            tv2.setTextColor(getResources().getColor(R.color.gray));
+            tv3.setTextColor(getResources().getColor(R.color.colorPrimary));
+            setTitle("错题本");
+        } else {
+            QuestionFragment questionFragment = new QuestionFragment(QUE);
+            transaction.replace(R.id.content, questionFragment);
+            transaction.commit();
+            tv1.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tv2.setTextColor(getResources().getColor(R.color.gray));
+            tv3.setTextColor(getResources().getColor(R.color.gray));
+            setTitle("题库");
+        }
     }
 
     //点击下栏切换界面
