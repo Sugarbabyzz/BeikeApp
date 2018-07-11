@@ -12,6 +12,8 @@ public class ParentMainActivity extends BaseActivity {
 
     private BottomTabBar btmBar;
 
+    public static String stuId ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

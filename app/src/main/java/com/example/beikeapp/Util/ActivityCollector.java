@@ -31,5 +31,6 @@ public class ActivityCollector extends AppCompatActivity {
                 activity.finish();
             }
         }
+        activities.clear();
     }
 }
