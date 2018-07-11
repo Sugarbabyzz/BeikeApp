@@ -427,7 +427,8 @@ public class StudentDoHomework extends AppCompatActivity implements View.OnClick
         //URL待修改
         String addHomeworkResult = StudentConstant.addHomeworkResultURL
                 + "?hwId=" + hwId
-                + "&err=" + errList.toString();
+                + "&err=" + errList.toString()
+                + "&stuId=" + EMClient.getInstance().getCurrentUser();
 
         MyAsyncTask a = new MyAsyncTask(MyApplication.getContext());
         a.execute(addHomeworkResult);

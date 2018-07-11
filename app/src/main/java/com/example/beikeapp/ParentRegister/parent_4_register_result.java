@@ -21,7 +21,6 @@ public class parent_4_register_result extends BaseActivity implements View.OnCli
 
     String account;
     String password;
-    String stuId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,6 @@ public class parent_4_register_result extends BaseActivity implements View.OnCli
 
         account = getIntent().getStringExtra("account");
         password = getIntent().getStringExtra("password");
-        stuId = getIntent().getStringExtra("stuId");
 
         initViews();
 
@@ -45,20 +43,18 @@ public class parent_4_register_result extends BaseActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_sign_in:
-                loginToHx(account, password, stuId);
+                loginToHx(account, password);
         }
     }
 
     //登录到环信服务器，并加入班级群
-    private void loginToHx(String account, String psw, final String stuId) {
+    private void loginToHx(String account, String psw) {
         //环信登录
         EMClient.getInstance().login(account, psw, new EMCallBack() {
             @Override
             public void onSuccess() {
 
                 Log.d("TAG", "登录聊天服务器成功！");
-
-                ParentMainActivity.stuId = stuId;
 
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();

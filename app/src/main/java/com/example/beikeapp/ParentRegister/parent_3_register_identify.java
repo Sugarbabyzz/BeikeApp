@@ -81,7 +81,8 @@ public class parent_3_register_identify extends BaseActivity implements View.OnC
                 + "&account=" + account
                 + "&password=" + password
                 + "&name=" + name
-                + "&gender=" + sex;
+                + "&gender=" + sex
+                + "&stuId=" + stuId;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(registerUrlStr);
@@ -106,7 +107,6 @@ public class parent_3_register_identify extends BaseActivity implements View.OnC
                     Intent intent = new Intent(parent_3_register_identify.this, parent_4_register_result.class);
                     intent.putExtra("account", account);
                     intent.putExtra("password", password);
-                    intent.putExtra("stuId", stuId);
                     startActivity(intent);
                     finish();
                 }else {
