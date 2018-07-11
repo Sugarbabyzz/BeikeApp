@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.example.beikeapp.R;
 
+import java.text.DecimalFormat;
+
 public class HomeworkStatusDetailActivity extends AppCompatActivity {
 
     // homework title
@@ -27,8 +29,20 @@ public class HomeworkStatusDetailActivity extends AppCompatActivity {
         initView();
 
         tvTitle.setText(HomeworkStatus.homeworkStatusList.get(i).getTitle());
-        tvErrRate.setText(HomeworkStatus.homeworkStatusList.get(i).getErrRate());
         tvCompletion.setText(HomeworkStatus.homeworkStatusList.get(i).getCompletion());
+
+        String errRateStr = HomeworkStatus.homeworkStatusList.get(i).getErrRate();
+        StringBuilder sb = new StringBuilder();
+        String[] errRateArr = errRateStr.split(",");
+        for (int k = 1; k < errRateArr.length; k++) {
+            sb.append(k)
+                    .append(":")
+                    .append(new DecimalFormat("#.0").format(Double.parseDouble(errRateArr[k]) * 100))
+                    .append("%");
+            sb.append("\r\n");
+        }
+
+        tvErrRate.setText(sb.toString());
 
     }
 

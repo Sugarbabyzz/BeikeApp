@@ -18,6 +18,7 @@ import com.example.beikeapp.TeacherMain.Homework.Homework;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.MyAsyncTask;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -58,9 +59,6 @@ public class HomeworkOutlineActivity extends AppCompatActivity {
      */
     private String prepareUrl() {
 
-//        return TeacherConstant.URL_GET_HOMEWORK_STATUS
-//                +"?hwId=" + StringUtils.join(Homework.homeworkIdList,",");
-
         return TeacherConstant.URL_GET_HOMEWORK_STATUS
                 +"?account=" + EMClient.getInstance().getCurrentUser();
 
@@ -92,7 +90,7 @@ public class HomeworkOutlineActivity extends AppCompatActivity {
                 // 返回值的格式: flag#hwId$title$completion$errRate#hwId$title$completion$errRate#.....
                 // 这里解析成数组处理
                 // resArray[0] = flag
-                // resArray[1] = "hwId$title$completion$errRate"
+                // resArray[1] = "hwId$classId$title$completion$errRate"
                 // completion:  10/28
                 // errRate:  1:25%,2:46%,3:4.7%,......
                 String[] resArray = listData.get(0).split("#");
@@ -108,9 +106,14 @@ public class HomeworkOutlineActivity extends AppCompatActivity {
                                 // 分隔符"$" 不能直接使用，需要"\\$"表示
                                 String[] subResArray = resArray[i].split("\\$");
                                 String hwId = subResArray[0]; // 好像没什么用
-                                String title = subResArray[1];
-                                String completion = subResArray[2];
-                                String errRate = subResArray[3];
+                                String classId = subResArray[1];
+                                String title = subResArray[2];
+                                String completion = subResArray[3];
+                                String errRate = subResArray[4];
+
+                                EMGroup group = EMClient.getInstance().groupManager().getGroup(classId);
+                                completion = completion + "/" + group.getMemberCount();
+
                                 HomeworkStatus hs = new HomeworkStatus(title, completion, errRate);
                                 HomeworkStatus.homeworkStatusList.add(hs);
                             }
