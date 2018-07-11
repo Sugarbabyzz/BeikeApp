@@ -41,14 +41,15 @@ public class StudentRegisterInfo extends BaseActivity implements View.OnClickLis
         code = getIntent().getStringExtra("code");
         //UI初始化
         initViews();
-        //注册按钮点击事件
-        btnInfo.setOnClickListener(this);
+
     }
 
     private void initViews(){
         stuName = (EditText) findViewById(R.id.student_name);
         stuSex = (RadioGroup) findViewById(R.id.student_sex);
         btnInfo = (Button) findViewById(R.id.btn_info);
+        //注册按钮点击事件
+        btnInfo.setOnClickListener(this);
     }
 
     @Override

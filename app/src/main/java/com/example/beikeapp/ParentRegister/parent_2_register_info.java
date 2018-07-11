@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.beikeapp.Constant.GlobalConstant;
 import com.example.beikeapp.Constant.ParentConstant;
 import com.example.beikeapp.R;
+import com.example.beikeapp.StudentRegister.StudentRegisterAccount;
+import com.example.beikeapp.StudentRegister.StudentRegisterInfo;
 import com.example.beikeapp.Util.AsyncResponse;
 import com.example.beikeapp.Util.BaseActivity;
 import com.example.beikeapp.Util.MyAsyncTask;
@@ -37,10 +39,14 @@ public class parent_2_register_info extends BaseActivity implements View.OnClick
     //回调参数
     private List<String> receviceData = null;
 
+    private String stuId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_2_register_info);
+
+        stuId = getIntent().getStringExtra("stuId");
 
         //匹配UI元素id
         editPhone = (EditText)findViewById(R.id.parent_phone);
@@ -133,7 +139,8 @@ public class parent_2_register_info extends BaseActivity implements View.OnClick
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
                        // Toast.makeText(getApplicationContext(), "注册成功",
                           //     Toast.LENGTH_SHORT).show();
-                        registerAccount(editPhone.getText().toString(), editSetPassword.getText().toString());
+
+                        testAccount(editPhone.getText().toString());
 
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                       //  Toast.makeText(getApplicationContext(), "正在获取验证码",
@@ -205,22 +212,37 @@ public class parent_2_register_info extends BaseActivity implements View.OnClick
         layout.addView(mProBar);
     }
 
-    private void registerAccount(String phoneNumber, String password){
-        String registerAccountUrlStr = GlobalConstant.URL_CHECK_CODE_PARENT +"?phoneNumber=" + phoneNumber + "&password=" + password;
+
+    /**
+     *  账号查重
+     */
+    private void testAccount(final String phoneNumber){
+        String registerAccountUrlStr = GlobalConstant.URL_TEST_EXISTENCE
+                + "?id=" + BaseId
+                + "&account=" + phoneNumber;
 
         MyAsyncTask a = new MyAsyncTask(this);
         a.execute(registerAccountUrlStr);
         a.setOnAsyncResponse(new AsyncResponse() {
             @Override
             public void onDataReceivedSuccess(List<String> listData) {
-                System.out.println(receviceData.toString());
-                if (listData.get(0).toString().equals("[100]")){
-                    Toast.makeText(parent_2_register_info.this, "账号已被注册！", Toast.LENGTH_SHORT).show();
-                }else if (receviceData.toString().equals("[200]")){
-                    Intent intent = new Intent(parent_2_register_info.this, parent_3_register_identify.class);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(parent_2_register_info.this, "注册失败！", Toast.LENGTH_SHORT).show();
+
+                switch (listData.get(0)) {
+                    case GlobalConstant.FLAG_YES:
+                        Toast.makeText(parent_2_register_info.this, "账号已被注册！", Toast.LENGTH_SHORT).show();
+                        break;
+                    case GlobalConstant.FLAG_NO:  // 数据库中不存在该账号，可以注册
+                        Intent intent = new Intent(parent_2_register_info.this, parent_3_register_identify.class);
+                        //将账号与密码参数传入下一Activity
+                        intent.putExtra("account", editPhone.getText().toString().trim());
+                        intent.putExtra("password", editSetPassword.getText().toString().trim());
+                        intent.putExtra("stuId", stuId);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    default:
+                        Toast.makeText(parent_2_register_info.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
             @Override
