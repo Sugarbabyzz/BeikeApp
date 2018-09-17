@@ -61,9 +61,10 @@ public class ExerciseMainActivity extends AppCompatActivity implements View.OnCl
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
-        if (isFromSetting.equals("true")){
+        if (isFromSetting.contains("true")){
             QuestionFragment questionFragment2 = new QuestionFragment(WRONG);
-            transaction.hide(fragment).replace(R.id.content, questionFragment2);
+            transaction.replace(R.id.content, questionFragment2);
+            transaction.commit();
             tv1.setTextColor(getResources().getColor(R.color.gray));
             tv2.setTextColor(getResources().getColor(R.color.gray));
             tv3.setTextColor(getResources().getColor(R.color.colorPrimary));
